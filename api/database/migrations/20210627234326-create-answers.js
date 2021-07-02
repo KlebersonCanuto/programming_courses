@@ -7,7 +7,7 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-      hint: {
+      answer: {
         allowNull: false,
 				type: Sequelize.STRING,
       },

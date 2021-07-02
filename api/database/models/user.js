@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
     email: Sequelize.STRING,
     password: Sequelize.STRING,
     emailConfirmed: Sequelize.BOOLEAN,
-    profileImageURL: Sequelize.STRING,
+    profileImageURL: Sequelize.STRING
   });
 
   return User;
