@@ -4,5 +4,10 @@ module.exports = (sequelize, Sequelize) => {
     description: Sequelize.STRING
   });
 
+
+  Problem.associate = (models) => {
+    Problem.hasMany(models.Test, { foreignKey: "problem_id", as: 'tests' });
+  }
+
   return Problem;
 };

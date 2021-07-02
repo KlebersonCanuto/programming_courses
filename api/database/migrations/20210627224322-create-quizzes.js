@@ -23,7 +23,7 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.INTEGER,
 			},
-      module: {
+      module_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

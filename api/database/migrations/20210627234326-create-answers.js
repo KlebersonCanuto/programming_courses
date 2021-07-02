@@ -11,7 +11,7 @@ module.exports = {
         allowNull: false,
 				type: Sequelize.STRING,
       },
-      quiz: {
+      quiz_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

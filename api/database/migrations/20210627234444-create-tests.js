@@ -20,7 +20,7 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
         defaultValue: false
       },
-      problem: {
+      problem_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

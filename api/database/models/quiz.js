@@ -6,5 +6,9 @@ module.exports = (sequelize, Sequelize) => {
     number: Sequelize.INTEGER
   });
 
+  Quiz.associate = (models) => {
+    Quiz.hasMany(models.Answer, { foreignKey: "quiz_id", as: 'answers' });
+  }
+
   return Quiz;
 };

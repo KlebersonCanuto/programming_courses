@@ -4,5 +4,9 @@ module.exports = (sequelize, Sequelize) => {
     updated: Sequelize.BOOLEAN
   });
 
+  Comment.associate = (models) => {
+    Comment.hasOne(models.User, { foreignKey: "user_id", as: 'user' });
+  }
+
   return Comment;
 };

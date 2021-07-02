@@ -16,7 +16,7 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
         defaultValue: false
 			},
-      user: {
+      user_id: {
         type: Sequelize.INTEGER,
         onDelete: 'SET NULL',
         references: {
@@ -25,7 +25,7 @@ module.exports = {
           as: 'user',
         }
       },
-      discussion: {
+      discussion_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

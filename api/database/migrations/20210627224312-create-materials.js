@@ -24,7 +24,7 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
         defaultValue: false
 			},
-      module: {
+      module_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

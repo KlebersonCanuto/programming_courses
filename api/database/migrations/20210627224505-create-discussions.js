@@ -24,7 +24,7 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
         defaultValue: false
 			},
-      creator: {
+      creator_id: {
         type: Sequelize.INTEGER,
         onDelete: 'SET NULL',
         references: {
@@ -33,7 +33,7 @@ module.exports = {
           as: 'creator',
         }
       },
-      course: {
+      course_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
