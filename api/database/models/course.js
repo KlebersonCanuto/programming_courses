@@ -4,10 +4,10 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   Course.associate = (models) => {
-    Course.hasMany(models.Module, { foreignKey: "course_id", as: 'modules' });
-    Course.hasMany(models.Material, { foreignKey: "course_id", as: 'materials' });
-    Course.hasMany(models.Quiz, { foreignKey: "course_id", as: 'quizzes' });
-    Course.hasMany(models.Problem, { foreignKey: "course_id", as: 'problems' });
+    Course.hasMany(models.Module, { foreignKey: "id", as: 'modules' });
+    Course.hasMany(models.Material, { foreignKey: "id", as: 'materials' });
+    Course.hasMany(models.Quiz, { foreignKey: "id", as: 'quizzes' });
+    Course.hasMany(models.Problem, { foreignKey: "id", as: 'problems' });
   }
 
   return Course;

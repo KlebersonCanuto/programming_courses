@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   Quiz.associate = (models) => {
-    Quiz.hasMany(models.Answer, { foreignKey: "quiz_id", as: 'answers' });
+    Quiz.hasMany(models.Answer, { foreignKey: "id", as: 'answers' });
   }
 
   return Quiz;

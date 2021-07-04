@@ -7,8 +7,8 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   Discussion.associate = (models) => {
-    Discussion.hasOne(models.User, { foreignKey: "user_id", as: 'user' });
-    Discussion.hasMany(models.Comment, { foreignKey: "discussion_id", as: 'comments' });
+    Discussion.hasOne(models.User, { foreignKey: "id", as: 'user' });
+    Discussion.hasMany(models.Comment, { foreignKey: "id", as: 'comments' });
   }
 
   return Discussion;

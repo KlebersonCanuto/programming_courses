@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   Comment.associate = (models) => {
-    Comment.hasOne(models.User, { foreignKey: "user_id", as: 'user' });
+    Comment.hasOne(models.User, { foreignKey: "id", as: 'user' });
   }
 
   return Comment;

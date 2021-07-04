@@ -6,6 +6,6 @@ const database = {
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   dialect: "mysql",
-}
+};
 
 module.exports = database;
