@@ -1,6 +1,7 @@
+const login = require('../utils/login');
+
 const express = require('express');
 const router = express.Router();
-const login = require('../utils/login');
 
 router.post('/', function(req, res) {
   login.login(req, res);

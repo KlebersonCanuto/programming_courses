@@ -1,5 +1,6 @@
-const auth = require("./authentication");
 const bcrypt = require("bcrypt");
+
+const auth = require("./authentication");
 const User = require('../controller/userController');
 
 const login = async (req, res) => {
@@ -7,6 +8,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.getByEmail(email);
     const id = user.id;
+    
     const same = bcrypt.compareSync(password, user.password);
     if(same){
       const token = auth.auth(id);

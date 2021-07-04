@@ -1,17 +1,20 @@
-const { User } = require('../database/models');
 const bcrypt = require('bcrypt');
+
+const { User } = require('../database/models');
 
 const create = async (args) => {
   try{
     const { username, password, confirmPassword, email, profileImageURL } = args;
     if(password === confirmPassword){
       const hash = bcrypt.hashSync(password, Number(process.env.HASH));
+
       const user = await User.create({
-        username: username,
+        username,
         email: email.toLowerCase(),
         password: hash,
-        profileImageURL: profileImageURL,
+        profileImageURL,
       });
+      
       user.password = undefined;
       return user;
     } else {
