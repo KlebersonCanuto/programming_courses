@@ -1,15 +1,9 @@
-const User = require('../controller/userController');
-
 const express = require('express');
+
+const service = require('../service/userService');
+
 const router = express.Router();
 
-router.post('/', async function(req, res) {
-  try{
-    const user = await User.create(req.body);
-    res.status(200).send({data: user});
-  } catch(err){
-    res.status(400).send();
-  }
-});
+router.post('/', service.create);
 
 module.exports = router;

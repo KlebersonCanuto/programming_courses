@@ -11,6 +11,7 @@ module.exports = {
       password,
 			emailConfirmed: true,
 			profileImageURL: 'https://developers.google.com/web/images/contributors/no-photo.jpg?hl=pt',
+      admin: true
     }], {});
   },
 
