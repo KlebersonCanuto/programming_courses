@@ -3,12 +3,14 @@ module.exports = (sequelize, Sequelize) => {
     title: Sequelize.STRING,
     description: Sequelize.STRING,
     topic: Sequelize.STRING,
-    updated: Sequelize.BOOLEAN
+    updated: Sequelize.BOOLEAN,
+    course_id: Sequelize.INTEGER
   });
 
   Discussion.associate = (models) => {
-    Discussion.hasOne(models.User, { foreignKey: "id", as: 'user' });
-    Discussion.hasMany(models.Comment, { foreignKey: "id", as: 'comments' });
+    Discussion.hasOne(models.User, { as: 'user' });
+    Discussion.hasMany(models.Comment, { as: 'comments' });
+    Discussion.belongsTo(models.Course, { foreignKey: 'course_id' });
   }
 
   return Discussion;
