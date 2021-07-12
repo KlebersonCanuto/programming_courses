@@ -3,12 +3,11 @@ module.exports = (sequelize, Sequelize) => {
     input: Sequelize.STRING,
     output: Sequelize.STRING,
     example: Sequelize.BOOLEAN,
-    problem_id: Sequelize.INTEGER
+    ProblemId: {
+      type: Sequelize.INTEGER,
+      field: "problem_id"
+    }
   });
-
-  Test.associate = (models) => {
-    Test.belongsTo(models.Problem, { foreignKey: 'problem_id' });
-  }
 
   return Test;
 };

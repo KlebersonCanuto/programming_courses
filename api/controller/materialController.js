@@ -2,13 +2,13 @@ const { Material } = require('../database/models');
 
 const create = async (args) => {
   try{
-    const { title, content, complementary, number, module_id } = args;
+    const { title, content, complementary, number, ModuleId } = args;
     const material = await Material.create({
       title, 
       content, 
       complementary, 
       number, 
-      module_id
+      ModuleId
     });  
     return material;
   } catch(err){
@@ -18,14 +18,14 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, content, complementary, number, module_id } = args;
+    const { title, content, complementary, number, ModuleId } = args;
     const material = await Material.update(
       {       
         title, 
         content, 
         complementary, 
         number, 
-        module_id 
+        ModuleId 
       },
       { where: id }
     );  

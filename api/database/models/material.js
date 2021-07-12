@@ -4,12 +4,11 @@ module.exports = (sequelize, Sequelize) => {
     content: Sequelize.STRING,
     complementary: Sequelize.BOOLEAN,
     number: Sequelize.INTEGER,
-    module_id: Sequelize.INTEGER
+    ModuleId: {
+      type: Sequelize.INTEGER,
+      field: "module_id"
+    }
   });
-
-  Material.associate = (models) => {
-    Material.belongsTo(models.Module, { foreignKey: 'module_id' });
-  }
 
   return Material;
 };

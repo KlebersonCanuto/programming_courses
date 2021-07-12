@@ -2,13 +2,13 @@ const { Quiz } = require('../database/models');
 
 const create = async (args) => {
   try{
-    const { title, question, hint, number, module_id } = args;
+    const { title, question, hint, number, ModuleId } = args;
     const quiz = await Quiz.create({
       title, 
       question, 
       hint, 
       number, 
-      module_id
+      ModuleId
     });  
     return quiz;
   } catch(err){
@@ -18,14 +18,14 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, question, hint, number, module_id } = args;
+    const { title, question, hint, number, ModuleId } = args;
     const quiz = await Quiz.update(
       {       
         title, 
         question, 
         hint, 
         number, 
-        module_id 
+        ModuleId 
       },
       { where: id }
     );  

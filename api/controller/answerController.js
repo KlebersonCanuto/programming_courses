@@ -2,10 +2,10 @@ const { Answer } = require('../database/models');
 
 const create = async (args) => {
   try{
-    const { quiz_id, answer } = args;
+    const { QuizId, answer } = args;
     const answer = await Answer.create({
       answer,
-      quiz_id
+      QuizId
     });  
     return answer;
   } catch(err){
@@ -15,11 +15,11 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { quiz_id, answer } = args;
+    const { QuizId, answer } = args;
     const answer = await Answer.update(
       { 
         answer,
-        quiz_id
+        QuizId
       },
       { where: id }
     );  

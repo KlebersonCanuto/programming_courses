@@ -4,11 +4,13 @@ module.exports = (sequelize, Sequelize) => {
     question: Sequelize.STRING,
     hint: Sequelize.STRING,
     number: Sequelize.INTEGER,
-    module_id: Sequelize.INTEGER
+    ModuleId: {
+      type: Sequelize.INTEGER,
+      field: "module_id"
+    }
   });
 
   Quiz.associate = (models) => {
-    Quiz.belongsTo(models.Module, { foreignKey: 'module_id' });
     Quiz.hasMany(models.Answer, { as: 'answers' });
   }
 

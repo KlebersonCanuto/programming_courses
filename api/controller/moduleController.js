@@ -2,11 +2,11 @@ const { Module } = require('../database/models');
 
 const create = async (args) => {
   try{
-    const { name, number, course_id } = args;
+    const { name, number, CourseId } = args;
     const module = await Module.create({
       name, 
       number, 
-      course_id
+      CourseId
     });  
     return module;
   } catch(err){
@@ -21,7 +21,7 @@ const update = async (id, args) => {
       {       
         name, 
         number, 
-        course_id 
+        CourseId 
       },
       { where: id }
     );  

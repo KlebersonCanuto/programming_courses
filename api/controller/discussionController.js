@@ -2,13 +2,13 @@ const { Discussion } = require('../database/models');
 
 const create = async (args) => {
   try{
-    const { title, description, topic, updated, course_id } = args;
+    const { title, description, topic, updated, CourseId } = args;
     const discussion = await Discussion.create({
       title, 
       description, 
       topic, 
       updated, 
-      course_id
+      CourseId
     });  
     return discussion;
   } catch(err){
@@ -18,14 +18,14 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, description, topic, updated, course_id } = args;
+    const { title, description, topic, updated, CourseId } = args;
     const discussion = await Discussion.update(
       {       
         title, 
         description, 
         topic, 
         updated, 
-        course_id 
+        CourseId 
       },
       { where: id }
     );  

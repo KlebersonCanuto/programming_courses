@@ -2,11 +2,11 @@ const { Problem } = require('../database/models');
 
 const create = async (args) => {
   try{
-    const { title, description, module_id } = args;
+    const { title, description, ModuleId } = args;
     const problem = await Problem.create({
       title, 
       description, 
-      module_id
+      ModuleId
     });  
     return problem;
   } catch(err){
@@ -16,12 +16,12 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, description, module_id } = args;
+    const { title, description, ModuleId } = args;
     const problem = await Problem.update(
       {       
         title, 
         description, 
-        module_id 
+        ModuleId 
       },
       { where: id }
     );  

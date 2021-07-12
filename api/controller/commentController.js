@@ -2,11 +2,11 @@ const { Comment } = require('../database/models');
 
 const create = async (args) => {
   try{
-    const { description, updated, discussion_id } = args;
+    const { description, updated, DiscussionId } = args;
     const comment = await Comment.create({
       description,
       updated,
-      discussion_id
+      DiscussionId
     });  
     return comment;
   } catch(err){
@@ -16,12 +16,12 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { description, updated, discussion_id } = args;
+    const { description, updated, DiscussionId } = args;
     const comment = await Comment.update(
       {       
         description,
         updated,
-        discussion_id 
+        DiscussionId 
       },
       { where: id }
     );  

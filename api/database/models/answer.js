@@ -1,12 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
   const Answer = sequelize.define('Answer', {
     answer: Sequelize.STRING,
-    quiz_id: Sequelize.INTEGER
+    QuizId: {
+      type: Sequelize.INTEGER,
+      field: "quiz_id"
+    }
   });
-
-  Answer.associate = (models) => {
-    Answer.belongsTo(models.Quiz, { foreignKey: 'quiz_id' });
-  }
 
   return Answer;
 };
