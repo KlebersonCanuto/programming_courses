@@ -1,5 +1,16 @@
 const { Material } = require('../database/models');
 
+const getById = async (id) => {
+  try{
+    const answer = await Answer.findByPk(id, {
+      attributes: ["id", "title", "content", "complementary", "number", "ModuleId"]
+    });  
+    return answer;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const create = async (args) => {
   try{
     const { title, content, complementary, number, ModuleId } = args;
@@ -47,6 +58,7 @@ const remove = async (id) => {
 }
 
 module.exports = {
+  getById,
   create,
   update,
   remove

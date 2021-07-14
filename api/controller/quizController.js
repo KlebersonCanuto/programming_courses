@@ -1,4 +1,18 @@
-const { Quiz } = require('../database/models');
+const { Quiz, Answer } = require('../database/models');
+
+const getById = async (id) => {
+  try{
+    const quiz = await Quiz.findByPk(id, {
+      attributes: ["id", "title", "question", "hint", "number", "ModuleId"],
+      include: [
+        { model: Answer, as: "answers", attributes: ["id", "answer"]}
+      ]
+    });  
+    return quiz;
+  } catch(err){
+    throw 400;
+  }
+}
 
 const create = async (args) => {
   try{
@@ -47,6 +61,7 @@ const remove = async (id) => {
 }
 
 module.exports = {
+  getById,
   create,
   update,
   remove

@@ -1,13 +1,39 @@
-const { Discussion } = require('../database/models');
+const { Discussion, Comment } = require('../database/models');
+
+const getAll = async () => {
+  try{
+    const discussion = await Discussion.findAll({
+      attributes: ["id", "title", "description", "topic"],
+    });  
+    return discussion;
+  } catch(err){
+    throw 400;
+  }
+}
+
+
+const getById = async (id) => {
+  try{
+    const discussion = await Discussion.findByPk(id, {
+      attributes: ["id", "title", "description", "topic", "CourseId"],
+      include: [
+        { model: Comment, as: "comments", attributes: ["id", "description"]}
+      ]
+    });  
+    return discussion;
+  } catch(err){
+    throw 400;
+  }
+}
 
 const create = async (args) => {
   try{
-    const { title, description, topic, updated, CourseId } = args;
+    const { title, description, topic, CourseId } = args;
     const discussion = await Discussion.create({
       title, 
       description, 
       topic, 
-      updated, 
+      updated: false, 
       CourseId
     });  
     return discussion;
@@ -18,13 +44,13 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, description, topic, updated, CourseId } = args;
+    const { title, description, topic, CourseId } = args;
     const discussion = await Discussion.update(
       {       
         title, 
         description, 
         topic, 
-        updated, 
+        updated: true, 
         CourseId 
       },
       { where: id }
@@ -47,6 +73,8 @@ const remove = async (id) => {
 }
 
 module.exports = {
+  getAll,
+  getById,
   create,
   update,
   remove

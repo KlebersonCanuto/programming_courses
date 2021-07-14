@@ -1,5 +1,16 @@
 const { Answer } = require('../database/models');
 
+const getById = async (id) => {
+  try{
+    const answer = await Answer.findByPk(id, {
+      attributes: ["id", "answer", "QuizId"]
+    });  
+    return answer;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const create = async (args) => {
   try{
     const { QuizId, answer } = args;
@@ -41,6 +52,7 @@ const remove = async (id) => {
 }
 
 module.exports = {
+  getById,
   create,
   update,
   remove

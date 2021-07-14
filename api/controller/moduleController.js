@@ -1,4 +1,19 @@
-const { Module } = require('../database/models');
+const { Module, Material, Quiz } = require('../database/models');
+
+const getById = async (id) => {
+  try{
+    const module = await Module.findByPk(id, {
+      attributes: ["id", "name", "number", "CourseId"],
+      include: [
+        { model: Material, as: "materials", attributes: ["id", "title", "content", "complementary", "number"]},
+        { model: Quiz, as: "quizzes", attributes: ["id", "title", "question", "number"]}
+      ]
+    });  
+    return module;
+  } catch(err){
+    throw 400;
+  }
+}
 
 const create = async (args) => {
   try{
@@ -43,6 +58,7 @@ const remove = async (id) => {
 }
 
 module.exports = {
+  getById,
   create,
   update,
   remove

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const authentication = require('../service/authenticationService');
-const service = require('../service/courseService');
+const service = require('../service/moduleService');
 
 const router = express.Router();
 
