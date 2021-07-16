@@ -15,13 +15,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (userData) => {
-    // const response = await api.post('/login', userData);
-    const response = {
-      data: {
-        token: '1',
-        user: '1'
-      }
-    }
+    const response = await api.post('/login', userData);
 
     setUser(response.data.user);
     api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
@@ -31,6 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    sessionStorage.clear();
   }
 
   return (
