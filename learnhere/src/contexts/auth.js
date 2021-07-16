@@ -17,8 +17,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     const response = await api.post('/login', userData);
 
-    setUser(response.data.user);
-    api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+    setUser(response.data);
     sessionStorage.setItem('user', JSON.stringify(response.data.user));
     sessionStorage.setItem('token', response.data.token);
   }

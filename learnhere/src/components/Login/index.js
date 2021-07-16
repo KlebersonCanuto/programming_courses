@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/auth';
-import { Button, Form, Container, Alert, Spinner, Row, Col } from 'react-bootstrap';
+import { Button, Form, Container, Alert, Spinner, Col } from 'react-bootstrap';
 
 const Login = () => {
   const { login } = useAuth();
@@ -30,11 +30,11 @@ const Login = () => {
   return (
     <Container>
       <Form onSubmit={handleLogin}>
-        <p className="tc h3"> Seja bem-vindo! </p>
+        <p className="tc f3 b"> Seja bem-vindo! </p>
         <Col md={{ span: 6, offset: 3 }}>
           <Form.Group controlId="username">
             <p className="tc b">Email</p>
-            <Form.Control type="text" maxLength="12" value={email} onChange={(e) => setEmail(e.target.value)}/>
+            <Form.Control type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
           </Form.Group>
         </Col>
         <Col md={{ span: 6, offset: 3 }}>

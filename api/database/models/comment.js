@@ -8,9 +8,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  Comment.associate = (models) => {
-    Comment.hasOne(models.User, { as: 'user' });
-  }
-
   return Comment;
 };

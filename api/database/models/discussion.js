@@ -11,7 +11,6 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   Discussion.associate = (models) => {
-    Discussion.hasOne(models.User, { as: 'user' });
     Discussion.hasMany(models.Comment, { as: 'comments' });
   }
 
