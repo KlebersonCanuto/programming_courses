@@ -1,16 +1,19 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import api from '../services/api'
+import api from '../services/api';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    const storagedUser = sessionStorage.getItem('user');
+    const storagedAdmin = sessionStorage.getItem('admin');
     const storagedToken = sessionStorage.getItem('token');
-    if (storagedToken && storagedUser) {
-      setUser(JSON.parse(storagedUser));
+    if (storagedToken && storagedAdmin) {
+      setUser({
+        admin: Boolean(storagedAdmin),
+        auth: Boolean(storagedToken)
+      })
     }
   }, []);
 
@@ -18,8 +21,8 @@ export const AuthProvider = ({ children }) => {
     const response = await api.post('/login', userData);
 
     setUser(response.data);
-    sessionStorage.setItem('user', JSON.stringify(response.data.user));
     sessionStorage.setItem('token', response.data.token);
+    sessionStorage.setItem('admin', response.data.admin);
   }
 
   const logout = () => {
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ auth: Boolean(user), user, login, logout }}
+      value={{ auth: Boolean(user), admin: user && user.admin, login, logout }}
     >
       {children}
     </AuthContext.Provider>
@@ -39,4 +42,4 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   return context;
-}
+};

@@ -12,7 +12,7 @@ const login = async (req, res) => {
     const same = bcrypt.compareSync(password, user.password);
     if(same){
       const token = auth.auth(id);
-      res.status(200).send({auth: true, token: token});
+      res.status(200).send({auth: true, token: token, admin: user.admin});
     }
     else{
       res.status(302).send({auth: false});
