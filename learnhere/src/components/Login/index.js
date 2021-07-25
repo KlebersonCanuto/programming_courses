@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { useAuth } from '../../contexts/auth';
+import { useHistory } from "react-router-dom";
 import { Button, Form, Container, Alert, Spinner, Col } from 'react-bootstrap';
+import { useAuth } from '../../contexts/auth';
 
 const Login = () => {
+
+  const history = useHistory();
   const { login } = useAuth();
 
   const [email, setEmail] = useState('');
@@ -22,6 +25,8 @@ const Login = () => {
 
     login(data).finally(() => {
       setLoading(false);
+    }).then(() => {
+      history.push("/");
     }).catch(res => {
       setInvalid(true);
     });
@@ -32,29 +37,29 @@ const Login = () => {
       <Form onSubmit={handleLogin}>
         <p className="tc f3 b"> Faça seu login! </p>
         <Col md={{ span: 6, offset: 3 }}>
-          <Form.Group controlId="username">
+          <Form.Group controlId="email" className="pb3">
             <p className="tc b">Email</p>
             <Form.Control type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
           </Form.Group>
         </Col>
-        <Col md={{ span: 6, offset: 3 }}>
-          <Form.Group controlId="password">
+        <Col md={{ span: 6, offset: 3 }} >
+          <Form.Group controlId="password" className="pb3">
             <p className="tc b">Senha</p>
             <Form.Control type="password" maxLength="12" value={password} onChange={(e) => setPassword(e.target.value)}/>
           </Form.Group>
         </Col>
-          <p className="tc">
+          <div className="tc pb3">
             {
               loading ? (
-                <Button variant="info" disabled>
+                <Button variant="success" disabled>
                   <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true"/> Conectando...
                 </Button>
               ) :
-                <Button variant="info" type="submit">
+                <Button variant="success" type="submit">
                   Entrar
                 </Button>
             }
-          </p>
+          </div>
           {
             invalid ? (
               <Col md={{ span: 6, offset: 3 }}>

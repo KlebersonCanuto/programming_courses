@@ -38,7 +38,7 @@ const update = async (id, args) => {
         number, 
         CourseId 
       },
-      { where: id }
+      { where: { id } }
     );  
     return module;
   } catch(err){
@@ -49,7 +49,7 @@ const update = async (id, args) => {
 const remove = async (id) => {
   try{
     const module = await Module.destroy(
-      { where: id }
+      { where: { id } }
     );
     return module;
   } catch(err){

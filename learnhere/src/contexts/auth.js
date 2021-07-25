@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }) => {
       setUser({
         admin: Boolean(storagedAdmin),
         auth: Boolean(storagedToken)
-      })
+      });
+      api.defaults.headers.common['Authorization'] = storagedToken;
     }
   }, []);
 
@@ -23,10 +24,12 @@ export const AuthProvider = ({ children }) => {
     setUser(response.data);
     sessionStorage.setItem('token', response.data.token);
     sessionStorage.setItem('admin', response.data.admin);
+    api.defaults.headers.common['Authorization'] = response.data.token;
   }
 
   const logout = () => {
     setUser(null);
+    api.defaults.headers.common['Authorization'] = null;
     sessionStorage.clear();
   }
 

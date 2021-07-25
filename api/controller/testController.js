@@ -25,7 +25,7 @@ const update = async (id, args) => {
         example, 
         ProblemId 
       },
-      { where: id }
+      { where: { id } }
     );  
     return test;
   } catch(err){
@@ -36,7 +36,7 @@ const update = async (id, args) => {
 const remove = async (id) => {
   try{
     const test = await Test.destroy(
-      { where: id }
+      { where: { id } }
     );
     return test;
   } catch(err){

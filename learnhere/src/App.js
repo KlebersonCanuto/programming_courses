@@ -1,7 +1,9 @@
+import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Routes from './Routes';
 import Top from './Top';
 import { AuthProvider } from './contexts/auth';
-import { BrowserRouter } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
@@ -10,6 +12,7 @@ const App = () => {
       <AuthProvider>
         <BrowserRouter>
           <Top/>
+          <ToastContainer/>
           <Routes/>
         </BrowserRouter>
       </AuthProvider>

@@ -23,7 +23,7 @@ const update = async (id, args) => {
         description, 
         ModuleId 
       },
-      { where: id }
+      { where: { id } }
     );  
     return problem;
   } catch(err){
@@ -34,7 +34,7 @@ const update = async (id, args) => {
 const remove = async (id) => {
   try{
     const problem = await Problem.destroy(
-      { where: id }
+      { where: { id } }
     );
     return problem;
   } catch(err){

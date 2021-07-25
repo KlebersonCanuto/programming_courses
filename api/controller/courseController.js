@@ -43,7 +43,7 @@ const update = async (id, args) => {
     const { name } = args;
     const course = await Course.update(
       { name },
-      { where: id }
+      { where: { id } }
     );  
     return course;
   } catch(err){
@@ -54,7 +54,7 @@ const update = async (id, args) => {
 const remove = async (id) => {
   try{
     const course = await Course.destroy(
-      { where: id }
+      { where: { id } }
     );
     return course;
   } catch(err){

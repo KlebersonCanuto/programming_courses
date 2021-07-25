@@ -35,41 +35,41 @@ const Register = () => {
       <Form onSubmit={handleSubmit}>
         <p className="tc f3 b"> Cadastre-se! </p>
         <Col md={{ span: 6, offset: 3 }}>
-          <Form.Group controlId="username">
+          <Form.Group controlId="username" className="pb3">
             <p className="tc b">Nome de usuário</p>
             <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
           </Form.Group>
         </Col>
         <Col md={{ span: 6, offset: 3 }}>
-          <Form.Group controlId="email">
+          <Form.Group controlId="email" className="pb3">
             <p className="tc b">Email</p>
             <Form.Control type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
           </Form.Group>
         </Col>
         <Col md={{ span: 6, offset: 3 }}>
-          <Form.Group controlId="password">
+          <Form.Group controlId="password" className="pb3">
             <p className="tc b">Senha</p>
             <Form.Control type="password" maxLength="12" value={password} onChange={(e) => setPassword(e.target.value)}/>
           </Form.Group>
         </Col>
         <Col md={{ span: 6, offset: 3 }}>
-          <Form.Group controlId="confirmPassword">
+          <Form.Group controlId="confirmPassword" className="pb3">
             <p className="tc b">Confirme sua senha</p>
             <Form.Control type="confirmPassword" maxLength="12" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
           </Form.Group>
         </Col>
-          <p className="tc">
+          <div className="tc pb3">
             {
               loading ? (
-                <Button variant="info" disabled>
+                <Button variant="success" disabled>
                   <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true"/> Registrando...
                 </Button>
               ) :
-                <Button variant="info" type="submit">
+                <Button variant="success" type="submit">
                   Cadastrar
                 </Button>
             }
-          </p>
+          </div>
           {
             invalid ? (
               <Col md={{ span: 6, offset: 3 }}>

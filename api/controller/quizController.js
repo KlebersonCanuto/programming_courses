@@ -41,7 +41,7 @@ const update = async (id, args) => {
         number, 
         ModuleId 
       },
-      { where: id }
+      { where: { id } }
     );  
     return quiz;
   } catch(err){
@@ -52,7 +52,7 @@ const update = async (id, args) => {
 const remove = async (id) => {
   try{
     const quiz = await Quiz.destroy(
-      { where: id }
+      { where: { id } }
     );
     return quiz;
   } catch(err){
