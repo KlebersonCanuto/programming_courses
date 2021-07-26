@@ -1,16 +1,28 @@
-import { useState } from 'react';
-import { Button, Form, Alert, Spinner, Col } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Button, Form, Alert, Spinner, Col, Row } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 import api from '../../services/api';
 
-const CourseForm = () => {
+const CourseForm = ({ id }) => {
 
   const history = useHistory();
 
   const [name, setName] = useState('');
   const [invalid, setInvalid] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if(id) {
+      api.get(`/courses/${id}`).then(res => {
+        setName(res.data.data.name);
+      }).catch(() => {
+        toast.error("Falha ao carregar curso");
+        history.push("/admin");
+      });
+    }
+  }, [id, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,37 +33,55 @@ const CourseForm = () => {
       name
     };
 
-    api.post("/courses", data).finally(() => {
+    let request, op;
+    
+    if (id) {
+      request = api.put(`/courses/${id}`, data);
+      op = "editado";
+    } else {
+      request = api.post("/courses", data);
+      op = "criado";
+    }
+
+    request.finally(() => {
       setLoading(false);
     }).then(() => {
+      toast.success(`Curso ${op} com sucesso`);
       history.push("/admin");
-      toast.success("Curso criado com sucesso")
-    }).catch(res => {
+    }).catch(() => {
       setInvalid(true);
     });
   }
 
   return (
     <Form onSubmit={handleSubmit}>
-      <p className="tc f3 b"> Cadastre o curso </p>
       <Col md={{ span: 6, offset: 3 }}>
         <Form.Group controlId="name" className="pb3">
           <p className="tc b">Nome do curso</p>
           <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)}/>
         </Form.Group>
       </Col>
-        <div className="tc pb3">
-          {
-            loading ? (
-              <Button variant="success" disabled>
-                <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true"/> Salvando...
+        <Row className="tc pb3">
+          <Col className="tr">
+            <Link to={`/admin`}>
+              <Button variant="dark" type="submit">
+                Voltar
               </Button>
-            ) :
-              <Button variant="success" type="submit">
-                Salvar
-              </Button>
-          }
-        </div>
+            </Link>
+          </Col>
+          <Col className="tl">
+            {
+              loading ? (
+                <Button variant="success" disabled>
+                  <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true"/> Salvando...
+                </Button>
+              ) :
+                <Button variant="success" type="submit">
+                  Salvar
+                </Button>
+            }
+          </Col>
+        </Row>
         {
           invalid ? (
             <Col md={{ span: 6, offset: 3 }}>

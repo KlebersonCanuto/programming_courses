@@ -17,12 +17,12 @@ const HomeAdmin = () => {
   return (
     <Container>
       <p className="tc f3 b">Seja bem-vindo!</p>
-      <p className="f4">Edite, visualize ou cadastre cursos</p>
+      <p className="f4">Edite, visualize ou cadastre cursos.</p>
       <Link to="new_course"><Button> Novo curso </Button></Link>
-      <Accordion>
+      <Accordion className="pt3">
         {
           courses.map(e => 
-            <CourseDetails course={e}></CourseDetails>
+            <CourseDetails key={e.id} course={e}></CourseDetails>
           )
         }
       </Accordion>
