@@ -31,12 +31,11 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { name } = args;
+    const { name, number } = args;
     const module = await Module.update(
       {       
         name, 
-        number, 
-        CourseId 
+        number
       },
       { where: { id } }
     );  

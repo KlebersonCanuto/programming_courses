@@ -1,20 +1,22 @@
 import { useState } from 'react';
-import { Button, Row, Col, Accordion } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+import { Button, Row, Col, Accordion, ListGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
+import ModuleForm from '../Module/ModuleForm';
+import Module from '../Module';
 import api from '../../services/api';
 
-const CourseDetails = ({ course }) => {
+const CourseDetails = ({ course, removedItem }) => {
 
-  const history = useHistory();
-  const [details, setDetails] = useState({});
+  const [details, setDetails] = useState({modules: []});
+  const [openForm, setOpenForm] = useState(false);
+  const [moduleFormId, setModuleFormId] = useState(null);
 
   const remove = (id) => {
     api.delete(`/courses/${id}`).then(() => {
-      history.go(0);
+      removedItem();
     }).catch(() => {
-      toast.success("Falha ao deletar curso");
+      toast.error("Falha ao deletar curso");
     })
   }
 
@@ -22,20 +24,49 @@ const CourseDetails = ({ course }) => {
     api.get(`/courses/${id}`).then((res) => {
       setDetails(res.data.data);
     }).catch(() => {
-      toast.success("Falha ao obter detalhes do curso");
+      toast.error("Falha ao obter detalhes do curso");
     })
   }
 
+  const closeModal = () => {
+    setOpenForm(false);
+    getDetails(course.id);
+    setModuleFormId(null);
+  } 
+
+  const changedModule = () => {
+    getDetails(course.id);
+  }
+
+  const editModule = (id) => {
+    setOpenForm(true);
+    setModuleFormId(id);
+  }
+
   return (
-    <Accordion.Item eventKey={String(course.id)}>
+    <Accordion.Item eventKey={"course"+course.id}>
       <Accordion.Header onClick={() => getDetails(course.id)}>{course.name}</Accordion.Header>
       <Accordion.Body>
       <Row>
-        <Col> <Button> Adicionar módulo </Button> </Col>
+        <Col> <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button> </Col>
         <Col className="tr"> <Link to={`/edit_course/${course.id}`}><Button> Editar </Button></Link> <Button variant="danger" onClick={() => remove(course.id)}>Deletar</Button></Col>
       </Row>               
-        <p className="f4"> Curso: {details.name}</p>
-        <p className="f5">MODULOS</p>
+      <ModuleForm openForm={openForm} closeModal={closeModal} courseId={course.id} id={moduleFormId}></ModuleForm>
+      <p className="f4 pt3"> <span className="b">Curso:</span> {details.name}</p>
+      <ListGroup className="pt1">
+        <ListGroup.Item active>Módulos</ListGroup.Item>
+
+      { 
+        details.modules.map(e =>
+          <Module key={"modulekey"+e.id} module={e} changedItem={changedModule} editModule={editModule}/>
+        )
+      }
+      {
+        !details.modules.length ? 
+          <ListGroup.Item>Não há módulos cadastrados neste curso</ListGroup.Item>
+        : null
+      }
+      </ListGroup>
       </Accordion.Body>
     </Accordion.Item>
   );
