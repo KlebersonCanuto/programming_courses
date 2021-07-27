@@ -47,14 +47,16 @@ const CourseDetails = ({ course, removedItem }) => {
     <Accordion.Item eventKey={"course"+course.id}>
       <Accordion.Header onClick={() => getDetails(course.id)}>{course.name}</Accordion.Header>
       <Accordion.Body>
+      
       <Row>
-        <Col> <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button> </Col>
+        <Col> <p className="f4 pb2"> <span className="b">Curso:</span> {details.name}</p> </Col>
         <Col className="tr"> <Link to={`/edit_course/${course.id}`}><Button> Editar </Button></Link> <Button variant="danger" onClick={() => remove(course.id)}>Deletar</Button></Col>
-      </Row>               
+      </Row>      
+
+      <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button>         
       <ModuleForm openForm={openForm} closeModal={closeModal} courseId={course.id} id={moduleFormId}></ModuleForm>
-      <p className="f4 pt3"> <span className="b">Curso:</span> {details.name}</p>
       <ListGroup className="pt1">
-        <ListGroup.Item active>Módulos</ListGroup.Item>
+        <ListGroup.Item variant="dark">Módulos</ListGroup.Item>
 
       { 
         details.modules.map(e =>
