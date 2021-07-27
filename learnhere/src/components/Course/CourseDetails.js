@@ -57,17 +57,16 @@ const CourseDetails = ({ course, removedItem }) => {
       <ModuleForm openForm={openForm} closeModal={closeModal} courseId={course.id} id={moduleFormId}></ModuleForm>
       <ListGroup className="pt1">
         <ListGroup.Item variant="dark">Módulos</ListGroup.Item>
-
-      { 
-        details.modules.map(e =>
-          <Module key={"modulekey"+e.id} module={e} changedItem={changedModule} editModule={editModule}/>
-        )
-      }
-      {
-        !details.modules.length ? 
-          <ListGroup.Item>Não há módulos cadastrados neste curso</ListGroup.Item>
-        : null
-      }
+        { 
+          details.modules.map(e =>
+            <Module key={"modulekey"+e.id} module={e} changedItem={changedModule} editModule={editModule}/>
+          )
+        }
+        {
+          !details.modules.length ? 
+            <ListGroup.Item>Não há módulos cadastrados neste curso</ListGroup.Item>
+          : null
+        }
       </ListGroup>
       </Accordion.Body>
     </Accordion.Item>
