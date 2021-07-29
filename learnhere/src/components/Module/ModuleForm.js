@@ -1,21 +1,31 @@
 import { useState, useEffect } from "react";
 import { Modal, Button, Form, Spinner, Col, ListGroup, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
+import QuizForm from "../Quiz/QuizForm";
+import MaterialForm from "../Material/MaterialForm";
 import api from "../../services/api";
 
-const ModuleForm = ({ openForm, closeModal, courseId, id }) => {
+const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState(0);
   const [quizzes, setQuizzes] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [problems, setProblems] = useState([]);
+  const [id, setId] = useState(0);
+  const [confirmAttribute, setConfirmAttribute] = useState("");
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [openQuizForm, setOpenQuizForm] = useState(false);
+  const [openMaterialForm, setOpenMaterialForm] = useState(false);
+  const [openProblemForm, setOpenProblemForm] = useState(false);
+  const [attributeId, setAttributeId] = useState(0);
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if(id) {
-      api.get(`/modules/${id}`).then(res => {
+    if(startId) {
+      setId(startId)
+      api.get(`/modules/${startId}`).then(res => {
         setName(res.data.data.name);
         setNumber(res.data.data.number);
         setMaterials(res.data.data.materials);
@@ -26,7 +36,7 @@ const ModuleForm = ({ openForm, closeModal, courseId, id }) => {
         closeModal();
       });
     }
-  }, [id, closeModal]);
+  }, [startId, closeModal]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -58,8 +68,58 @@ const ModuleForm = ({ openForm, closeModal, courseId, id }) => {
     });
   }
 
+  const openAttributeForm = (attribute, value) => {
+    if(attribute === "quiz") {
+      setOpenQuizForm(value);
+    } else if (attribute === "material") {
+      setOpenMaterialForm(value);
+    } else {
+      setOpenProblemForm(value);
+    }
+  }
+
+  const confirm = (attribute) => {
+    if(id) {
+      openAttributeForm(attribute, true);
+    } else {
+      setConfirmModal(true);
+    }
+    setConfirmAttribute(attribute);
+  }
+
+  const confirmSave = () => {
+    setLoading(true);
+    setNumber(0);
+
+    const data = {
+      name,
+      number,
+      CourseId: courseId
+    };
+    api.post("/modules", data).finally(() => {
+      setLoading(false);
+    }).then((res) => {
+      setId(res.data.data.id);
+      toast.success(`Módulo criado com sucesso`);
+      setConfirmModal(false);
+      setConfirmAttribute(false);
+      openAttributeForm(confirmAttribute, true);
+    }).catch(() => {
+      toast.error("Falha ao salvar módulo");
+    });
+  }
+
+  const handleClose = () => {
+    setConfirmModal(false);
+  }
+
+  const closeAttributeModal = () => {
+    openAttributeForm(confirmAttribute, false);
+    setAttributeId(0);
+  }
+
   return (
-    <Modal size="lg" show={openForm} onHide={() => closeModal()}>
+    <Modal size="lg" className={confirmModal || openQuizForm || openMaterialForm || openProblemForm ?"o-70":""} show={openForm} onHide={() => closeModal()}>
       <Container>
         <Form onSubmit={submit}>
           <Modal.Header closeButton>
@@ -73,9 +133,27 @@ const ModuleForm = ({ openForm, closeModal, courseId, id }) => {
             </Form.Group>
           </Col>
 
+          <Modal className="" show={confirmModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <span className="f4 b"> Confirme </span>
+            </Modal.Header>
+            <Modal.Body>Para continuar é necessário salvar o módulo, deseja continuar?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <Button variant="success" onClick={confirmSave}>
+                Salvar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+
+
           <div className="pt3">
-            <Button  onClick={() => {}}> Adicionar quiz </Button>
+            <Button onClick={() => confirm("quiz")}> Adicionar quiz </Button>
           </div>
+
           <ListGroup className="pt1">
             <ListGroup.Item variant="dark">Materiais</ListGroup.Item>
             { 
@@ -91,7 +169,7 @@ const ModuleForm = ({ openForm, closeModal, courseId, id }) => {
           </ListGroup>
 
           <div className="pt3">
-            <Button  onClick={() => {}}> Adicionar material </Button>
+            <Button  onClick={() => confirm("material")}> Adicionar material </Button>
           </div>
           <ListGroup className="pt1">
             <ListGroup.Item variant="dark">Quizzes</ListGroup.Item>
@@ -108,7 +186,7 @@ const ModuleForm = ({ openForm, closeModal, courseId, id }) => {
           </ListGroup>
 
           <div className="pt3">
-            <Button  onClick={() => {}}> Adicionar problema </Button>
+            <Button  onClick={() => confirm("problem")}> Adicionar problema </Button>
           </div>
           <ListGroup className="pt1">
             <ListGroup.Item variant="dark">Problemas</ListGroup.Item>
@@ -139,6 +217,8 @@ const ModuleForm = ({ openForm, closeModal, courseId, id }) => {
             }
           </Modal.Footer>
         </Form>
+        <MaterialForm openForm={openMaterialForm} closeModal={closeAttributeModal} moduleId={id} startId={attributeId}></MaterialForm>
+        <QuizForm openForm={openQuizForm} closeModal={closeAttributeModal} moduleId={id} startId={attributeId}></QuizForm>
       </Container>
     </Modal>
   );

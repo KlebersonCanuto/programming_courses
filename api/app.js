@@ -7,6 +7,8 @@ const loginRouter = require('./routes/loginRouter');
 const userRouter = require('./routes/userRouter');
 const courseRouter = require('./routes/courseRouter');
 const moduleRouter = require('./routes/moduleRouter');
+const materialRouter = require('./routes/materialRouter');
+const quizRouter = require('./routes/quizRouter');
 
 const app = express();
 dotenv.config();
@@ -19,5 +21,7 @@ app.use('/users', userRouter);
 app.use('/login', loginRouter);
 app.use('/courses', courseRouter);
 app.use('/modules', moduleRouter);
+app.use('/materials', materialRouter);
+app.use('/quizzes', quizRouter);
 
 module.exports = app;

@@ -4,6 +4,7 @@ import Routes from './Routes';
 import Top from './Top';
 import { AuthProvider } from './contexts/auth';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-quill/dist/quill.snow.css';
 
 const App = () => {
 

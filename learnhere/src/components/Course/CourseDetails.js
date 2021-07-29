@@ -50,11 +50,11 @@ const CourseDetails = ({ course, removedItem }) => {
       
       <Row>
         <Col> <p className="f4 pb2"> <span className="b">Curso:</span> {details.name}</p> </Col>
-        <Col className="tr"> <Link to={`/edit_course/${course.id}`}><Button> Editar </Button></Link> <Button variant="danger" onClick={() => remove(course.id)}>Deletar</Button></Col>
+        <Col className="tr"> <Link to={`/edit_course/${course.id}`}><Button> Editar </Button></Link> <Button variant="danger" onClick={() => remove(course.id)}>Excluir</Button></Col>
       </Row>      
 
       <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button>         
-      <ModuleForm openForm={openForm} closeModal={closeModal} courseId={course.id} id={moduleFormId}></ModuleForm>
+      <ModuleForm openForm={openForm} closeModal={closeModal} courseId={course.id} startId={moduleFormId}></ModuleForm>
       <ListGroup className="pt1">
         <ListGroup.Item variant="dark">Módulos</ListGroup.Item>
         { 

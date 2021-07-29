@@ -7,8 +7,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const storagedAdmin = sessionStorage.getItem('admin');
-    const storagedToken = sessionStorage.getItem('token');
+    const storagedAdmin = localStorage.getItem('admin');
+    const storagedToken = localStorage.getItem('token');
     if (storagedToken && storagedAdmin) {
       setUser({
         admin: Boolean(storagedAdmin),
@@ -22,15 +22,15 @@ export const AuthProvider = ({ children }) => {
     const response = await api.post('/login', userData);
 
     setUser(response.data);
-    sessionStorage.setItem('token', response.data.token);
-    sessionStorage.setItem('admin', response.data.admin);
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('admin', response.data.admin);
     api.defaults.headers.common['Authorization'] = response.data.token;
   }
 
   const logout = () => {
     setUser(null);
     api.defaults.headers.common['Authorization'] = null;
-    sessionStorage.clear();
+    localStorage.clear();
   }
 
   return (
