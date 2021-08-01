@@ -3,8 +3,10 @@ import { Modal, Button, Form, Spinner, Col, ListGroup, Container } from "react-b
 import { toast } from "react-toastify";
 import QuizForm from "../Quiz/QuizForm";
 import MaterialForm from "../Material/MaterialForm";
-import Material from "../Material/";
-import Quiz from "../Quiz/";
+import ProblemForm from "../Problem/ProblemForm";
+import Material from "../Material";
+import Quiz from "../Quiz";
+import Problem from "../Problem";
 import api from "../../services/api";
 
 const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
@@ -30,7 +32,7 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
       setNumber(res.data.data.number);
       setMaterials(res.data.data.materials);
       setQuizzes(res.data.data.quizzes);
-      setProblems([]);
+      setProblems(res.data.data.problems);
     }).catch(() => {
       toast.error("Falha ao carregar modulo");
       closeModal();
@@ -202,15 +204,15 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
           <div className="pt3">
             <Button  onClick={() => confirm("problem")}> Adicionar problema </Button>
           </div>
-          <ListGroup className="pt1">
+          <ListGroup className="pt1 pb3">
             <ListGroup.Item variant="dark">Problemas</ListGroup.Item>
             { 
               problems.map(e =>
-                <></>
+                <Problem key={"problemkey"+e.id} problem={e} changedItem={changedItem} editProblem={edit}></Problem>
               )
             }
             {
-              !materials.length ? 
+              !problems.length ? 
                 <ListGroup.Item>Não há problemas cadastrados neste curso</ListGroup.Item>
               : null
             }
@@ -240,7 +242,7 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
           : null
         }
         { openProblemForm ?
-          <QuizForm closeModal={closeAttributeModal} moduleId={id} id={attributeId}></QuizForm>
+          <ProblemForm closeModal={closeAttributeModal} moduleId={id} id={attributeId}></ProblemForm>
           : null
         }
       </Container>

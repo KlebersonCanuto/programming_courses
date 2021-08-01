@@ -1,10 +1,10 @@
-const Module = require('../controller/moduleController');
+const Problem = require('../controller/problemController');
 
 const get = async (req, res) => {
   try{
     const id = req.params.id;
-    const module = await Module.getById(id);
-    res.status(200).send({data: module});
+    const problem = await Problem.getById(id);
+    res.status(200).send({data: problem});
   } catch(err){
     res.status(400).send();
   }
@@ -12,8 +12,8 @@ const get = async (req, res) => {
 
 const create = async (req, res) => {
   try{
-    const module = await Module.create(req.body);
-    res.status(200).send({data: module});
+    const problem = await Problem.create(req.body);
+    res.status(200).send({data: problem});
   } catch(err){
     res.status(400).send();
   }
@@ -22,8 +22,8 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try{
     const id = req.params.id;
-    const module = await Module.update(id, req.body);
-    res.status(200).send({data: module});
+    const problem = await Problem.update(id, req.body);
+    res.status(200).send({data: problem});
   } catch(err){
     res.status(400).send();
   }
@@ -32,8 +32,8 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try{
     const id = req.params.id;
-    const module = await Module.remove(id);
-    res.status(200).send({data: module});
+    const problem = await Problem.remove(id);
+    res.status(200).send({data: problem});
   } catch(err){
     res.status(400).send();
   }

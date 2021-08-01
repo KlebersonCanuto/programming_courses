@@ -1,4 +1,4 @@
-const { Module, Material, Quiz } = require('../database/models');
+const { Module, Material, Quiz, Problem } = require('../database/models');
 
 const getById = async (id) => {
   try{
@@ -6,7 +6,8 @@ const getById = async (id) => {
       attributes: ["id", "name", "number", "CourseId"],
       include: [
         { model: Material, as: "materials", attributes: ["id", "title", "content", "complementary", "number"]},
-        { model: Quiz, as: "quizzes", attributes: ["id", "title", "question", "number"]}
+        { model: Quiz, as: "quizzes", attributes: ["id", "title", "question", "number"]},
+        { model: Problem, as: "problems", attributes: ["id", "title", "description"]},
       ]
     });  
     return module;
