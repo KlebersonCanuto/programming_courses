@@ -1,7 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
   const Quiz = sequelize.define('Quiz', {
-    title: Sequelize.STRING,
-    question: Sequelize.STRING,
+    title: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    question: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
     hint: Sequelize.STRING,
     number: Sequelize.INTEGER,
     ModuleId: {

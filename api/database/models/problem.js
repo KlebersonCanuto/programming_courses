@@ -1,7 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
   const Problem = sequelize.define('Problem', {
-    title: Sequelize.STRING,
-    description: Sequelize.STRING,
+    title: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    description: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
     ModuleId: {
       type: Sequelize.INTEGER,
       field: "module_id"

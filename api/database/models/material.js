@@ -1,7 +1,17 @@
 module.exports = (sequelize, Sequelize) => {
   const Material = sequelize.define('Material', {
-    title: Sequelize.STRING,
-    content: Sequelize.STRING,
+    title: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    content: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
     complementary: Sequelize.BOOLEAN,
     number: Sequelize.INTEGER,
     ModuleId: {

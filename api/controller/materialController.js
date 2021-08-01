@@ -2,10 +2,10 @@ const { Material } = require('../database/models');
 
 const getById = async (id) => {
   try{
-    const answer = await Answer.findByPk(id, {
+    const material = await Material.findByPk(id, {
       attributes: ["id", "title", "content", "complementary", "number", "ModuleId"]
     });  
-    return answer;
+    return material;
   } catch(err){
     throw 400;
   }

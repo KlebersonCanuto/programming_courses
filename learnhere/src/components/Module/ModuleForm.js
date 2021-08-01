@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Modal, Button, Form, Spinner, Col, ListGroup, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import QuizForm from "../Quiz/QuizForm";
 import MaterialForm from "../Material/MaterialForm";
+import Material from "../Material/";
+import Quiz from "../Quiz/";
 import api from "../../services/api";
 
 const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
@@ -22,21 +24,25 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
 
   const [loading, setLoading] = useState(false);
 
+  const getDetails = useCallback((moduleId) => {
+    api.get(`/modules/${moduleId}`).then(res => {
+      setName(res.data.data.name);
+      setNumber(res.data.data.number);
+      setMaterials(res.data.data.materials);
+      setQuizzes(res.data.data.quizzes);
+      setProblems([]);
+    }).catch(() => {
+      toast.error("Falha ao carregar modulo");
+      closeModal();
+    });
+  }, [closeModal]);
+
   useEffect(() => {
     if(startId) {
       setId(startId)
-      api.get(`/modules/${startId}`).then(res => {
-        setName(res.data.data.name);
-        setNumber(res.data.data.number);
-        setMaterials(res.data.data.materials);
-        setQuizzes(res.data.data.quizzes);
-        setProblems([]);
-      }).catch(() => {
-        toast.error("Falha ao carregar modulo");
-        closeModal();
-      });
+      getDetails(startId)
     }
-  }, [startId, closeModal]);
+  }, [startId, getDetails]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -115,7 +121,18 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
 
   const closeAttributeModal = () => {
     openAttributeForm(confirmAttribute, false);
+    getDetails(id);
     setAttributeId(0);
+  }
+
+  const changedItem = () => {
+    getDetails(id);
+  }
+
+  const edit = (attribute, id) => {
+    setAttributeId(id);
+    openAttributeForm(attribute, true);
+    setConfirmAttribute(attribute);
   }
 
   return (
@@ -148,22 +165,19 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
             </Modal.Footer>
           </Modal>
 
-
-
           <div className="pt3">
             <Button onClick={() => confirm("quiz")}> Adicionar quiz </Button>
           </div>
-
           <ListGroup className="pt1">
-            <ListGroup.Item variant="dark">Materiais</ListGroup.Item>
+            <ListGroup.Item variant="dark">Quizzes</ListGroup.Item>
             { 
-              materials.map(e =>
-                <></>
+              quizzes.map(e =>
+                <Quiz key={"quizkey"+e.id} quiz={e} changedItem={changedItem} editQuiz={edit}></Quiz>
               )
             }
             {
-              !materials.length ? 
-                <ListGroup.Item>Não há materiais cadastrados neste curso</ListGroup.Item>
+              !quizzes.length ? 
+                <ListGroup.Item>Não há quizzes cadastrados neste curso</ListGroup.Item>
               : null
             }
           </ListGroup>
@@ -172,15 +186,15 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
             <Button  onClick={() => confirm("material")}> Adicionar material </Button>
           </div>
           <ListGroup className="pt1">
-            <ListGroup.Item variant="dark">Quizzes</ListGroup.Item>
+            <ListGroup.Item variant="dark">Materiais</ListGroup.Item>
             { 
-              quizzes.map(e =>
-                <></>
+              materials.map(e =>
+                <Material key={"materialkey"+e.id} material={e} changedItem={changedItem} editMaterial={edit}></Material>
               )
             }
             {
               !materials.length ? 
-                <ListGroup.Item>Não há quizzes cadastrados neste curso</ListGroup.Item>
+                <ListGroup.Item>Não há materiais cadastrados neste curso</ListGroup.Item>
               : null
             }
           </ListGroup>
@@ -217,8 +231,18 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
             }
           </Modal.Footer>
         </Form>
-        <MaterialForm openForm={openMaterialForm} closeModal={closeAttributeModal} moduleId={id} startId={attributeId}></MaterialForm>
-        <QuizForm openForm={openQuizForm} closeModal={closeAttributeModal} moduleId={id} startId={attributeId}></QuizForm>
+        { openMaterialForm ?
+          <MaterialForm closeModal={closeAttributeModal} moduleId={id} id={attributeId}></MaterialForm>
+          : null
+        }
+        { openQuizForm ?
+          <QuizForm closeModal={closeAttributeModal} moduleId={id} id={attributeId}></QuizForm>
+          : null
+        }
+        { openProblemForm ?
+          <QuizForm closeModal={closeAttributeModal} moduleId={id} id={attributeId}></QuizForm>
+          : null
+        }
       </Container>
     </Modal>
   );
