@@ -23,6 +23,10 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.INTEGER,
 			},
+			answers: {
+        allowNull: true,
+				type: Sequelize.STRING
+			},
       module_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',

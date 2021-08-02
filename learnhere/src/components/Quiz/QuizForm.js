@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Modal, Button, Form, Spinner, Container } from "react-bootstrap";
+import { Modal, Button, Form, Spinner, Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import ReactQuill from 'react-quill';
 import api from "../../services/api";
@@ -9,6 +9,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
 
   const [title, setTitle] = useState("");
   const [question, setQuestion] = useState("");
+  const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -16,6 +17,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
       api.get(`/quizzes/${id}`).then((res) => {
         setTitle(res.data.data.title);
         setQuestion(res.data.data.question);
+        setAnswers(res.data.data.answers);
       }).catch(() => {
         toast.error("Falha ao carregar quiz");
         closeModal();
@@ -31,6 +33,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
       hint: "",
       title,
       question,
+      answers,
       number: 0
     };
 
@@ -53,6 +56,18 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
     });
   }
 
+  const changeAnswer = (index, event) => {
+    let values = [...answers];
+    values[index] = event.target.value;
+    setAnswers(values);
+  }
+
+  const removeAnswer = (index) => {
+    let values = [...answers];
+    values.splice(index,1);
+    setAnswers(values);
+ }
+
   return (
     <Modal size="md" show={true} onHide={() => closeModal()}>
       <Container>
@@ -66,10 +81,32 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
             <Form.Control type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
           </Form.Group>
 
-          <Form.Group controlId="question" className="pt3 pb3">
+          <Form.Group controlId="question" className="pt3">
             <p className="tc b">Descrição</p>
             <ReactQuill value={question} onChange={setQuestion} formats={quillFormats} modules={quillModules}/>
           </Form.Group>
+
+          <p className="tc pt3 b">Respostas</p>
+          {
+            answers.map(
+              (e, i) => 
+              <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
+                <Col>
+                  <Form.Control type="text" value={e} onChange={(e) => changeAnswer(i, e)}/>
+                </Col>
+                <Col className="tl" md={3}>
+                  <Button variant="danger" onClick={() => removeAnswer(i)}>
+                    Remover
+                  </Button>
+                </Col>
+              </Form.Group>
+            )
+          } 
+          <div className="pt2 pb2">
+            <Button  onClick={() => setAnswers([...answers, ''])}>
+              Adicionar resposta
+            </Button>
+          </div>
 
           <Modal.Footer>
             <Button variant="danger" onClick={() => closeModal()}>

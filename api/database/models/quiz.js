@@ -8,21 +8,27 @@ module.exports = (sequelize, Sequelize) => {
     },
     question: {
       type: Sequelize.STRING,
-      validate: {
-        notEmpty: true
-      }
+
     },
     hint: Sequelize.STRING,
     number: Sequelize.INTEGER,
+    answers: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true
+      },
+      get() {
+          return this.getDataValue('answers').split('====');
+      },
+      set(val) {
+         this.setDataValue('answers',val.join('===='));
+      },
+    },
     ModuleId: {
       type: Sequelize.INTEGER,
       field: "module_id"
     }
   });
-
-  Quiz.associate = (models) => {
-    Quiz.hasMany(models.Answer, { as: 'answers' });
-  }
 
   return Quiz;
 };

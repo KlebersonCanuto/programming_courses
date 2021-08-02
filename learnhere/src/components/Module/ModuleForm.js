@@ -9,7 +9,7 @@ import Quiz from "../Quiz";
 import Problem from "../Problem";
 import api from "../../services/api";
 
-const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
+const ModuleForm = ({ closeModal, courseId, startId }) => {
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState(0);
@@ -110,7 +110,6 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
       setId(res.data.data.id);
       toast.success(`Módulo criado com sucesso`);
       setConfirmModal(false);
-      setConfirmAttribute(false);
       openAttributeForm(confirmAttribute, true);
     }).catch(() => {
       toast.error("Falha ao salvar módulo");
@@ -138,7 +137,7 @@ const ModuleForm = ({ openForm, closeModal, courseId, startId }) => {
   }
 
   return (
-    <Modal size="lg" className={confirmModal || openQuizForm || openMaterialForm || openProblemForm ?"o-70":""} show={openForm} onHide={() => closeModal()}>
+    <Modal size="lg" className={confirmModal || openQuizForm || openMaterialForm || openProblemForm ?"o-70":""} show={true} onHide={() => closeModal()}>
       <Container>
         <Form onSubmit={submit}>
           <Modal.Header closeButton>

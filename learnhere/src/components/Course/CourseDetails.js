@@ -53,8 +53,12 @@ const CourseDetails = ({ course, removedItem }) => {
         <Col className="tr"> <Link to={`/edit_course/${course.id}`}><Button> Editar </Button></Link> <Button variant="danger" onClick={() => remove(course.id)}>Excluir</Button></Col>
       </Row>      
 
-      <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button>         
-      <ModuleForm openForm={openForm} closeModal={closeModal} courseId={course.id} startId={moduleFormId}></ModuleForm>
+      <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button>    
+      {
+        openForm ? 
+         <ModuleForm closeModal={closeModal} courseId={course.id} startId={moduleFormId}></ModuleForm>
+        : null
+      }     
       <ListGroup className="pt1">
         <ListGroup.Item variant="dark">Módulos</ListGroup.Item>
         { 
