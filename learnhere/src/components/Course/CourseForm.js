@@ -1,16 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Button, Form, Alert, Spinner, Col, Row } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+import { Button, Form, Spinner, Col, Modal, Container } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { Link } from "react-router-dom";
 import api from '../../services/api';
 
-const CourseForm = ({ id }) => {
-
-  const history = useHistory();
+const CourseForm = ({ id, closeModal }) => {
 
   const [name, setName] = useState('');
-  const [invalid, setInvalid] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,14 +14,13 @@ const CourseForm = ({ id }) => {
         setName(res.data.data.name);
       }).catch(() => {
         toast.error("Falha ao carregar curso");
-        history.push("/admin");
+        closeModal();
       });
     }
-  }, [id, history]);
+  }, [id, closeModal]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setInvalid(false);
     setLoading(true);
 
     const data = {
@@ -47,29 +41,30 @@ const CourseForm = ({ id }) => {
       setLoading(false);
     }).then(() => {
       toast.success(`Curso ${op} com sucesso`);
-      history.push("/admin");
+      closeModal();
     }).catch(() => {
-      setInvalid(true);
+      toast.success(`Falha ao salvar curso`);
     });
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Col md={{ span: 6, offset: 3 }}>
-        <Form.Group controlId="name" className="pb3">
-          <p className="tc b">Nome do curso</p>
-          <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)}/>
-        </Form.Group>
-      </Col>
-        <Row className="tc pb3">
-          <Col className="tr">
-            <Link to={`/admin`}>
-              <Button variant="dark" type="submit">
-                Voltar
-              </Button>
-            </Link>
+    <Modal size="md" show={true} onHide={() => closeModal()}>
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <span className="f4 b"> {id? "Editar" : "Adicionar"} curso</span>
+          </Modal.Header>
+          <Col md={{ span: 6, offset: 3 }}>
+            <Form.Group controlId="name" className="pb3">
+              <p className="tc b">Nome do curso</p>
+              <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+            </Form.Group>
           </Col>
-          <Col className="tl">
+
+          <Modal.Footer>
+            <Button variant="danger" onClick={() => closeModal()}>
+              Fechar
+            </Button>
             {
               loading ? (
                 <Button variant="success" disabled>
@@ -80,18 +75,10 @@ const CourseForm = ({ id }) => {
                   Salvar
                 </Button>
             }
-          </Col>
-        </Row>
-        {
-          invalid ? (
-            <Col md={{ span: 6, offset: 3 }}>
-              <Alert className="tc" variant="danger">
-                Curso inválido
-              </Alert>
-            </Col>
-          ) : null
-        }
-    </Form>
+          </Modal.Footer>
+        </Form>
+      </Container>
+    </Modal>
   );
 };
 
