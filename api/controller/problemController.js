@@ -16,12 +16,11 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, description, ModuleId } = args;
+    const { title, description } = args;
     const problem = await Problem.update(
       {       
         title, 
-        description, 
-        ModuleId 
+        description
       },
       { where: { id } }
     );  
