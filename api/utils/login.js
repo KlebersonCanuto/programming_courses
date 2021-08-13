@@ -1,6 +1,6 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 
-const auth = require("./authentication");
+const auth = require('./authentication');
 const User = require('../controller/userController');
 
 const login = async (req, res) => {
