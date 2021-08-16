@@ -13,12 +13,17 @@ const execShell = (code, inputs) => {
   let finished = 0;
   inputs.map(input => {
     const ps = new PythonShell(filePath);
+    let output = [];
+    ps.on('message', function (message) {
+      output.push(message);
+    });
     ps.send(input);
     ps.end((err, code) => {
-      if(err) {
+      if (err) {
         deleteFile(filePath);
         console.log(err); // Handle error
       }
+      // Handle output
       console.log('The exit code was: ' + code);
       finished++;
     });
