@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Modal, Button, Form, Spinner, Container } from "react-bootstrap";
+import { Modal, Button, Form, Spinner, Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import ReactQuill from 'react-quill';
 import api from "../../services/api";
@@ -11,12 +11,14 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
   const [file, setFile] = useState();
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [tests, setTests] = useState([]);
 
   useEffect(() => {
     if(id) {
       api.get(`/problems/${id}`).then((res) => {
         setTitle(res.data.data.title);
         setDescription(res.data.data.description);
+        // setDescription(res.data.data.tests);
       }).catch(() => {
         toast.error("Falha ao carregar problema");
         closeModal();
@@ -32,6 +34,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     data.append("title", title);
     data.append("file", file);
     data.append("description", description);
+    data.append("tests", tests);
     let request, op;
     if (id) {
       request = api.put(`/problems/${id}`, data, {
@@ -59,8 +62,20 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     });
   }
 
+  const changeTest = (index, event) => {
+    let values = [...tests];
+    values[index].input = event.target.value;
+    setTests(values);
+  }
+
+  const removeTest = (index) => {
+    let values = [...tests];
+    values.splice(index,1);
+    setTests(values);
+ }
+
   return (
-    <Modal size="md" show={true} onHide={() => closeModal()}>
+    <Modal size="lg" show={true} onHide={() => closeModal()}>
       <Container>
         <Form onSubmit={submit}>
           <Modal.Header closeButton>
@@ -83,6 +98,35 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
               setFile(e.target.files[0]);
             }} accept=".py" size="sm" />
           </Form.Group>
+
+          <p className="tc pt3 b">Respostas</p>
+          {
+            tests.map(
+              (e, i) => 
+              <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
+                <Col>
+                  <Form.Control type="text" as="textarea" rows={3} value={e.input} onChange={(e) => changeTest(i, e)}/>
+                </Col>
+                {
+                  e.output ? 
+                    <Col>
+                      <Form.Control type="text" as="textarea" rows={3} disabled value={e.output}/>
+                    </Col> 
+                  : null
+                }
+                <Col className="tl" md={3}>
+                  <Button variant="danger" onClick={() => removeTest(i)}>
+                    Remover
+                  </Button>
+                </Col>
+              </Form.Group>
+            )
+          } 
+          <div className="pt2 pb2">
+            <Button  onClick={() => setTests([...tests, {input: ''}])}>
+              Adicionar resposta
+            </Button>
+          </div>
 
           <Modal.Footer>
             <Button variant="danger" onClick={() => closeModal()}>

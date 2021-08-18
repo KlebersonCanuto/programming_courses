@@ -137,7 +137,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
   }
 
   return (
-    <Modal size="lg" className={confirmModal || openQuizForm || openMaterialForm || openProblemForm ?"o-70":""} show={true} onHide={() => closeModal()}>
+    <Modal size="xl" className={confirmModal || openQuizForm || openMaterialForm || openProblemForm ?"o-70":""} show={true} onHide={() => closeModal()}>
       <Container>
         <Form onSubmit={submit}>
           <Modal.Header closeButton>

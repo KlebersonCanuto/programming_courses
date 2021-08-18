@@ -56,7 +56,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
   }
 
   return (
-    <Modal size="md" show={true} onHide={() => closeModal()}>
+    <Modal size="lg" show={true} onHide={() => closeModal()}>
       <Container>
         <Form onSubmit={submit}>
           <Modal.Header closeButton>
