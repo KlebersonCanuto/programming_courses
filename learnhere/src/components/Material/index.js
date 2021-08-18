@@ -15,8 +15,8 @@ const Material = ({ material, changedItem, editMaterial }) => {
   return (
     <ListGroup.Item>
       <Row>
-        <Col md="6 pt2"> 
-          <p> {material.title} </p>
+        <Col md="6"> 
+          <p className="b"> {material.title} </p>
         </Col>
         <Col md="6" className="tr">
           <Button onClick={() => editMaterial("material", material.id)}> Editar </Button> {} 

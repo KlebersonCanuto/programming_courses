@@ -1,11 +1,23 @@
 const { Problem } = require('../database/models');
 
-const create = async (args) => {
+const getById = async (id) => {
+  try{
+    const problem = await Problem.findByPk(id, {
+      attributes: ["id", "title", "description"],
+    });  
+    return problem;
+  } catch(err){
+    throw 400;
+  }
+}
+
+const create = async (args, file_id) => {
   try{
     const { title, description, ModuleId } = args;
     const problem = await Problem.create({
       title, 
       description, 
+      file_id,
       ModuleId
     });  
     return problem;
@@ -14,14 +26,18 @@ const create = async (args) => {
   }
 }
 
-const update = async (id, args) => {
+const update = async (id, args, file_id) => {
   try{
     const { title, description } = args;
+    let updateAttributes = {
+      title, 
+      description
+    }
+    if (file_id) {
+      updateAttributes.file_id = file_id;
+    }
     const problem = await Problem.update(
-      {       
-        title, 
-        description
-      },
+      updateAttributes,
       { where: { id } }
     );  
     return problem;
@@ -42,6 +58,7 @@ const remove = async (id) => {
 }
 
 module.exports = {
+  getById,
   create,
   update,
   remove

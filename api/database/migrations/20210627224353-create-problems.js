@@ -15,6 +15,10 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.STRING
 			},
+			file_id: {
+				allowNull: false,
+				type: Sequelize.STRING
+			},
       module_id: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',

@@ -8,6 +8,7 @@ import { quillFormats, quillModules } from "../../services/util";
 const ProblemForm = ({ closeModal, moduleId, id }) => {
 
   const [title, setTitle] = useState("");
+  const [file, setFile] = useState();
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -26,18 +27,25 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
   const submit = (e) => {
     e.preventDefault();
     setLoading(true);
-    const data = {
-      ModuleId: moduleId,
-      title,
-      description
-    };
-
+    let data = new FormData();
+    data.append("ModuleId", moduleId);
+    data.append("title", title);
+    data.append("file", file);
+    data.append("description", description);
     let request, op;
     if (id) {
-      request = api.put(`/problems/${id}`, data);
+      request = api.put(`/problems/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
       op = "editado";
     } else {
-      request = api.post("/problems", data);
+      request = api.post("/problems", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
       op = "criado";
     }
 
@@ -67,6 +75,13 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
           <Form.Group controlId="description" className="pt3 pb3">
             <p className="tc b">Descrição</p>
             <ReactQuill value={description} onChange={setDescription} formats={quillFormats} modules={quillModules}/>
+          </Form.Group>
+
+          <Form.Group controlId="file" className="mb-3">
+            <p className="tc b">Escolha o arquivo solução</p>
+            <Form.Control type="file" onChange={(e) => {
+              setFile(e.target.files[0]);
+            }} accept=".py" size="sm" />
           </Form.Group>
 
           <Modal.Footer>

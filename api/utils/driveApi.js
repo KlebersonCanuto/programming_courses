@@ -11,11 +11,13 @@ const TOKEN_PATH = 'token.json';
 
 const callGDriveApi = () => {
   // Load client secrets from a local file.
-  fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Drive API.
-    authorize(JSON.parse(content));//default
-  });
+  let content;
+  try {
+    content = fs.readFileSync('credentials.json');
+  } catch (err) {
+      return console.log('Error loading client secret file:', err);
+  }
+  return authorize(JSON.parse(content));
 }
 
 /**
@@ -28,10 +30,14 @@ const authorize = (credentials) => {
     client_id, client_secret, redirect_uris[0]);
 
   // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client);
-    oAuth2Client.setCredentials(JSON.parse(token));
-  });
+  let token;
+  try {
+    token = fs.readFileSync(TOKEN_PATH);
+  } catch (err) {
+    return getAccessToken(oAuth2Client);
+  }
+  oAuth2Client.setCredentials(JSON.parse(token));
+  return oAuth2Client;
 }
 
 /**

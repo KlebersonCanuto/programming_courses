@@ -15,8 +15,8 @@ const Quiz = ({ quiz, changedItem, editQuiz }) => {
   return (
     <ListGroup.Item>
       <Row>
-        <Col md="6 pt2"> 
-          <p> {quiz.title} </p>
+        <Col md="6"> 
+          <p className="b"> {quiz.title} </p>
         </Col>
         <Col md="6" className="tr">
           <Button onClick={() => editQuiz("quiz", quiz.id)}> Editar </Button> {} 

@@ -2,25 +2,25 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const driveApi = require('./driveApi');
  
-const fileUpload = (fileName, filePath, callback) => {
-  driveApi((auth) => {
-    const fileMetadata = {
-      name: fileName,
-      parents: [process.env.FOLDER_ID]
-    };
-    const media = {
-      body: fs.createReadStream(filePath)
-    }
-    const drive = google.drive({version: 'v3', auth});
-
-    drive.files.create({
+const fileUpload = async (fileName, filePath) => {
+  const auth = driveApi();
+  const fileMetadata = {
+    name: fileName,
+    parents: [process.env.FOLDER_ID]
+  };
+  const media = {
+    body: fs.createReadStream(filePath.path)
+  }
+  const drive = google.drive({version: 'v3', auth});
+  try {
+    const file = await drive.files.create({
       resource: fileMetadata,
-      media: media,
-      fields: 'id'
-    }, (err, file) => {
-      callback(file.data.id, err);
+      media: media
     });
-  });
+    return file.data.id;
+  } catch (err) {
+    throw err;
+  }
 }
 
 const getFile = (id, callback) => {
