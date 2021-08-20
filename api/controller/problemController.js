@@ -1,7 +1,7 @@
 const { Problem, Test } = require('../database/models');
 
 const getById = async (id) => {
-  try{
+  try {
     const problem = await Problem.findByPk(id, {
       attributes: ["id", "title", "description"],
       include: [
@@ -9,13 +9,24 @@ const getById = async (id) => {
       ]
     });  
     return problem;
-  } catch(err){
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const getFileId = async (id) => {
+  try {
+    const problem = await Problem.findByPk(id, {
+      attributes: ["file_id"],
+    });  
+    return problem.file_id;
+  } catch (err) {
     throw 400;
   }
 }
 
 const create = async (args, file_id) => {
-  try{
+  try {
     const { title, description, ModuleId } = args;
     const problem = await Problem.create({
       title, 
@@ -24,13 +35,13 @@ const create = async (args, file_id) => {
       ModuleId
     });  
     return problem;
-  } catch(err){
+  } catch (err) {
     throw 400;
   }
 }
 
 const update = async (id, args, file_id) => {
-  try{
+  try {
     const { title, description } = args;
     let updateAttributes = {
       title, 
@@ -44,24 +55,25 @@ const update = async (id, args, file_id) => {
       { where: { id } }
     );  
     return problem;
-  } catch(err){
+  } catch (err) {
     throw 400;
   }
 }
 
 const remove = async (id) => {
-  try{
+  try {
     const problem = await Problem.destroy(
       { where: { id } }
     );
     return problem;
-  } catch(err){
+  } catch (err) {
     throw 400;
   }
 }
 
 module.exports = {
   getById,
+  getFileId,
   create,
   update,
   remove

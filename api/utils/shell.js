@@ -11,38 +11,28 @@ const execShell = (code, tests) => {
   fs.writeFileSync(filePath, code); // Handle if exists
 
   let finished = 0;
-  let error;
-
   return new Promise((resolve, reject) => {
     tests.map(test => {
       const ps = new PythonShell(filePath);
       let output = [];
-      ps.on('message', function (message) {
+      ps.on('message', (message) => {
         output.push(message);
       });
       ps.send(test.input);
       ps.end((err) => {
         if (err) {
-          error = err;  
+          deleteFile(filePath);
+          reject(err); 
           return;     
         }
         test.output = output.join('\n');
         finished++;
+        if (finished === tests.length) {
+          deleteFile(filePath);
+          resolve(tests);
+        }
       });
-    });
-
-    const interval = setInterval(() => {
-      if (finished === tests.length) {
-        deleteFile(filePath);
-        resolve(tests);
-        clearInterval(interval);
-      } else if (error) {
-        deleteFile(filePath);
-        reject(error);
-        clearInterval(interval);
-      }
-    }, 200);
-  
+    });  
   })
 }
 

@@ -1,16 +1,27 @@
 const { Test } = require('../database/models');
 
 const createMany = async (args) => {
-  try{
+  try {
     const tests = await Test.bulkCreate(args);  
     return tests;
-  } catch(err){
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const deleteMany = async (args) => {
+  try {
+    const tests = await Test.destroy(
+      { where: { id: args } }
+    );
+    return tests;
+  } catch (err) {
     throw 400;
   }
 }
 
 const update = async (id, args) => {
-  try{
+  try {
     const { input, output, example, ProblemId } = args;
     const test = await Test.update(
       {       
@@ -22,24 +33,25 @@ const update = async (id, args) => {
       { where: { id } }
     );  
     return test;
-  } catch(err){
+  } catch (err) {
     throw 400;
   }
 }
 
 const remove = async (id) => {
-  try{
+  try {
     const test = await Test.destroy(
       { where: { id } }
     );
     return test;
-  } catch(err){
+  } catch (err) {
     throw 400;
   }
 }
 
 module.exports = {
   createMany,
+  deleteMany,
   update,
   remove
 };

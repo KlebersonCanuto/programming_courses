@@ -151,7 +151,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
             )
           } 
           <div className="pt2 pb2">
-            <Button  onClick={() => setTests([...tests, {input: '', example: false}])}>
+            <Button  onClick={() => setTests([...tests, {input: '', example: false, ProblemId: id}])}>
               Adicionar resposta
             </Button>
           </div>
