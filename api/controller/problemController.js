@@ -1,9 +1,12 @@
-const { Problem } = require('../database/models');
+const { Problem, Test } = require('../database/models');
 
 const getById = async (id) => {
   try{
     const problem = await Problem.findByPk(id, {
       attributes: ["id", "title", "description"],
+      include: [
+        { model: Test, as: "tests", attributes: ["id", "input", "output", "example"]},
+      ]
     });  
     return problem;
   } catch(err){

@@ -1,17 +1,28 @@
-const { fileUpload } = require('../utils/drive');
+const DriveService = require('../utils/drive');
 const fs = require("fs");
 
 const uploadFile = async (file) => {
   let id;
   try{
-    id = await fileUpload(`${file.filename}.py`, file);
+    id = await DriveService.fileUpload(`${file.filename}.py`, file);
     fs.unlinkSync(file.path)
   } catch (err) {
-    return
+    return;
   }
   return id;
 }
 
+const getFile = async (file_id) => {
+  let file;
+  try{
+    file = await DriveService.getFile(file_id);
+  } catch (err) {
+    return;
+  }
+  return file;
+}
+
 module.exports = {
-  uploadFile
+  uploadFile,
+  getFile
 }

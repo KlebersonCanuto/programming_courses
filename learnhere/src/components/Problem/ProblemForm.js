@@ -18,7 +18,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
       api.get(`/problems/${id}`).then((res) => {
         setTitle(res.data.data.title);
         setDescription(res.data.data.description);
-        // setDescription(res.data.data.tests);
+        setTests(res.data.data.tests);
       }).catch(() => {
         toast.error("Falha ao carregar problema");
         closeModal();
@@ -34,7 +34,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     data.append("title", title);
     data.append("file", file);
     data.append("description", description);
-    data.append("tests", tests);
+    data.append("tests", JSON.stringify(tests));
     let request, op;
     if (id) {
       request = api.put(`/problems/${id}`, data, {
@@ -65,6 +65,12 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
   const changeTest = (index, event) => {
     let values = [...tests];
     values[index].input = event.target.value;
+    setTests(values);
+  }
+
+  const changeTestPublic = (index, value) => {
+    let values = [...tests];
+    values[index].example = value;
     setTests(values);
   }
 
@@ -105,7 +111,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
               (e, i) => 
               <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
                 <Col>
-                  <Form.Control type="text" as="textarea" rows={3} value={e.input} onChange={(e) => changeTest(i, e)}/>
+                  <Form.Control type="text" as="textarea" rows={3} value={e.input} onChange={(ev) => changeTest(i, ev)}/>
                 </Col>
                 {
                   e.output ? 
@@ -114,16 +120,26 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
                     </Col> 
                   : null
                 }
-                <Col className="tl" md={3}>
+                <Col className="tl" md={2}>
                   <Button variant="danger" onClick={() => removeTest(i)}>
                     Remover
                   </Button>
+                  <div className="pt2">
+                    <Form.Group controlId="example" className="pt3">
+                      <Form.Check 
+                        type="switch"
+                        onChange={() => changeTestPublic(i, !e.example)}
+                        checked={e.example}
+                        label="Público"
+                      />
+                    </Form.Group>
+                  </div>
                 </Col>
               </Form.Group>
             )
           } 
           <div className="pt2 pb2">
-            <Button  onClick={() => setTests([...tests, {input: ''}])}>
+            <Button  onClick={() => setTests([...tests, {input: '', example: false}])}>
               Adicionar resposta
             </Button>
           </div>

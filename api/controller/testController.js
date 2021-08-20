@@ -1,15 +1,9 @@
 const { Test } = require('../database/models');
 
-const create = async (args) => {
+const createMany = async (args) => {
   try{
-    const { input, output, example, ProblemId } = args;
-    const test = await Test.create({
-      input, 
-      output, 
-      example, 
-      ProblemId
-    });  
-    return test;
+    const tests = await Test.bulkCreate(args);  
+    return tests;
   } catch(err){
     throw 400;
   }
@@ -45,7 +39,7 @@ const remove = async (id) => {
 }
 
 module.exports = {
-  create,
+  createMany,
   update,
   remove
 };

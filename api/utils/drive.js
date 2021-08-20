@@ -23,17 +23,18 @@ const fileUpload = async (fileName, filePath) => {
   }
 }
 
-const getFile = (id, callback) => {
-  driveApi((auth) => {
-    const drive = google.drive({version: 'v3', auth});
-    
-    drive.files.get({
+const getFile = async (id) => {
+  const auth = driveApi();
+  const drive = google.drive({version: 'v3', auth});
+  try {
+    const file = await drive.files.get({
       fileId: id,
       alt: 'media'
-    }, (err, file) => {
-      callback(file.data, err);
-    })
-  });
+    });
+    return file.data;
+  } catch (err) {
+    throw err;
+  }
 }
  
 module.exports = { fileUpload, getFile };
