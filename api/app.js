@@ -10,6 +10,7 @@ const moduleRouter = require('./routes/moduleRouter');
 const materialRouter = require('./routes/materialRouter');
 const quizRouter = require('./routes/quizRouter');
 const problemRouter = require('./routes/problemRouter');
+const testRouter = require('./routes/testRouter');
 
 const app = express();
 dotenv.config();
@@ -25,5 +26,6 @@ app.use('/modules', moduleRouter);
 app.use('/materials', materialRouter);
 app.use('/quizzes', quizRouter);
 app.use('/problems', problemRouter);
+app.use('/tests', testRouter);
 
 module.exports = app;

@@ -74,10 +74,22 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     setTests(values);
   }
 
-  const removeTest = (index) => {
+  const removeIndex = (index) => {
     let values = [...tests];
     values.splice(index,1);
     setTests(values);
+  }
+
+  const removeTest = (index, id) => {
+    if (id) {
+      api.delete(`/tests/${id}`).then(() => {
+        removeIndex(index);
+      }).catch(() => {
+        toast.error("Falha ao deletar teste");
+      });
+    } else {
+      removeIndex(index);
+    }
  }
 
   return (
@@ -111,7 +123,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
               (e, i) => 
               <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
                 <Col>
-                  <Form.Control type="text" as="textarea" rows={3} value={e.input} onChange={(ev) => changeTest(i, ev)}/>
+                  <Form.Control type="text" as="textarea" rows={3} value={e.input} disabled={e.output} onChange={(ev) => changeTest(i, ev)}/>
                 </Col>
                 {
                   e.output ? 
@@ -121,7 +133,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
                   : null
                 }
                 <Col className="tl" md={2}>
-                  <Button variant="danger" onClick={() => removeTest(i)}>
+                  <Button variant="danger" onClick={() => removeTest(i, e.id)}>
                     Remover
                   </Button>
                   <div className="pt2">
