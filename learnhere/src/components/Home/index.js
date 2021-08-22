@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 
-const HomeUser = () => {
+const Home = () => {
 
   return (
     <Container>
@@ -11,4 +11,4 @@ const HomeUser = () => {
   );
 };
 
-export default HomeUser;
+export default Home;

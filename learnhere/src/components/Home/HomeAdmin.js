@@ -29,7 +29,7 @@ const HomeAdmin = () => {
       <p className="tc f3 b">Seja bem-vindo!</p>
       <p className="f4">Edite, visualize ou cadastre cursos.</p>
       <Button onClick={() => setOpenForm(true)}> Novo curso </Button>
-      <ListGroup className="pt3">
+      <ListGroup className="pt3 tc">
         <ListGroup.Item active>Cursos</ListGroup.Item>
       </ListGroup>
       <Accordion>
