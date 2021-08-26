@@ -4,6 +4,8 @@ import HomeUser from './components/Home/HomeUser';
 import HomeAdmin from './components/Home/HomeAdmin';
 import Login from './components/Login';
 import Register from './components/Register';
+import CourseUser from './components/Course/CourseUser';
+import ModuleUser from './components/Module/ModuleUser';
 import { useAuth } from './contexts/auth';
 
 const Routes = () => {
@@ -16,6 +18,8 @@ const Routes = () => {
       {admin ? <Route exact path="/admin" component={HomeAdmin} /> : null}
 
       {auth ? <>
+        <Route exact path="/course/:id" component={CourseUser}/>
+        <Route exact path="/module/:id" component={ModuleUser}/>
         <Route exact path="/" component={HomeUser} />
       </> : <>
         <Route exact path="/" component={Home}/>

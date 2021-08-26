@@ -1,15 +1,15 @@
 import { Card, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const CourseCard = ({ course }) => {
+const MaterialCard = ({ material }) => {
 
   return (
     <Col md={3} className="pt2">
-      <Link to={`/course/${course.id}`} className="no-underline">
+      <Link to={`/material/${material.id}`} className="no-underline">
         <Card className="dim">
           <Card.Body>
             <Card.Text className="f4 tc black">
-              {course.name}
+              {material.title}
             </Card.Text>
           </Card.Body>
         </Card>
@@ -18,4 +18,4 @@ const CourseCard = ({ course }) => {
   );
 };
 
-export default CourseCard;
+export default MaterialCard;

@@ -24,16 +24,16 @@ const HomeAdmin = () => {
       <ListGroup className="pt3">
         <ListGroup.Item className="tc" active>Cursos</ListGroup.Item>
       </ListGroup>
+      {
+        !courses.length ? 
+          <ListGroup.Item className="tc">Não há cursos cadastrados</ListGroup.Item>
+        : null
+      }
       <Row>
         {
           courses.map(e => 
             <CourseCard key={e.id} course={e}></CourseCard>
           )
-        }
-        {
-          !courses.length ? 
-            <ListGroup.Item>Não há cursos cadastrados</ListGroup.Item>
-          : null
         }
       </Row>
     </Container>

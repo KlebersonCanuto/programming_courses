@@ -41,7 +41,7 @@ const HomeAdmin = () => {
       </Accordion>
       {
         !courses.length ? 
-          <ListGroup.Item>Não há cursos cadastrados</ListGroup.Item>
+          <ListGroup.Item className="tc">Não há cursos cadastrados</ListGroup.Item>
         : null
       }
 

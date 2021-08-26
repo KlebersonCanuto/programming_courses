@@ -178,7 +178,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
             }
             {
               !quizzes.length ? 
-                <ListGroup.Item>Não há quizzes cadastrados neste curso</ListGroup.Item>
+                <ListGroup.Item>Não há quizzes cadastrados neste módulo</ListGroup.Item>
               : null
             }
           </ListGroup>
@@ -195,7 +195,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
             }
             {
               !materials.length ? 
-                <ListGroup.Item>Não há materiais cadastrados neste curso</ListGroup.Item>
+                <ListGroup.Item>Não há materiais cadastrados neste módulo</ListGroup.Item>
               : null
             }
           </ListGroup>
@@ -212,7 +212,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
             }
             {
               !problems.length ? 
-                <ListGroup.Item>Não há problemas cadastrados neste curso</ListGroup.Item>
+                <ListGroup.Item>Não há problemas cadastrados neste módulo</ListGroup.Item>
               : null
             }
           </ListGroup>
