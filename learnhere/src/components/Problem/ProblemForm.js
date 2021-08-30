@@ -1,26 +1,26 @@
-import { useState, useEffect } from "react";
-import { Modal, Button, Form, Spinner, Container, Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { useState, useEffect } from 'react';
+import { Modal, Button, Form, Spinner, Container, Row, Col } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill';
-import api from "../../services/api";
-import { quillFormats, quillModules } from "../../services/util";
+import api from '../../services/api';
+import { quillFormats, quillModules } from '../../services/util';
 
 const ProblemForm = ({ closeModal, moduleId, id }) => {
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [file, setFile] = useState();
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [tests, setTests] = useState([]);
 
   useEffect(() => {
     if(id) {
-      api.get(`/problems/${id}`).then((res) => {
+      api.get(`/problems/details/${id}`).then((res) => {
         setTitle(res.data.data.title);
         setDescription(res.data.data.description);
         setTests(res.data.data.tests);
       }).catch(() => {
-        toast.error("Falha ao carregar problema");
+        toast.error('Falha ao carregar problema');
         closeModal();
       });
     }
@@ -30,26 +30,26 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     e.preventDefault();
     setLoading(true);
     let data = new FormData();
-    data.append("ModuleId", moduleId);
-    data.append("title", title);
-    data.append("file", file);
-    data.append("description", description);
-    data.append("tests", JSON.stringify(tests));
+    data.append('ModuleId', moduleId);
+    data.append('title', title);
+    data.append('file', file);
+    data.append('description', description);
+    data.append('tests', JSON.stringify(tests));
     let request, op;
     if (id) {
       request = api.put(`/problems/${id}`, data, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         }
       });
-      op = "editado";
+      op = 'editado';
     } else {
-      request = api.post("/problems", data, {
+      request = api.post('/problems', data, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         }
       });
-      op = "criado";
+      op = 'criado';
     }
 
     request.finally(() => {
@@ -58,7 +58,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
       toast.success(`Problema ${op} com sucesso`);
       closeModal();
     }).catch(() => {
-      toast.error("Falha ao salvar problema");
+      toast.error('Falha ao salvar problema');
     });
   }
 
@@ -85,7 +85,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
       api.delete(`/tests/${id}`).then(() => {
         removeIndex(index);
       }).catch(() => {
-        toast.error("Falha ao deletar teste");
+        toast.error('Falha ao deletar teste');
       });
     } else {
       removeIndex(index);

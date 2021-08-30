@@ -8,7 +8,7 @@ const Module = ({ module, changedItem, editModule }) => {
     api.delete(`/modules/${id}`).then(() => {
       changedItem();
     }).catch(() => {
-      toast.error("Falha ao deletar módulo");
+      toast.error('Falha ao deletar módulo');
     })
   }
 

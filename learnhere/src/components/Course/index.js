@@ -17,7 +17,7 @@ const CourseDetails = ({ course, removedItem }) => {
     api.delete(`/courses/${id}`).then(() => {
       removedItem();
     }).catch(() => {
-      toast.error("Falha ao deletar curso");
+      toast.error('Falha ao deletar curso');
     })
   }
 
@@ -25,7 +25,7 @@ const CourseDetails = ({ course, removedItem }) => {
     api.get(`/courses/${id}`).then((res) => {
       setDetails(res.data.data);
     }).catch(() => {
-      toast.error("Falha ao obter detalhes do curso");
+      toast.error('Falha ao obter detalhes do curso');
     })
   }
 

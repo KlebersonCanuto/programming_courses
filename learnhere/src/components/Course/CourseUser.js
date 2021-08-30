@@ -13,7 +13,7 @@ const CourseUser = ({ match }) => {
     api.get(`/courses/${id}`).then((res) => {
       setDetails(res.data.data);
     }).catch(() => {
-      toast.error("Falha ao obter detalhes do curso");
+      toast.error('Falha ao obter detalhes do curso');
     })
   }, [id])
 

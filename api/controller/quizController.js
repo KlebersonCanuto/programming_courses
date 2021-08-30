@@ -3,7 +3,18 @@ const { Quiz, Answer } = require('../database/models');
 const getById = async (id) => {
   try{
     const quiz = await Quiz.findByPk(id, {
-      attributes: ["id", "title", "question", "hint", "number", "answers", "ModuleId"],
+      attributes: ['id', 'title', 'question', 'hint', 'number', 'answers', 'ModuleId'],
+    });  
+    return quiz;
+  } catch(err){
+    throw 400;
+  }
+}
+
+const getUser = async (id) => {
+  try{
+    const quiz = await Quiz.findByPk(id, {
+      attributes: ['title', 'question', 'number'],
     });  
     return quiz;
   } catch(err){
@@ -61,6 +72,7 @@ const remove = async (id) => {
 
 module.exports = {
   getById,
+  getUser,
   create,
   update,
   remove

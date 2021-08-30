@@ -1,25 +1,25 @@
-import { useState, useEffect } from "react";
-import { Modal, Button, Form, Spinner, Container, Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { useState, useEffect } from 'react';
+import { Modal, Button, Form, Spinner, Container, Row, Col } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill';
-import api from "../../services/api";
-import { quillFormats, quillModules } from "../../services/util";
+import api from '../../services/api';
+import { quillFormats, quillModules } from '../../services/util';
 
 const QuizForm = ({ closeModal, moduleId, id }) => {
 
-  const [title, setTitle] = useState("");
-  const [question, setQuestion] = useState("");
+  const [title, setTitle] = useState('');
+  const [question, setQuestion] = useState('');
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if(id) {
-      api.get(`/quizzes/${id}`).then((res) => {
+      api.get(`/quizzes/details/${id}`).then((res) => {
         setTitle(res.data.data.title);
         setQuestion(res.data.data.question);
         setAnswers(res.data.data.answers);
       }).catch(() => {
-        toast.error("Falha ao carregar quiz");
+        toast.error('Falha ao carregar quiz');
         closeModal();
       });
     }
@@ -30,7 +30,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
     setLoading(true);
     const data = {
       ModuleId: moduleId,
-      hint: "",
+      hint: '',
       title,
       question,
       answers,
@@ -40,10 +40,10 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
     let request, op;
     if (id) {
       request = api.put(`/quizzes/${id}`, data);
-      op = "editado";
+      op = 'editado';
     } else {
-      request = api.post("/quizzes", data);
-      op = "criado";
+      request = api.post('/quizzes', data);
+      op = 'criado';
     }
 
     request.finally(() => {
@@ -52,7 +52,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
       toast.success(`Quiz ${op} com sucesso`);
       closeModal();
     }).catch(() => {
-      toast.error("Falha ao salvar quiz");
+      toast.error('Falha ao salvar quiz');
     });
   }
 

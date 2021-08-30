@@ -3,11 +3,26 @@ const { Problem, Test } = require('../database/models');
 const getById = async (id) => {
   try {
     const problem = await Problem.findByPk(id, {
-      attributes: ["id", "title", "description"],
+      attributes: ['id', 'title', 'description'],
       include: [
-        { model: Test, as: "tests", attributes: ["id", "input", "output", "example"]},
+        { model: Test, as: 'tests', attributes: ['id', 'input', 'output', 'example']},
       ]
     });  
+    return problem;
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const getUser = async (id) => {
+  try {
+    const problem = await Problem.findByPk(id, {
+      attributes: ['title', 'description'],
+      include: [
+        { model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
+      ]
+    });  
+    problem.tests = problem.tests.filter(e => e.example);
     return problem;
   } catch (err) {
     throw 400;
@@ -17,7 +32,7 @@ const getById = async (id) => {
 const getFileId = async (id) => {
   try {
     const problem = await Problem.findByPk(id, {
-      attributes: ["file_id"],
+      attributes: ['file_id'],
     });  
     return problem.file_id;
   } catch (err) {
@@ -73,6 +88,7 @@ const remove = async (id) => {
 
 module.exports = {
   getById,
+  getUser,
   getFileId,
   create,
   update,

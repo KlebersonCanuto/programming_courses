@@ -6,6 +6,9 @@ import Login from './components/Login';
 import Register from './components/Register';
 import CourseUser from './components/Course/CourseUser';
 import ModuleUser from './components/Module/ModuleUser';
+import QuizUser from './components/Quiz/QuizUser';
+import MaterialUser from './components/Material/MaterialUser';
+import ProblemUser from './components/Problem/ProblemUser';
 import { useAuth } from './contexts/auth';
 
 const Routes = () => {
@@ -20,6 +23,9 @@ const Routes = () => {
       {auth ? <>
         <Route exact path="/course/:id" component={CourseUser}/>
         <Route exact path="/module/:id" component={ModuleUser}/>
+        <Route exact path="/quiz/:id" component={QuizUser}/>
+        <Route exact path="/material/:id" component={MaterialUser}/>
+        <Route exact path="/problem/:id" component={ProblemUser}/>
         <Route exact path="/" component={HomeUser} />
       </> : <>
         <Route exact path="/" component={Home}/>

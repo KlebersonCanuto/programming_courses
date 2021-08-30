@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { Button, Form, Container, Alert, Spinner, Col } from 'react-bootstrap';
 import { useAuth } from '../../contexts/auth';
 
@@ -26,7 +26,7 @@ const Login = () => {
     login(data).finally(() => {
       setLoading(false);
     }).then(() => {
-      history.push("/");
+      history.push('/');
     }).catch(res => {
       setInvalid(true);
     });

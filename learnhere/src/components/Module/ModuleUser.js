@@ -6,7 +6,7 @@ import MaterialCard from '../Material/MaterialCard';
 import ProblemCard from '../Problem/ProblemCard';
 import api from '../../services/api';
 
-const CourseUser = ({ match }) => {
+const ModuleUser = ({ match }) => {
 
   const [details, setDetails] = useState({ quizzes: [], materials: [], problems: [] });
   const id = match.params.id;
@@ -15,7 +15,7 @@ const CourseUser = ({ match }) => {
     api.get(`/modules/${id}`).then((res) => {
       setDetails(res.data.data);
     }).catch(() => {
-      toast.error("Falha ao obter detalhes do módulo");
+      toast.error('Falha ao obter detalhes do módulo');
     })
   }, [id])
 
@@ -24,7 +24,7 @@ const CourseUser = ({ match }) => {
       <p className="f4 pb2 tc"> <span className="b"> Módulo: </span> {details.name} </p>
 
       <ListGroup className="pt3">
-        <ListGroup.Item className="tc" active> Quizzes </ListGroup.Item>
+        <ListGroup.Item className="tc" active> Questões </ListGroup.Item>
       </ListGroup>
       {
         !details.quizzes.length ? 
@@ -74,4 +74,4 @@ const CourseUser = ({ match }) => {
   );
 };
 
-export default CourseUser;
+export default ModuleUser;

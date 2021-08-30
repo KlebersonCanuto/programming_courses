@@ -1,5 +1,5 @@
 const { PythonShell } = require('python-shell');
-const fs = require("fs");
+const fs = require('fs');
 
 const deleteFile = (filePath) => {
   fs.unlinkSync(filePath)

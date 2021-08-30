@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { Modal, Button, Form, Spinner, Container } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { useState, useEffect } from 'react';
+import { Modal, Button, Form, Spinner, Container } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill';
-import api from "../../services/api";
-import { quillFormats, quillModules } from "../../services/util";
+import api from '../../services/api';
+import { quillFormats, quillModules } from '../../services/util';
 
 const MaterialForm = ({ closeModal, moduleId, id }) => {
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [complementary, setComplementary] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
         setContent(res.data.data.content);
         setComplementary(res.data.data.complementary);
       }).catch(() => {
-        toast.error("Falha ao carregar material");
+        toast.error('Falha ao carregar material');
         closeModal();
       });
     }
@@ -39,10 +39,10 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
     let request, op;
     if (id) {
       request = api.put(`/materials/${id}`, data);
-      op = "editado";
+      op = 'editado';
     } else {
-      request = api.post("/materials", data);
-      op = "criado";
+      request = api.post('/materials', data);
+      op = 'criado';
     }
 
     request.finally(() => {
@@ -51,7 +51,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
       toast.success(`Material ${op} com sucesso`);
       closeModal();
     }).catch(() => {
-      toast.error("Falha ao salvar material");
+      toast.error('Falha ao salvar material');
     });
   }
 

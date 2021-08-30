@@ -3,7 +3,7 @@ const { Material } = require('../database/models');
 const getById = async (id) => {
   try{
     const material = await Material.findByPk(id, {
-      attributes: ["id", "title", "content", "complementary", "number", "ModuleId"]
+      attributes: ['id', 'title', 'content', 'complementary', 'number', 'ModuleId']
     });  
     return material;
   } catch(err){

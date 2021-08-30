@@ -13,7 +13,7 @@ const CourseForm = ({ id, closeModal }) => {
       api.get(`/courses/${id}`).then(res => {
         setName(res.data.data.name);
       }).catch(() => {
-        toast.error("Falha ao carregar curso");
+        toast.error('Falha ao carregar curso');
         closeModal();
       });
     }
@@ -31,10 +31,10 @@ const CourseForm = ({ id, closeModal }) => {
     
     if (id) {
       request = api.put(`/courses/${id}`, data);
-      op = "editado";
+      op = 'editado';
     } else {
-      request = api.post("/courses", data);
-      op = "criado";
+      request = api.post('/courses', data);
+      op = 'criado';
     }
 
     request.finally(() => {

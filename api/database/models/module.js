@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
     number: Sequelize.INTEGER,
     CourseId: {
       type: Sequelize.INTEGER,
-      field: "course_id"
+      field: 'course_id'
     }
   });
 

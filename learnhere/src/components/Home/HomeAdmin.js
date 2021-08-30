@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Accordion, Button, Container, ListGroup } from "react-bootstrap";
-import CourseDetails from "../Course";
-import CourseForm from "../Course/CourseForm";
-import api from "../../services/api";
+import { useEffect, useState } from 'react';
+import { Accordion, Button, Container, ListGroup } from 'react-bootstrap';
+import CourseDetails from '../Course';
+import CourseForm from '../Course/CourseForm';
+import api from '../../services/api';
 
 const HomeAdmin = () => {
   
@@ -10,7 +10,7 @@ const HomeAdmin = () => {
   const [openForm, setOpenForm] = useState(false);
 
   const getCourses = () => {
-    api.get("/courses").then(res => {
+    api.get('/courses').then(res => {
       setCourses(res.data.data);
     });
   }

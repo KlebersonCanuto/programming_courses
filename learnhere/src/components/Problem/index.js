@@ -8,7 +8,7 @@ const Problem = ({ problem, changedItem, editProblem }) => {
     api.delete(`/problems/${id}`).then(() => {
       changedItem();
     }).catch(() => {
-      toast.error("Falha ao deletar problema");
+      toast.error('Falha ao deletar problema');
     })
   }
 

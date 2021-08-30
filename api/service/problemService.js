@@ -12,6 +12,17 @@ const get = async (req, res) => {
   }
 }
 
+const getUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const problem = await Problem.getUser(id);
+    problem.tests = problem.tests.filter(e => e.example);
+    res.status(200).send({data: problem});
+  } catch (err) {
+    res.status(400).send();
+  }
+}
+
 const create = async (req, res) => {
   try {
     const file_id = await FileService.uploadFile(req.file);
@@ -76,6 +87,7 @@ const remove = async (req, res) => {
 
 module.exports = {
   get,
+  getUser,
   create,
   update,
   remove

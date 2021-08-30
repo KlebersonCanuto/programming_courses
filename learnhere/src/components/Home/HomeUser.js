@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { Row, Container, ListGroup } from "react-bootstrap";
-import CourseCard from "../Course/CourseCard";
-import api from "../../services/api";
+import { useEffect, useState } from 'react';
+import { Row, Container, ListGroup } from 'react-bootstrap';
+import CourseCard from '../Course/CourseCard';
+import api from '../../services/api';
 
 const HomeAdmin = () => {
   
   const [courses, setCourses] = useState([]);
 
   const getCourses = () => {
-    api.get("/courses").then(res => {
+    api.get('/courses').then(res => {
       setCourses(res.data.data);
     });
   }

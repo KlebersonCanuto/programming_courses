@@ -1,23 +1,23 @@
-import { useState, useEffect, useCallback } from "react";
-import { Modal, Button, Form, Spinner, Col, ListGroup, Container } from "react-bootstrap";
-import { toast } from "react-toastify";
-import QuizForm from "../Quiz/QuizForm";
-import MaterialForm from "../Material/MaterialForm";
-import ProblemForm from "../Problem/ProblemForm";
-import Material from "../Material";
-import Quiz from "../Quiz";
-import Problem from "../Problem";
-import api from "../../services/api";
+import { useState, useEffect, useCallback } from 'react';
+import { Modal, Button, Form, Spinner, Col, ListGroup, Container } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import QuizForm from '../Quiz/QuizForm';
+import MaterialForm from '../Material/MaterialForm';
+import ProblemForm from '../Problem/ProblemForm';
+import Material from '../Material';
+import Quiz from '../Quiz';
+import Problem from '../Problem';
+import api from '../../services/api';
 
 const ModuleForm = ({ closeModal, courseId, startId }) => {
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [number, setNumber] = useState(0);
   const [quizzes, setQuizzes] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [problems, setProblems] = useState([]);
   const [id, setId] = useState(0);
-  const [confirmAttribute, setConfirmAttribute] = useState("");
+  const [confirmAttribute, setConfirmAttribute] = useState('');
   const [confirmModal, setConfirmModal] = useState(false);
   const [openQuizForm, setOpenQuizForm] = useState(false);
   const [openMaterialForm, setOpenMaterialForm] = useState(false);
@@ -34,7 +34,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
       setQuizzes(res.data.data.quizzes);
       setProblems(res.data.data.problems);
     }).catch(() => {
-      toast.error("Falha ao carregar modulo");
+      toast.error('Falha ao carregar modulo');
       closeModal();
     });
   }, [closeModal]);
@@ -60,10 +60,10 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
     let request, op;
     if (id) {
       request = api.put(`/modules/${id}`, data);
-      op = "editado";
+      op = 'editado';
     } else {
-      request = api.post("/modules", data);
-      op = "criado";
+      request = api.post('/modules', data);
+      op = 'criado';
     }
 
     request.finally(() => {
@@ -72,14 +72,14 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
       toast.success(`Módulo ${op} com sucesso`);
       closeModal();
     }).catch(() => {
-      toast.error("Falha ao salvar módulo");
+      toast.error('Falha ao salvar módulo');
     });
   }
 
   const openAttributeForm = (attribute, value) => {
-    if(attribute === "quiz") {
+    if(attribute === 'quiz') {
       setOpenQuizForm(value);
-    } else if (attribute === "material") {
+    } else if (attribute === 'material') {
       setOpenMaterialForm(value);
     } else {
       setOpenProblemForm(value);
@@ -104,7 +104,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
       number,
       CourseId: courseId
     };
-    api.post("/modules", data).finally(() => {
+    api.post('/modules', data).finally(() => {
       setLoading(false);
     }).then((res) => {
       setId(res.data.data.id);
@@ -112,7 +112,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
       setConfirmModal(false);
       openAttributeForm(confirmAttribute, true);
     }).catch(() => {
-      toast.error("Falha ao salvar módulo");
+      toast.error('Falha ao salvar módulo');
     });
   }
 

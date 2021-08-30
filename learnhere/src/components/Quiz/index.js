@@ -8,7 +8,7 @@ const Quiz = ({ quiz, changedItem, editQuiz }) => {
     api.delete(`/quizzes/${id}`).then(() => {
       changedItem();
     }).catch(() => {
-      toast.error("Falha ao deletar quiz");
+      toast.error('Falha ao deletar quiz');
     })
   }
 
@@ -19,7 +19,7 @@ const Quiz = ({ quiz, changedItem, editQuiz }) => {
           <p className="b"> {quiz.title} </p>
         </Col>
         <Col md="6" className="tr">
-          <Button onClick={() => editQuiz("quiz", quiz.id)}> Editar </Button> {} 
+          <Button onClick={() => editQuiz('quiz', quiz.id)}> Editar </Button> {} 
           <Button variant="danger" onClick={() => {remove(quiz.id)}}> Remover </Button> 
         </Col>
       </Row>

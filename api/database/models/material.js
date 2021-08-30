@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
     number: Sequelize.INTEGER,
     ModuleId: {
       type: Sequelize.INTEGER,
-      field: "module_id"
+      field: 'module_id'
     }
   });
 

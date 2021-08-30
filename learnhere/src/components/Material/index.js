@@ -8,7 +8,7 @@ const Material = ({ material, changedItem, editMaterial }) => {
     api.delete(`/materials/${id}`).then(() => {
       changedItem();
     }).catch(() => {
-      toast.error("Falha ao deletar material");
+      toast.error('Falha ao deletar material');
     })
   }
 
@@ -19,7 +19,7 @@ const Material = ({ material, changedItem, editMaterial }) => {
           <p className="b"> {material.title} </p>
         </Col>
         <Col md="6" className="tr">
-          <Button onClick={() => editMaterial("material", material.id)}> Editar </Button> {} 
+          <Button onClick={() => editMaterial('material', material.id)}> Editar </Button> {} 
           <Button variant="danger" onClick={() => {remove(material.id)}}> Remover </Button> 
         </Col>
       </Row>
