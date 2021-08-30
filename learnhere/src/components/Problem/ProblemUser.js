@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useHistory } from 'react';
 import { Form, Button, Container, Spinner, Row, Col } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
@@ -8,7 +8,8 @@ const ProblemUser = ({ match }) => {
 
   const [details, setDetails] = useState({tests: []});
   const [answer, setAnswer] = useState('');
-  const [sending, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
+  const history = useHistory();
   const id = match.params.id;
 
   useEffect(() => {
@@ -20,8 +21,24 @@ const ProblemUser = ({ match }) => {
   }, [id])
 
   const submit = (e) => {
-    setLoading(true);
     e.preventDefault();
+    setSending(true);
+    const data = {
+      id,
+      answer
+    };
+    api.post(`/problems/${id}`, data).finally(() => {
+      setSending(false);
+    }).then((res) => {
+      if(res.data.correct) {
+        toast.success('Resposta correta');
+        history.push(`/module/${details.ModuleId}`);
+      } else {
+        toast.success('Resposta errada');
+      }
+    }).catch(() => {
+      toast.error('Falha ao enviar resposta');
+    })
   }
 
   return (
@@ -55,7 +72,6 @@ const ProblemUser = ({ match }) => {
         <p className="f4 pt4 pb2 tc b"> Sua resposta </p>
         <Form.Group controlId={"answer"} className="pb3">
           <Form.Control type="text" as="textarea" rows={10} value={answer} onChange={e => setAnswer(e.target.value)}/>
-          {/* <ReactQuill value={answer} onChange={setAnswer} formats={quillFormats} modules={quillModules}/> */}
         </Form.Group>
         {
           sending ? (

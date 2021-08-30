@@ -14,7 +14,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
 
   useEffect(() => {
     if(id) {
-      api.get(`/materials/${id}`).then((res) => {
+      api.get(`/materials/details/${id}`).then((res) => {
         setTitle(res.data.data.title);
         setContent(res.data.data.content);
         setComplementary(res.data.data.complementary);

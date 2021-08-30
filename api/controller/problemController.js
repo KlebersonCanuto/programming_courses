@@ -17,7 +17,7 @@ const getById = async (id) => {
 const getUser = async (id) => {
   try {
     const problem = await Problem.findByPk(id, {
-      attributes: ['title', 'description'],
+      attributes: ['title', 'description', 'ModuleId'],
       include: [
         { model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
       ]

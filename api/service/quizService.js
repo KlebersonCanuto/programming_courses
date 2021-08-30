@@ -20,6 +20,15 @@ const getUser = async (req, res) => {
   }
 }
 
+const submit = async (req, res) => {
+  try{
+    const id = req.params.id;
+    res.status(200).send({data: id});
+  } catch(err){
+    res.status(400).send();
+  }
+}
+
 const create = async (req, res) => {
   try{
     const quiz = await Quiz.create(req.body);
@@ -52,6 +61,7 @@ const remove = async (req, res) => {
 module.exports = {
   get,
   getUser,
+  submit,
   create,
   update,
   remove

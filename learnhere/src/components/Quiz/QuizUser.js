@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useHistory } from 'react';
 import { Form, Button, Container, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
@@ -8,7 +8,8 @@ const QuizUser = ({ match }) => {
 
   const [details, setDetails] = useState({});
   const [answer, setAnswer] = useState('');
-  const [sending, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
+  const history = useHistory();
   const id = match.params.id;
 
   useEffect(() => {
@@ -20,8 +21,24 @@ const QuizUser = ({ match }) => {
   }, [id])
 
   const submit = (e) => {
-    setLoading(true);
     e.preventDefault();
+    setSending(true);
+    const data = {
+      id,
+      answer
+    };
+    api.post(`/quizzes/${id}`, data).finally(() => {
+      setSending(false);
+    }).then((res) => {
+      if(res.data.correct) {
+        toast.success('Resposta correta');
+        history.push(`/module/${details.ModuleId}`);
+      } else {
+        toast.success('Resposta errada');
+      }
+    }).catch(() => {
+      toast.error('Falha ao enviar resposta');
+    })
   }
 
   return (

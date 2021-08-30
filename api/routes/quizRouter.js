@@ -6,6 +6,7 @@ const service = require('../service/quizService');
 const router = express.Router();
 
 router.get('/:id', service.getUser);
+router.post('/:id', authentication.checkUser, service.submit);
 router.get('/details/:id', authentication.checkAdmin, service.get);
 router.post('/', authentication.checkAdmin, service.create);
 router.put('/:id', authentication.checkAdmin, service.update);

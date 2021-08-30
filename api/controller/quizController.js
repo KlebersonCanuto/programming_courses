@@ -14,7 +14,7 @@ const getById = async (id) => {
 const getUser = async (id) => {
   try{
     const quiz = await Quiz.findByPk(id, {
-      attributes: ['title', 'question', 'number'],
+      attributes: ['title', 'question', 'number', 'ModuleId'],
     });  
     return quiz;
   } catch(err){
