@@ -1,14 +1,21 @@
-import { useState, useEffect, useHistory } from 'react';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Form, Button, Container, Spinner, Row, Col } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
+import Oracle from './Oracle';
 import Parser from 'html-react-parser';
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/theme-solarized_dark";
 
 const ProblemUser = ({ match }) => {
 
   const [details, setDetails] = useState({tests: []});
   const [answer, setAnswer] = useState('');
   const [sending, setSending] = useState(false);
+  const [open, setOpen] = useState(false);
   const history = useHistory();
   const id = match.params.id;
 
@@ -34,7 +41,7 @@ const ProblemUser = ({ match }) => {
         toast.success('Resposta correta');
         history.push(`/module/${details.ModuleId}`);
       } else {
-        toast.success('Resposta errada');
+        toast.error('Resposta errada');
       }
     }).catch(() => {
       toast.error('Falha ao enviar resposta');
@@ -48,9 +55,12 @@ const ProblemUser = ({ match }) => {
         {details.description ? Parser(details.description) : null}
       </div>
 
-      <Form className="tc" onSubmit={submit}>
-        <p className="f4 pt4 pb2 tc b"> Testes públicos </p>
-
+      <Form className="tc pb2" onSubmit={submit}>
+        <p className="f4 pt4 pb2 tc b"> 
+          Testes públicos <Button onClick={()=> setOpen(true)} variant="dark">
+            Testar com oráculo
+          </Button>
+        </p>
         {
           details.tests.map(
             (e, i) => 
@@ -58,20 +68,25 @@ const ProblemUser = ({ match }) => {
               <Col>
                 <Form.Control type="text" as="textarea" rows={3} value={e.input} disabled/>
               </Col>
-              {
-                e.output ? 
-                  <Col>
-                    <Form.Control type="text" as="textarea" rows={3} disabled value={e.output}/>
-                  </Col> 
-                : null
-              }
+              <Col>
+                <Form.Control type="text" as="textarea" rows={3} disabled value={e.output}/>
+              </Col> 
             </Form.Group>
           )
         } 
 
         <p className="f4 pt4 pb2 tc b"> Sua resposta </p>
         <Form.Group controlId={"answer"} className="pb3">
-          <Form.Control type="text" as="textarea" rows={10} value={answer} onChange={e => setAnswer(e.target.value)}/>
+          <AceEditor
+            mode="python"
+            theme="solarized_dark"
+            placeholder="Digite o código aqui"
+            onChange={v => setAnswer(v)}
+            name="answer"
+            width="auto"
+            value={answer}  
+            fontSize={14}
+          />
         </Form.Group>
         {
           sending ? (
@@ -87,7 +102,10 @@ const ProblemUser = ({ match }) => {
         <Button onClick={()=> window.open(`https://pythontutor.com/visualize.html#mode=display&code=${encodeURIComponent(answer)}`, "_blank")} variant="dark">
           Executar com Python tuthor
         </Button>
-      </Form>
+      </Form>      
+      { open ?
+        <Oracle closeModal={() => setOpen(false)} id={id}/> : null
+      }
     </Container>
   );
 };

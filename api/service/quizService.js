@@ -23,7 +23,11 @@ const getUser = async (req, res) => {
 const submit = async (req, res) => {
   try{
     const id = req.params.id;
-    res.status(200).send({data: id});
+    const answer = req.body.answer;
+    const quiz = await Quiz.getById(id);
+    const correct = quiz.answers.includes(answer);
+    // Salvar progresso
+    res.status(200).send({correct});
   } catch(err){
     res.status(400).send();
   }

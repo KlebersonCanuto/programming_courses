@@ -16,7 +16,6 @@ const getUser = async (req, res) => {
   try {
     const id = req.params.id;
     const problem = await Problem.getUser(id);
-    problem.tests = problem.tests.filter(e => e.example);
     res.status(200).send({data: problem});
   } catch (err) {
     res.status(400).send();
@@ -26,7 +25,30 @@ const getUser = async (req, res) => {
 const submit = async (req, res) => {
   try {
     const id = req.params.id;
-    res.status(200).send({data: id});
+    const answer = req.body.answer;
+    const tests = await Problem.getTests(id);
+    const correct = await TestService.compare(tests, answer);
+    // Salvar progresso
+    res.status(200).send({correct});
+  } catch (err) {
+    res.status(400).send();
+  }
+}
+
+const oracle = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const inputOnly = req.body.inputOnly;
+    const file_id = await Problem.getFileId(id);
+    if (inputOnly) {
+      const output = await TestService.getOutput(file_id, req.body.input);
+      // Salvar progresso
+      res.status(200).send({output});
+    } else {
+      const correct = await TestService.compareIO(file_id, req.body.input, req.body.output);
+      // Salvar progresso
+      res.status(200).send({correct});
+    }
   } catch (err) {
     res.status(400).send();
   }
@@ -98,6 +120,7 @@ module.exports = {
   get,
   getUser,
   submit,
+  oracle,
   create,
   update,
   remove

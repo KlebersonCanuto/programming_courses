@@ -22,8 +22,20 @@ const getUser = async (id) => {
         { model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
       ]
     });  
-    problem.tests = problem.tests.filter(e => e.example);
     return problem;
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const getTests = async (id) => {
+  try {
+    const problem = await Problem.findByPk(id, {
+      include: [
+        { model: Test, as: 'tests', attributes: ['input', 'output'] },
+      ]
+    });  
+    return problem.tests;
   } catch (err) {
     throw 400;
   }
@@ -89,6 +101,7 @@ const remove = async (id) => {
 module.exports = {
   getById,
   getUser,
+  getTests,
   getFileId,
   create,
   update,

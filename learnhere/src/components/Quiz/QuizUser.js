@@ -1,4 +1,5 @@
-import { useState, useEffect, useHistory } from 'react';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Form, Button, Container, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
@@ -34,7 +35,7 @@ const QuizUser = ({ match }) => {
         toast.success('Resposta correta');
         history.push(`/module/${details.ModuleId}`);
       } else {
-        toast.success('Resposta errada');
+        toast.error('Resposta errada');
       }
     }).catch(() => {
       toast.error('Falha ao enviar resposta');
@@ -48,7 +49,7 @@ const QuizUser = ({ match }) => {
         {details.question ? Parser(details.question) : null}
       </div>
       <p className="f4 pb2 tc b"> Sua resposta </p>
-      <Form className="tc" onSubmit={submit}>
+      <Form className="tc pb2" onSubmit={submit}>
         <Form.Group controlId={"answer"} className="pb3">
           <Form.Control type="text" value={answer} onChange={(e) => setAnswer(e.target.value)}/>
         </Form.Group>
