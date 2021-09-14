@@ -1,4 +1,5 @@
 const Material = require('../controller/materialController');
+const ProgressService = require('./progressService');
 
 const get = async (req, res) => {
   try{
@@ -13,7 +14,8 @@ const get = async (req, res) => {
 const done = async (req, res) => {
   try{
     const id = req.params.id;
-    // Salvar progresso
+    const userId = req.params.userId;
+    await ProgressService.saveMaterial(id, userId);
     res.status(200).send({data: id});
   } catch(err){
     res.status(400).send();

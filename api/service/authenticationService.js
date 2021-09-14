@@ -16,11 +16,12 @@ const checkAdmin = async (req, res, next) => {
 }
 
 const checkUser = async (req, res, next) => {
-  const id = Auth.isValid(req);
+  const id = Auth.getUser(req);
   if(!id) {
     res.status(400).send();
     return;
   }
+  req.params.userId = id;
   next();
 }
 
