@@ -19,6 +19,20 @@ const addPoints = async (UserId, points) => {
   }
 }
 
+const getPoints = async (UserId) => {
+  try {
+    const pointsUser = await PointsUser.findOne({ where: { UserId } }, {
+      attributes: ['points']
+    });
+    if (!pointsUser) {
+      return 0;
+    }
+    return pointsUser.points;
+  } catch (err) {
+    throw 400;
+  }
+}
+
 const getMaterial = async (MaterialId, UserId) => {
   try {
     const materialUser = await MaterialUser.findOne(
@@ -150,6 +164,7 @@ const saveOracle = async (ProblemId, UserId, problemUser) => {
 }
 
 module.exports = {
+  getPoints,
   getMaterial,
   saveMaterial,
   getQuiz,

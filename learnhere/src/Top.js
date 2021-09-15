@@ -27,9 +27,14 @@ const Top = () => {
           }
 
           { auth ? 
-            <Nav.Link as={Link} onClick={signOut} to="/" className="f5 white hover-light-gray">
-              Sair
-            </Nav.Link> : 
+            <>
+              <Nav.Link as={Link} to="/user" className="f5 white hover-light-gray">
+                Conta
+              </Nav.Link> 
+              <Nav.Link as={Link} onClick={signOut} to="/" className="f5 white hover-light-gray">
+                Sair
+              </Nav.Link> 
+            </> : 
             <>
               <Nav.Link as={Link} to="/login" className="f5 white hover-light-gray">
                 Entrar

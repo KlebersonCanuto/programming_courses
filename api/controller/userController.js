@@ -25,6 +25,19 @@ const create = async (args) => {
   }
 }
 
+const update = async (id, args) => {
+  try{
+    const { username } = args;
+    const user = await User.update(
+      { username },
+      { where: { id } }
+    );  
+    return user;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const getByEmail = async (email) => {
   try{
     const user = await User.findOne({ where: { email } });
@@ -48,5 +61,6 @@ const getById = async (id) => {
 module.exports = {
   getById,
   getByEmail,
-  create
+  create,
+  update
 };

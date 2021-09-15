@@ -3,6 +3,7 @@ import Home from './components/Home';
 import HomeUser from './components/Home/HomeUser';
 import HomeAdmin from './components/Home/HomeAdmin';
 import Login from './components/Login';
+import User from './components/User';
 import Register from './components/Register';
 import CourseUser from './components/Course/CourseUser';
 import ModuleUser from './components/Module/ModuleUser';
@@ -26,6 +27,7 @@ const Routes = () => {
         <Route exact path="/quiz/:id" component={QuizUser}/>
         <Route exact path="/material/:id" component={MaterialUser}/>
         <Route exact path="/problem/:id" component={ProblemUser}/>
+        <Route exact path="/user" component={User} />
         <Route exact path="/" component={HomeUser} />
       </> : <>
         <Route exact path="/" component={Home}/>

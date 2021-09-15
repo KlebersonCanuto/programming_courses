@@ -1,6 +1,15 @@
 const Progress = require('../controller/progressController');
 const Material = require('../controller/materialController');
 
+const getPoints = async (userId) => {
+  try {
+    const points = await Progress.getPoints(userId);
+    return points
+  } catch (err) {
+    throw err;
+  }
+}
+
 const saveMaterial = async (id, userId) => {
   try {
     const progress = await Progress.getMaterial(id, userId);
@@ -47,6 +56,7 @@ const saveOracle = async (id, userId) => {
 }
 
 module.exports = {
+  getPoints,
   saveMaterial,
   saveProblem,
   saveQuiz,
