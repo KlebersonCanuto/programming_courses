@@ -1,4 +1,5 @@
 const Quiz = require('../controller/quizController');
+const ProgressService = require('./progressService');
 
 const get = async (req, res) => {
   try{
@@ -23,10 +24,10 @@ const getUser = async (req, res) => {
 const submit = async (req, res) => {
   try{
     const id = req.params.id;
+    const userId = req.params.userId;
     const answer = req.body.answer;
-    const quiz = await Quiz.getById(id);
-    const correct = quiz.answers.includes(answer);
-    // Salvar progresso
+    const correct = await Quiz.checkAnswer(id, answer);
+    await ProgressService.saveQuiz(id, userId, correct);
     res.status(200).send({correct});
   } catch(err){
     res.status(400).send();

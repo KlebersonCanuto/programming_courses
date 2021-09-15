@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const CourseUser = sequelize.define('CourseUser', {
+  const ModuleUser = sequelize.define('ModuleUser', {
     conclusion: Sequelize.DECIMAL,
     conclusionMaterials: Sequelize.DECIMAL,
     conclusionQuizzes: Sequelize.DECIMAL,
@@ -8,11 +8,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       field: 'user_id'
     },
-    CourseId: {
+    ModuleId: {
       type: Sequelize.INTEGER,
-      field: 'course_id'
+      field: 'module_id'
     }
   });
 
-  return CourseUser;
+  return ModuleUser;
 }

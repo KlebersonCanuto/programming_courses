@@ -1,6 +1,7 @@
 const Problem = require('../controller/problemController');
 const FileService = require('./fileService');
 const TestService = require('./testService');
+const ProgressService = require('./progressService');
 
 const get = async (req, res) => {
   try {
@@ -25,10 +26,11 @@ const getUser = async (req, res) => {
 const submit = async (req, res) => {
   try {
     const id = req.params.id;
+    const userId = req.params.userId;
     const answer = req.body.answer;
     const tests = await Problem.getTests(id);
     const correct = await TestService.compare(tests, answer);
-    // Salvar progresso
+    await ProgressService.saveProblem(id, userId, correct);
     res.status(200).send({correct});
   } catch (err) {
     res.status(400).send();
@@ -38,15 +40,16 @@ const submit = async (req, res) => {
 const oracle = async (req, res) => {
   try {
     const id = req.params.id;
+    const userId = req.params.userId;
     const inputOnly = req.body.inputOnly;
     const file_id = await Problem.getFileId(id);
     if (inputOnly) {
       const output = await TestService.getOutput(file_id, req.body.input);
-      // Salvar progresso
+      await ProgressService.saveOracle(id, userId);
       res.status(200).send({output});
     } else {
       const correct = await TestService.compareIO(file_id, req.body.input, req.body.output);
-      // Salvar progresso
+      await ProgressService.saveOracle(id, userId);
       res.status(200).send({correct});
     }
   } catch (err) {

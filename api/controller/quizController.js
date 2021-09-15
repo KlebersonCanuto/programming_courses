@@ -70,10 +70,23 @@ const remove = async (id) => {
   }
 }
 
+const checkAnswer = async (id, answer) => {
+  try{
+    const quiz = await Quiz.findByPk(id, {
+      attributes: ['id', 'answers'],
+    });  
+    const correct = quiz.answers.includes(answer);
+    return correct;
+  } catch(err){
+    throw 400;
+  }
+}
+
 module.exports = {
   getById,
   getUser,
   create,
   update,
-  remove
+  remove,
+  checkAnswer
 };

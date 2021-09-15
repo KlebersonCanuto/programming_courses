@@ -13,18 +13,42 @@ const saveMaterial = async (id, userId) => {
   }
 }
 
-const saveQuiz = async (id, userId) => {
-  const material = await Progress.getMaterial(userId, id);
-  res.status(200).send({data: material});
+const saveQuiz = async (id, userId, done) => {
+  try {
+    const progress = await Progress.getQuiz(id, userId);
+    if (!progress || !progress.done) {
+      await Progress.saveQuiz(id, userId, progress, done);
+    }
+  } catch (err) {
+    throw err;
+  }
 }
 
-const saveProblem = async (id, userId) => {
-  const material = await Progress.getMaterial(userId, id);
-  res.status(200).send({data: material});
+const saveProblem = async (id, userId, done) => {
+  try {
+    const progress = await Progress.getProblem(id, userId);
+    if (!progress || !progress.done) {
+      await Progress.saveProblem(id, userId, progress, done);
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+const saveOracle = async (id, userId) => {
+  try {
+    const progress = await Progress.getProblem(id, userId);
+    if (!progress || !progress.done) {
+      await Progress.saveOracle(id, userId, progress);
+    }
+  } catch (err) {
+    throw err;
+  }
 }
 
 module.exports = {
   saveMaterial,
   saveProblem,
-  saveQuiz
+  saveQuiz,
+  saveOracle
 };

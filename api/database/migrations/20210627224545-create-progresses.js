@@ -237,7 +237,7 @@ module.exports = {
     await queryInterface.dropTable('MaterialUsers');
     await queryInterface.dropTable('QuizUsers');
     await queryInterface.dropTable('ProblemUsers');
-    await queryInterface.dropTable('CourseUsers');
+    await queryInterface.dropTable('ModuleUsers');
     await queryInterface.dropTable('PointsUsers');
   }
 };
