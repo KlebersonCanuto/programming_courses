@@ -17,6 +17,9 @@ const Top = () => {
           <Nav.Link as={Link} to="/" className="f5 b white hover-light-gray">
             Inicio
           </Nav.Link>
+          <Nav.Link as={Link} to="/rank" className="f5 white hover-light-gray">
+            Ranking
+          </Nav.Link>
         </Nav>
 
         <Nav>

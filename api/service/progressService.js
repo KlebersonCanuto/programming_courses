@@ -55,10 +55,20 @@ const saveOracle = async (id, userId) => {
   }
 }
 
+const ranking = async () => {
+  try{
+    const rank = await Progress.ranking();
+    return rank;
+  } catch(err){
+    throw err;
+  }
+}
+
 module.exports = {
   getPoints,
   saveMaterial,
   saveProblem,
   saveQuiz,
-  saveOracle
+  saveOracle,
+  ranking
 };

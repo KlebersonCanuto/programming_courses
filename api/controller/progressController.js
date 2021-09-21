@@ -163,6 +163,17 @@ const saveOracle = async (ProblemId, UserId, problemUser) => {
   }
 }
 
+const ranking = async () => {
+  try{
+    const user = await PointsUser.findAll({
+      include: {association: 'user'}
+    });
+    return user;
+  } catch(err){
+    throw 400;
+  }
+}
+
 module.exports = {
   getPoints,
   getMaterial,
@@ -171,5 +182,6 @@ module.exports = {
   saveQuiz,
   getProblem,
   saveProblem,
-  saveOracle
+  saveOracle,
+  ranking
 };
