@@ -45,11 +45,11 @@ const oracle = async (req, res) => {
     const file_id = await Problem.getFileId(id);
     if (inputOnly) {
       const output = await TestService.getOutput(file_id, req.body.input);
-      await ProgressService.saveOracle(id, userId);
+      await ProgressService.saveOracle(id, userId, inputOnly);
       res.status(200).send({output});
     } else {
       const correct = await TestService.compareIO(file_id, req.body.input, req.body.output);
-      await ProgressService.saveOracle(id, userId);
+      await ProgressService.saveOracle(id, userId, inputOnly);
       res.status(200).send({correct});
     }
   } catch (err) {

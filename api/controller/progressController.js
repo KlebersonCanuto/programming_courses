@@ -143,7 +143,7 @@ const saveProblem = async (ProblemId, UserId, problemUser, done) => {
   }
 }
 
-const saveOracle = async (ProblemId, UserId, problemUser) => {
+const saveOracle = async (ProblemId, UserId, problemUser, inputOnly) => {
   try {
     if (!problemUser) {
       await ProblemUser.create({
@@ -153,6 +153,9 @@ const saveOracle = async (ProblemId, UserId, problemUser) => {
         attempts: 0,
         oracle: true
       }); 
+      if (!inputOnly) {
+        await addPoints(UserId, 2);
+      }
     } else {
       await ProblemUser.update({
         oracle: true

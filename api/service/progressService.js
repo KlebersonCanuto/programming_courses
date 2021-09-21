@@ -44,11 +44,11 @@ const saveProblem = async (id, userId, done) => {
   }
 }
 
-const saveOracle = async (id, userId) => {
+const saveOracle = async (id, userId, inputOnly) => {
   try {
     const progress = await Progress.getProblem(id, userId);
     if (!progress || !progress.done) {
-      await Progress.saveOracle(id, userId, progress);
+      await Progress.saveOracle(id, userId, progress, inputOnly);
     }
   } catch (err) {
     throw err;

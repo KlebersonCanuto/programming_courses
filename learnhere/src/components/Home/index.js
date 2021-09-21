@@ -1,12 +1,43 @@
+import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
+import api from '../../services/api';
 
 const Home = () => {
+
+  const [courses, setCourses] = useState([]);
+
+  const getCourses = () => {
+    api.get('/courses').then(res => {
+      setCourses(res.data.data);
+    });
+  }
+
+  useEffect(() => {
+    getCourses();
+  }, []);
+
 
   return (
     <Container>
       <p className="tc f3 b">Seja bem-vindo!</p>
-      <p className="f4">Entre ou cadastre-se para aproveitar o LearnHere, aqui você pode aprender e praticar programação com quizzes, juíz de software ou console com sistema de debug que pode ser acessado de forma livre!</p>
-      <p className="f4">LISTAGEM DE CURSOS</p>
+      <p className="f4" align="justify">
+        Aproveite o LearnHere, aprenda e pratique programação com quizzes e juíz de 
+        software, que oferece um sistema de oráculo para validar se seu pensamento 
+        está correto ou não e uma forma de debugar seu código entender melhor como ele 
+        está sendo executado, além de um sistema de pontuação. No momento é possivel 
+        aprender e praticar apenas a linguagem Python.
+      </p>
+
+      <p className="f4">
+        Cursos disponíveis:
+      </p>
+      {
+        courses.map(e => 
+          <li className="f5">
+            {e.name}
+          </li>
+        )
+      }
     </Container>
   );
 };
