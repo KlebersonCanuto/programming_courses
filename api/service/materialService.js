@@ -22,19 +22,52 @@ const done = async (req, res) => {
   }
 }
 
+const validateCreate = (body) => {
+  const { title, content, complementary, ModuleId } = body;
+  if (!title) {
+    throw 400;
+  }
+  if (!content) {
+    throw 400;
+  }
+  if (complementary !== false && complementary !== true) {
+    throw 400;
+  }
+  if (!ModuleId) {
+    throw 400;
+  }
+}
+
 const create = async (req, res) => {
   try{
-    const material = await Material.create(req.body);
+    const body = req.body;
+    validateCreate(body);
+    const material = await Material.create(body);
     res.status(200).send({data: material});
   } catch(err){
     res.status(400).send();
   }
 }
 
+const validateUpdate = (body) => {
+  const { title, content, complementary } = body;
+  if (!title) {
+    throw 400;
+  }
+  if (!content) {
+    throw 400;
+  }
+  if (complementary !== false && complementary !== true) {
+    throw 400;
+  }
+}
+
 const update = async (req, res) => {
   try{
     const id = req.params.id;
-    const material = await Material.update(id, req.body);
+    const body = req.body;
+    validateUpdate(body);
+    const material = await Material.update(id, body);
     res.status(200).send({data: material});
   } catch(err){
     res.status(400).send();

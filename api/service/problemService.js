@@ -23,11 +23,20 @@ const getUser = async (req, res) => {
   }
 }
 
+const validateSubmit = (body) => {
+  const { answer } = body;
+  if (!answer) {
+    throw 400;
+  }
+}
+
 const submit = async (req, res) => {
   try {
     const id = req.params.id;
     const userId = req.params.userId;
-    const answer = req.body.answer;
+    const body = req.body;
+    validateSubmit(body);
+    const answer = body.answer;
     const tests = await Problem.getTests(id);
     const correct = await TestService.compare(tests, answer);
     await ProgressService.saveProblem(id, userId, correct);
@@ -37,18 +46,33 @@ const submit = async (req, res) => {
   }
 }
 
+const validateOracle = (body) => {
+  const { inputOnly, input, output } = body;
+  if (inputOnly !== false && inputOnly !== true) {
+    throw 400;
+  }
+  if (!input) {
+    throw 400;
+  }
+  if (!inputOnly && !output) {
+    throw 400;
+  }
+}
+
 const oracle = async (req, res) => {
   try {
     const id = req.params.id;
     const userId = req.params.userId;
-    const inputOnly = req.body.inputOnly;
+    const body = req.body;
+    validateOracle(body);
+    const inputOnly = body.inputOnly;
     const file_id = await Problem.getFileId(id);
     if (inputOnly) {
-      const output = await TestService.getOutput(file_id, req.body.input);
+      const output = await TestService.getOutput(file_id, body.input);
       await ProgressService.saveOracle(id, userId, inputOnly);
       res.status(200).send({output});
     } else {
-      const correct = await TestService.compareIO(file_id, req.body.input, req.body.output);
+      const correct = await TestService.compareIO(file_id, body.input, body.output);
       await ProgressService.saveOracle(id, userId, inputOnly);
       res.status(200).send({correct});
     }
@@ -57,11 +81,32 @@ const oracle = async (req, res) => {
   }
 }
 
+const validateCreate = (body, file) => {
+  const { title, description, tests, ModuleId } = body;
+  if (!title) {
+    throw 400;
+  }
+  if (!description) {
+    throw 400;
+  }
+  if (!ModuleId) {
+    throw 400;
+  }
+  if (!file) {
+    throw 400;
+  }
+  if (!tests || !tests.length) {
+    throw 400;
+  }
+}
+
 const create = async (req, res) => {
   try {
-    const file_id = await FileService.uploadFile(req.file);
-    const problem = await Problem.create(req.body, file_id);
-    const parsedTests = JSON.parse(req.body.tests);
+    const { file, body } = req;
+    validateCreate(body, file);
+    const file_id = await FileService.uploadFile(file);
+    const problem = await Problem.create(body, file_id);
+    const parsedTests = JSON.parse(body.tests);
     const tests = parsedTests.map(e => {
       e.ProblemId = problem.id;
       return e;
@@ -78,13 +123,28 @@ const create = async (req, res) => {
   }
 }
 
+const validateUpdate = (body) => {
+  const { title, description, tests } = body;
+  if (!title) {
+    throw 400;
+  }
+  if (!description) {
+    throw 400;
+  }
+  if (!tests || !tests.length) {
+    throw 400;
+  }
+}
+
 const update = async (req, res) => {
   try {
     const id = req.params.id;
-    let parsedTests = JSON.parse(req.body.tests);
+    const { file, body } = req;
+    validateUpdate(body);
+    let parsedTests = JSON.parse(body.tests);
     let file_id;
-    if (req.file) {
-      file_id = await FileService.uploadFile(req.file);
+    if (file) {
+      file_id = await FileService.uploadFile(file);
       parsedTests = parsedTests.map(e => {
         e.output = null;
         return e;
@@ -98,7 +158,7 @@ const update = async (req, res) => {
     const testsId = tests.map(e => e.id);
     let problem;
     try {
-      problem = await Problem.update(id, req.body, file_id);
+      problem = await Problem.update(id, body, file_id);
     } catch (err) {
       await TestService.deleteMany(testsId);
       throw err;

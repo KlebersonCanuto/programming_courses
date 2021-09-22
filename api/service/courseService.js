@@ -19,9 +19,18 @@ const get = async (req, res) => {
   }
 }
 
+const validateCourse = (body) => {
+  const { name } = body;
+  if (!name) {
+    throw 400;
+  }
+}
+
 const create = async (req, res) => {
   try{
-    const course = await Course.create(req.body);
+    const body = req.body;
+    validateCourse(body);
+    const course = await Course.create(body);
     res.status(200).send({data: course});
   } catch(err){
     res.status(400).send();
@@ -31,7 +40,9 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try{
     const id = req.params.id;
-    const course = await Course.update(id, req.body);
+    const body = req.body;
+    validateCourse(body);
+    const course = await Course.update(id, body);
     res.status(200).send({data: course});
   } catch(err){
     res.status(400).send();

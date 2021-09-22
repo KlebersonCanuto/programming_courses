@@ -21,11 +21,20 @@ const getUser = async (req, res) => {
   }
 }
 
+const validateSubmit = (body) => {
+  const { answer } = body;
+  if (!answer) {
+    throw 400;
+  }
+}
+
 const submit = async (req, res) => {
   try{
     const id = req.params.id;
     const userId = req.params.userId;
-    const answer = req.body.answer;
+    const body = req.body;
+    validateSubmit(body);
+    const answer = body.answer;
     const correct = await Quiz.checkAnswer(id, answer);
     await ProgressService.saveQuiz(id, userId, correct);
     res.status(200).send({correct});
@@ -34,19 +43,53 @@ const submit = async (req, res) => {
   }
 }
 
+const validateCreate = (body) => {
+  const { title, question, answers, ModuleId } = body;
+  if (!title) {
+    throw 400;
+  }
+  if (!question) {
+    throw 400;
+  }
+  if (!answers || !answers.length) {
+    throw 400;
+  }
+  if (!ModuleId) {
+    throw 400;
+  }
+}
+
 const create = async (req, res) => {
   try{
-    const quiz = await Quiz.create(req.body);
+    const body = req.body;
+    validateCreate(body);
+    const quiz = await Quiz.create(body);
     res.status(200).send({data: quiz});
   } catch(err){
     res.status(400).send();
   }
 }
 
+const validateUpdate = (body) => {
+  const { title, question, answers } = body;
+  if (!title) {
+    throw 400;
+  }
+  if (!question) {
+    throw 400;
+  }
+  if (!answers || !answers.length) {
+    throw 400;
+  }
+}
+
+
 const update = async (req, res) => {
   try{
     const id = req.params.id;
-    const quiz = await Quiz.update(id, req.body);
+    const body = req.body;
+    validateUpdate(body);
+    const quiz = await Quiz.update(id, body);
     res.status(200).send({data: quiz});
   } catch(err){
     res.status(400).send();

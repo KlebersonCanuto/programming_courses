@@ -12,19 +12,46 @@ const get = async (req, res) => {
   }
 }
 
+const validateCreate = (body) => {
+  const { username, password, confirmPassword, email } = body;
+  if (!username) {
+    throw 400;
+  }
+  if (!password) {
+    throw 400;
+  }
+  if (!confirmPassword) {
+    throw 400;
+  }
+  if (!email) {
+    throw 400;
+  }
+}
+
 const create = async (req, res) => {
   try{
-    const user = await User.create(req.body);
+    const body = req.body;
+    validateCreate(body);
+    const user = await User.create(body);
     res.status(200).send({data: user});
   } catch(err){
     res.status(400).send();
   }
 }
 
+const validateUpdate = (body) => {
+  const { username } = body;
+  if (!username) {
+    throw 400;
+  }
+}
+
 const update = async (req, res) => {
   try{
     const userId = req.params.userId;
-    const user = await User.update(userId, req.body);
+    const body = req.body;
+    validateUpdate(body);
+    const user = await User.update(userId, body);
     res.status(200).send({data: user});
   } catch(err){
     res.status(400).send();

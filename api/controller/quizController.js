@@ -41,7 +41,7 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, question, hint, number, answers, ModuleId } = args;
+    const { title, question, hint, number, answers } = args;
     const quiz = await Quiz.update(
       {       
         title, 
@@ -49,7 +49,6 @@ const update = async (id, args) => {
         hint, 
         number, 
         answers,
-        ModuleId 
       },
       { where: { id } }
     );  

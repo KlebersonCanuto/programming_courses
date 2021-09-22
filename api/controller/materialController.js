@@ -29,14 +29,13 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, content, complementary, number, ModuleId } = args;
+    const { title, content, complementary, number } = args;
     const material = await Material.update(
       {       
         title, 
         content, 
         complementary, 
-        number, 
-        ModuleId 
+        number
       },
       { where: { id } }
     );  
