@@ -2,7 +2,11 @@ const { PythonShell } = require('python-shell');
 const fs = require('fs');
 
 const deleteFile = (filePath) => {
-  fs.unlinkSync(filePath)
+  try {
+    fs.unlinkSync(filePath);
+  } catch {
+    return;
+  }
 }
 
 const execShell = (code, tests) => {
@@ -65,6 +69,7 @@ const compare = (code, tests) => {
         if (finished === tests.length) {
           deleteFile(filePath);
           resolve(finished === correct);
+          return;
         }
       });
     });  
