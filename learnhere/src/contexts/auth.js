@@ -6,6 +6,12 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
 
+  const logout = () => {
+    setUser(null);
+    api.defaults.headers.common['Authorization'] = null;
+    localStorage.clear();
+  }
+
   useEffect(() => {
     const storagedAdmin = localStorage.getItem('admin');
     const storagedToken = localStorage.getItem('token');
@@ -15,6 +21,12 @@ export const AuthProvider = ({ children }) => {
         auth: Boolean(storagedToken)
       });
       api.defaults.headers.common['Authorization'] = storagedToken;
+      api.get('/login').then((res) => {
+        const valid = res.data.valid;
+        if (!valid) {
+          logout();
+        }
+      })
     }
   }, []);
 
@@ -25,12 +37,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('admin', response.data.admin);
     api.defaults.headers.common['Authorization'] = response.data.token;
-  }
-
-  const logout = () => {
-    setUser(null);
-    api.defaults.headers.common['Authorization'] = null;
-    localStorage.clear();
   }
 
   return (
