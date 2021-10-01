@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   PointsUser.associate = (models) => {
-    PointsUser.hasOne(models.User, { as: 'user', foreignKey: 'id' });
+    PointsUser.hasOne(models.User, { sourceKey: 'UserId', as: 'user', foreignKey: 'id' });
   }
 
   return PointsUser;
