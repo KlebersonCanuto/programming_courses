@@ -14,6 +14,17 @@ const getById = async (id) => {
   }
 }
 
+const getByModule = async (ModuleId) => {
+  try{
+    const problems = await Problem.findAll({ where: { ModuleId } }, {
+      attributes: ['id']
+    });  
+    return problems;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const getUser = async (id) => {
   try {
     const problem = await Problem.findByPk(id, {
@@ -103,6 +114,7 @@ module.exports = {
   getUser,
   getTests,
   getFileId,
+  getByModule,
   create,
   update,
   remove

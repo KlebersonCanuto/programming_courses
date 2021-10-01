@@ -1,4 +1,8 @@
-const { MaterialUser, PointsUser, ProblemUser, QuizUser, Sequelize } = require('../database/models');
+const { MaterialUser, PointsUser, ProblemUser, QuizUser, ModuleUser, CourseUser, Sequelize } = require('../database/models');
+const Quiz = require('./quizController');
+const Problem = require('./problemController');
+const Material = require('./materialController');
+const Module = require('./moduleController');
 
 const addPoints = async (UserId, points) => {
   try {
@@ -14,6 +18,154 @@ const addPoints = async (UserId, points) => {
       }, { where: { id: pointsUser.id }})
     }
     return;
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const checkCourseComplete = async (UserId, CourseId) => {
+  try {
+    const courseUser = await CourseUser.findOne({ where: { UserId, CourseId } }, {
+      attributes: ['conclusion', 'CourseId', 'UserId']
+    });
+    const modules = await Module.getByCourse(CourseId);
+    const total = modules.length;
+
+    let id;
+    let conclude = false;
+    let conclusion = false;
+    if (!courseUser) {
+      conclusion = 1;
+      conclude = total === conclusion;
+      const mu = await CourseUser.create({CourseId, UserId, conclusion, conclude});
+      id = mu.id;
+    } else {
+      id = courseUser.id;
+      conclusion = courseUser.conclusion + 1;
+      conclude = total === conclusion;
+      await CourseUser.update({CourseId, UserId, conclusionMaterials, conclude}, {where: {id}});
+    }
+
+    if (conclude) {
+      await addPoints(UserId, 10);
+    }
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const checkModuleComplete = async (id) => {
+  try {
+    const moduleUser = await ModuleUser.findByPk(id, {
+      attributes: ['conclusionMaterials', 'concludeMaterials', 'ModuleId', 'UserId',
+      'conclusionQuizzes', 'concludeQuizzes', 'conclusionProblems', 'concludeProblems']
+    });
+    const UserId = moduleUser.UserId;
+    const module = await Module.getById(moduleUser.ModuleId);
+    const CourseId = module.CourseId;
+    if (moduleUser.conclusionMaterials === module.materials.filter(e => !e.complementary).length &&
+    moduleUser.conclusionQuizzes === module.quizzes.length && moduleUser.conclusionProblems === module.problems.length) {
+      await ModuleUser.update({concludeProblems: true, concludeMaterials: true, concludeQuizzes: true}, {where: {id}});
+      await checkCourseComplete(UserId, CourseId);
+      await addPoints(UserId, 3);
+    }
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const materialModuleProgress = async (ModuleId, UserId) => {
+  try {
+    const materials = await Material.getNotComplementary(ModuleId);
+    const moduleUser = await ModuleUser.findOne({ where: { ModuleId, UserId } }, {
+      attributes: ['conclusionMaterials', 'id']
+    });
+    const total = materials.length;
+    let id;
+    let concludeMaterials = false;
+    let conclusionMaterials = false;
+    if (!moduleUser) {
+      conclusionMaterials = 1;
+      concludeMaterials = total === conclusionMaterials;
+      const mu = await ModuleUser.create({ModuleId, UserId, conclusionMaterials, concludeMaterials});
+      id = mu.id;
+    } else {
+      id = moduleUser.id;
+      conclusionMaterials = moduleUser.conclusionMaterials + 1;
+      concludeMaterials = total === conclusionMaterials;
+      await ModuleUser.update({ModuleId, UserId, conclusionMaterials, concludeMaterials}, {where: {id}});
+    }
+    
+    if (concludeMaterials) {
+      await checkModuleComplete(id);
+      await addPoints(UserId, 1);
+    }
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const quizModuleProgress = async (QuizId, UserId) => {
+  try {
+    const quiz = await Quiz.getById(QuizId);
+    const ModuleId = quiz.ModuleId;
+    const quizzes = await Quiz.getByModule(ModuleId);
+    const moduleUser = await ModuleUser.findOne({ where: { ModuleId, UserId } }, {
+      attributes: ['conclusionQuizzes', 'id']
+    });
+    const total = quizzes.length;
+    let id;
+    let concludeQuizzes = false;
+    let conclusionQuizzes = false;
+    if (!moduleUser) {
+      conclusionQuizzes = 1;
+      concludeQuizzes = total === conclusionQuizzes;
+      const mu = await ModuleUser.create({ModuleId, UserId, conclusionQuizzes, concludeQuizzes});
+      id = mu.id;
+    } else {
+      id = moduleUser.id;
+      conclusionQuizzes = moduleUser.conclusionQuizzes + 1;
+      concludeQuizzes = total === conclusionQuizzes;
+      await ModuleUser.update({ModuleId, UserId, conclusionQuizzes, concludeQuizzes}, {where: {id}});
+    }
+    
+    if (concludeQuizzes) {
+      await checkModuleComplete(id);
+      await addPoints(UserId, 2);
+    }
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const problemModuleProgress = async (ProblemId, UserId) => {
+  try {
+    const problem = await Problem.getById(ProblemId);
+    const ModuleId = problem.ModuleId;
+    const problems = await Problem.getByModule(ModuleId);
+    const moduleUser = await ModuleUser.findOne({ where: { ModuleId, UserId } }, {
+      attributes: ['conclusionProblems', 'id']
+    });
+    const total = problems.length;
+    let id;
+    let concludeProblems = false;
+    let conclusionProblems = false;
+    if (!moduleUser) {
+      conclusionProblems = 1;
+      concludeProblems = total === conclusionProblems;
+      const mu = await ModuleUser.create({ModuleId, UserId, conclusionProblems, concludeProblems});
+      id = mu.id;
+    } else {
+      id = moduleUser.id;
+      conclusionProblems = moduleUser.conclusionProblems + 1;
+      concludeProblems = total === conclusionProblems;
+      await ModuleUser.update({ModuleId, UserId, conclusionProblems, concludeProblems}, {where: {id}});
+    }
+    
+    if (concludeProblems) {
+      await checkModuleComplete(id);
+      await addPoints(UserId, 2);
+    }
   } catch (err) {
     throw 400;
   }
@@ -45,17 +197,17 @@ const getMaterial = async (MaterialId, UserId) => {
   }
 }
 
-const saveMaterial = async (MaterialId, UserId, complementary) => {
+const saveMaterial = async (UserId, material) => {
   try {
     await MaterialUser.create({
       read: true, 
-      MaterialId,
+      MaterialId: material.id,
       UserId
     }); 
 
     await addPoints(UserId, 1);
-    if (!complementary) {
-      // save module progress
+    if (!material.complementary) {
+      await materialModuleProgress(material.ModuleId, UserId);
     }
   } catch (err) {
     throw 400;
@@ -95,7 +247,7 @@ const saveQuiz = async (QuizId, UserId, quizUser, done) => {
 
     if (done) {
       await addPoints(UserId, Math.max(6-attempts, 3));
-      // save module progress
+      await quizModuleProgress(QuizId, UserId);
     }
   } catch (err) {
     throw 400;
@@ -136,7 +288,7 @@ const saveProblem = async (ProblemId, UserId, problemUser, done) => {
 
     if (done) {
       await addPoints(UserId, Math.max(11-attempts, 5));
-      // save module progress
+      await problemModuleProgress(ProblemId, UserId);
     }
   } catch (err) {
     throw 400;

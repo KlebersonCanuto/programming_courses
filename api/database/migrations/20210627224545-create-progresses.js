@@ -166,23 +166,33 @@ module.exports = {
           as: 'module',
         }
       },
-      conclusion: {
-        type: Sequelize.DECIMAL(10,2),
+      concludeMaterials: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: 0
+        defaultValue: false
+      },
+      concludeQuizzes: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
+      concludeProblems: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       conclusionMaterials: {
-        type: Sequelize.DECIMAL(10,2),
+        type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0
       },
       conclusionQuizzes: {
-        type: Sequelize.DECIMAL(10,2),
+        type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0
       },
       conclusionProblems: {
-        type: Sequelize.DECIMAL(10,2),
+        type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0
       },

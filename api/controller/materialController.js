@@ -11,6 +11,17 @@ const getById = async (id) => {
   }
 }
 
+const getNotComplementary = async (ModuleId) => {
+  try{
+    const materials = await Material.findAll({ where: { ModuleId } }, {
+      attributes: ['id']
+    });  
+    return materials;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const create = async (args) => {
   try{
     const { title, content, complementary, number, ModuleId } = args;
@@ -58,6 +69,7 @@ const remove = async (id) => {
 
 module.exports = {
   getById,
+  getNotComplementary,
   create,
   update,
   remove

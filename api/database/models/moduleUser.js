@@ -1,9 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
   const ModuleUser = sequelize.define('ModuleUser', {
-    conclusion: Sequelize.DECIMAL,
-    conclusionMaterials: Sequelize.DECIMAL,
-    conclusionQuizzes: Sequelize.DECIMAL,
-    conclusionProblems: Sequelize.DECIMAL,
+    concludeMaterials: Sequelize.BOOLEAN,
+    concludeQuizzes: Sequelize.BOOLEAN,
+    concludeProblems: Sequelize.BOOLEAN,
+    conclusionMaterials: Sequelize.INTEGER,
+    conclusionQuizzes: Sequelize.INTEGER,
+    conclusionProblems: Sequelize.INTEGER,
     UserId: {
       type: Sequelize.INTEGER,
       field: 'user_id'

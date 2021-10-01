@@ -22,6 +22,17 @@ const getUser = async (id) => {
   }
 }
 
+const getByModule = async (ModuleId) => {
+  try{
+    const quizzes = await Quiz.findAll({ where: { ModuleId } }, {
+      attributes: ['id']
+    });  
+    return quizzes;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const create = async (args) => {
   try{
     const { title, question, hint, number, answers, ModuleId } = args;
@@ -84,6 +95,7 @@ const checkAnswer = async (id, answer) => {
 module.exports = {
   getById,
   getUser,
+  getByModule,
   create,
   update,
   remove,

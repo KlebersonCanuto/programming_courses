@@ -16,6 +16,17 @@ const getById = async (id) => {
   }
 }
 
+const getByCourse = async (CourseId) => {
+  try{
+    const modules = await Module.findAll({ where: { CourseId } }, {
+      attributes: ['id']
+    });  
+    return modules;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const create = async (args) => {
   try{
     const { name, number, CourseId } = args;
@@ -59,6 +70,7 @@ const remove = async (id) => {
 
 module.exports = {
   getById,
+  getByCourse,
   create,
   update,
   remove

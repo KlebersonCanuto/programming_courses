@@ -15,7 +15,7 @@ const saveMaterial = async (id, userId) => {
     const progress = await Progress.getMaterial(id, userId);
     if (!progress) {
       const material = await Material.getById(id);
-      await Progress.saveMaterial(id, userId, material.complementary);
+      await Progress.saveMaterial(userId, material);
     }
   } catch (err) {
     throw err;
