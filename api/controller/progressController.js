@@ -25,8 +25,9 @@ const addPoints = async (UserId, points) => {
 
 const checkCourseComplete = async (UserId, CourseId) => {
   try {
-    const courseUser = await CourseUser.findOne({ where: { UserId, CourseId } }, {
-      attributes: ['conclusion', 'CourseId', 'UserId']
+    const courseUser = await CourseUser.findOne({ 
+      where: { UserId, CourseId },
+      attributes: ['id', 'conclusion', 'CourseId', 'UserId']
     });
     const modules = await Module.getByCourse(CourseId);
     const total = modules.length;
@@ -43,7 +44,7 @@ const checkCourseComplete = async (UserId, CourseId) => {
       id = courseUser.id;
       conclusion = courseUser.conclusion + 1;
       conclude = total === conclusion;
-      await CourseUser.update({CourseId, UserId, conclusionMaterials, conclude}, {where: {id}});
+      await CourseUser.update({CourseId, UserId, conclusion, conclude}, {where: {id}});
     }
 
     if (conclude) {
@@ -77,7 +78,8 @@ const checkModuleComplete = async (id) => {
 const materialModuleProgress = async (ModuleId, UserId) => {
   try {
     const materials = await Material.getNotComplementary(ModuleId);
-    const moduleUser = await ModuleUser.findOne({ where: { ModuleId, UserId } }, {
+    const moduleUser = await ModuleUser.findOne({ 
+      where: { ModuleId, UserId },
       attributes: ['conclusionMaterials', 'id']
     });
     const total = materials.length;
@@ -110,7 +112,8 @@ const quizModuleProgress = async (QuizId, UserId) => {
     const quiz = await Quiz.getById(QuizId);
     const ModuleId = quiz.ModuleId;
     const quizzes = await Quiz.getByModule(ModuleId);
-    const moduleUser = await ModuleUser.findOne({ where: { ModuleId, UserId } }, {
+    const moduleUser = await ModuleUser.findOne({ 
+      where: { ModuleId, UserId },
       attributes: ['conclusionQuizzes', 'id']
     });
     const total = quizzes.length;
@@ -143,7 +146,8 @@ const problemModuleProgress = async (ProblemId, UserId) => {
     const problem = await Problem.getById(ProblemId);
     const ModuleId = problem.ModuleId;
     const problems = await Problem.getByModule(ModuleId);
-    const moduleUser = await ModuleUser.findOne({ where: { ModuleId, UserId } }, {
+    const moduleUser = await ModuleUser.findOne({ 
+      where: { ModuleId, UserId },
       attributes: ['conclusionProblems', 'id']
     });
     const total = problems.length;
@@ -173,7 +177,8 @@ const problemModuleProgress = async (ProblemId, UserId) => {
 
 const getPoints = async (UserId) => {
   try {
-    const pointsUser = await PointsUser.findOne({ where: { UserId } }, {
+    const pointsUser = await PointsUser.findOne({ 
+      where: { UserId },
       attributes: ['points']
     });
     if (!pointsUser) {
@@ -187,8 +192,8 @@ const getPoints = async (UserId) => {
 
 const getMaterial = async (MaterialId, UserId) => {
   try {
-    const materialUser = await MaterialUser.findOne(
-      { where: { UserId, MaterialId }}, {
+    const materialUser = await MaterialUser.findOne({ 
+      where: { UserId, MaterialId },
       attributes: ['done', 'oracle', 'attempts']
     });  
     return materialUser;
@@ -216,11 +221,29 @@ const saveMaterial = async (UserId, material) => {
 
 const getQuiz = async (QuizId, UserId) => {
   try {
-    const quizUser = await QuizUser.findOne(
-      { where: { UserId, QuizId }}, {
+    const quizUser = await QuizUser.findOne({ 
+      where: { UserId, QuizId },
       attributes: ['done', 'attempts']
     });  
     return quizUser;
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const getDoneQuizzes = async (ModuleId, UserId) => {
+  try {
+    const doneQuizzes = await QuizUser.findAll({ 
+      where: { 
+        UserId,  
+        QuizId: {
+          [Sequelize.Op.in]: Sequelize.literal(`(SELECT id FROM Quizzes WHERE module_id = ${ModuleId})`)
+        },
+        done: true
+      },
+      attributes: ['id']
+    });
+    return doneQuizzes;
   } catch (err) {
     throw 400;
   }
@@ -256,8 +279,8 @@ const saveQuiz = async (QuizId, UserId, quizUser, done) => {
 
 const getProblem = async (ProblemId, UserId) => {
   try {
-    const problemUser = await ProblemUser.findOne(
-      { where: { UserId, ProblemId }}, {
+    const problemUser = await ProblemUser.findOne({ 
+      where: { UserId, ProblemId },
       attributes: ['done', 'attempts', 'oracle']
     });  
     return problemUser;
@@ -321,7 +344,7 @@ const saveOracle = async (ProblemId, UserId, problemUser, inputOnly) => {
 const ranking = async () => {
   try{
     const user = await PointsUser.findAll({
-      include: {association: 'user'}
+      include: { association: 'user' }
     });
     return user;
   } catch(err){
@@ -332,6 +355,7 @@ const ranking = async () => {
 module.exports = {
   getPoints,
   getMaterial,
+  getDoneQuizzes,
   saveMaterial,
   getQuiz,
   saveQuiz,

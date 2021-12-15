@@ -18,7 +18,8 @@ const getById = async (id) => {
 
 const getByCourse = async (CourseId) => {
   try{
-    const modules = await Module.findAll({ where: { CourseId } }, {
+    const modules = await Module.findAll({ 
+      where: { CourseId }, 
       attributes: ['id']
     });  
     return modules;

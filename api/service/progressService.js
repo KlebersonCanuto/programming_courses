@@ -10,6 +10,15 @@ const getPoints = async (userId) => {
   }
 }
 
+const getDoneQuizzes = async (ModuleId, UserId) => {
+  try {
+    const doneQuizzes = await Progress.getDoneQuizzes(ModuleId, UserId);
+    return doneQuizzes
+  } catch (err) {
+    throw err;
+  }
+}
+
 const saveMaterial = async (id, userId) => {
   try {
     const progress = await Progress.getMaterial(id, userId);
@@ -66,6 +75,7 @@ const ranking = async () => {
 
 module.exports = {
   getPoints,
+  getDoneQuizzes,
   saveMaterial,
   saveProblem,
   saveQuiz,

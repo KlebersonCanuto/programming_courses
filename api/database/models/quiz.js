@@ -8,7 +8,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     question: {
       type: Sequelize.STRING,
-
+      validate: {
+        notEmpty: true
+      },
     },
     hint: Sequelize.STRING,
     number: Sequelize.INTEGER,

@@ -16,8 +16,9 @@ const getById = async (id) => {
 
 const getByModule = async (ModuleId) => {
   try{
-    const problems = await Problem.findAll({ where: { ModuleId } }, {
-      attributes: ['id']
+    const problems = await Problem.findAll({ 
+      where: { ModuleId },
+      attributes: ['id'] 
     });  
     return problems;
   } catch(err){

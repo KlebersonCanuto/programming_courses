@@ -5,7 +5,7 @@ const service = require('../service/moduleService');
 
 const router = express.Router();
 
-router.get('/:id', service.get);
+router.get('/:id', authentication.checkUser, service.get);
 router.post('/', authentication.checkAdmin, service.create);
 router.put('/:id', authentication.checkAdmin, service.update);
 router.delete('/:id', authentication.checkAdmin, service.remove);

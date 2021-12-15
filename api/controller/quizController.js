@@ -24,7 +24,8 @@ const getUser = async (id) => {
 
 const getByModule = async (ModuleId) => {
   try{
-    const quizzes = await Quiz.findAll({ where: { ModuleId } }, {
+    const quizzes = await Quiz.findAll({ 
+      where: { ModuleId },
       attributes: ['id']
     });  
     return quizzes;

@@ -1,10 +1,25 @@
 const Module = require('../controller/moduleController');
+const ProgressService = require('./progressService');
 
 const get = async (req, res) => {
   try{
     const id = req.params.id;
     const module = await Module.getById(id);
-    res.status(200).send({data: module});
+    const doneQuizzes = await ProgressService.getDoneQuizzes(id, req.params.userId)
+    const doneQuizzesIds = doneQuizzes.map(e => e.id);
+    const quizzes = module.quizzes.map(quiz => {
+      return {
+        ...quiz.dataValues,
+        done: doneQuizzesIds.includes(quiz.id)
+      }
+    })
+    const response = {
+      name: module.name,
+      materials: module.materials,
+      quizzes,
+      problems: module.problems,
+    }
+    res.status(200).send({data: response});
   } catch(err){
     res.status(400).send();
   }

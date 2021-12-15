@@ -13,8 +13,9 @@ const getById = async (id) => {
 
 const getNotComplementary = async (ModuleId) => {
   try{
-    const materials = await Material.findAll({ where: { ModuleId } }, {
-      attributes: ['id']
+    const materials = await Material.findAll({ 
+      where: { ModuleId }, 
+      attributes: ['id'] 
     });  
     return materials;
   } catch(err){
