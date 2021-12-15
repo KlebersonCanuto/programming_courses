@@ -28,6 +28,7 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
 
   return {
     name: module.name,
+    done: module.done,
     materials,
     quizzes,
     problems,
