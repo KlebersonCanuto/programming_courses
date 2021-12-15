@@ -249,6 +249,42 @@ const getDoneQuizzes = async (ModuleId, UserId) => {
   }
 }
 
+const getDoneMaterials = async (ModuleId, UserId) => {
+  try {
+    const doneMaterials = await MaterialUser.findAll({ 
+      where: { 
+        UserId,  
+        MaterialId: {
+          [Sequelize.Op.in]: Sequelize.literal(`(SELECT id FROM Materials WHERE module_id = ${ModuleId})`)
+        },
+        read: true
+      },
+      attributes: ['id']
+    });
+    return doneMaterials;
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const getDoneProblems = async (ModuleId, UserId) => {
+  try {
+    const doneProblems = await ProblemUser.findAll({ 
+      where: { 
+        UserId,  
+        ProblemId: {
+          [Sequelize.Op.in]: Sequelize.literal(`(SELECT id FROM Problems WHERE module_id = ${ModuleId})`)
+        },
+        done: true
+      },
+      attributes: ['id']
+    });
+    return doneProblems;
+  } catch (err) {
+    throw 400;
+  }
+}
+
 const saveQuiz = async (QuizId, UserId, quizUser, done) => {
   try {
     let attempts;
@@ -356,6 +392,8 @@ module.exports = {
   getPoints,
   getMaterial,
   getDoneQuizzes,
+  getDoneMaterials,
+  getDoneProblems,
   saveMaterial,
   getQuiz,
   saveQuiz,

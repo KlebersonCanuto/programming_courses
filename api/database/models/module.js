@@ -10,6 +10,9 @@ module.exports = (sequelize, Sequelize) => {
     CourseId: {
       type: Sequelize.INTEGER,
       field: 'course_id'
+    },
+    done: {
+      type: Sequelize.VIRTUAL
     }
   });
 
