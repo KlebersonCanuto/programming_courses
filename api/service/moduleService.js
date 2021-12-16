@@ -2,7 +2,7 @@ const Module = require('../controller/moduleController');
 const ProgressService = require('./progressService');
 
 const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) => {
-  const doneQuizzesId = doneQuizzes.map(e => e.id);
+  const doneQuizzesId = doneQuizzes.map(e => e.QuizId);
   const quizzes = module.quizzes.map(quiz => {
     return {
       ...quiz.dataValues,
@@ -10,7 +10,7 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
     }
   });
 
-  const doneMaterialsId = doneMaterials.map(e => e.id);
+  const doneMaterialsId = doneMaterials.map(e => e.MaterialId);
   const materials = module.materials.map(material => {
     return {
       ...material.dataValues,
@@ -18,7 +18,7 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
     }
   });
 
-  const doneProblemsIs = doneProblems.map(e => e.id);
+  const doneProblemsIs = doneProblems.map(e => e.ProblemId);
   const problems = module.problems.map(problem => {
     return {
       ...problem.dataValues,

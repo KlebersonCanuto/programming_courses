@@ -194,7 +194,7 @@ const getMaterial = async (MaterialId, UserId) => {
   try {
     const materialUser = await MaterialUser.findOne({ 
       where: { UserId, MaterialId },
-      attributes: ['done', 'oracle', 'attempts']
+      attributes: ['done']
     });  
     return materialUser;
   } catch (err) {
@@ -215,6 +215,7 @@ const saveMaterial = async (UserId, material) => {
       await materialModuleProgress(material.ModuleId, UserId);
     }
   } catch (err) {
+    console.log(err)
     throw 400;
   }
 }
@@ -241,7 +242,7 @@ const getDoneQuizzes = async (ModuleId, UserId) => {
         },
         done: true
       },
-      attributes: ['id']
+      attributes: ['id', 'QuizId']
     });
     return doneQuizzes;
   } catch (err) {
@@ -259,7 +260,7 @@ const getDoneMaterials = async (ModuleId, UserId) => {
         },
         done: true
       },
-      attributes: ['id']
+      attributes: ['id', 'MaterialId']
     });
     return doneMaterials;
   } catch (err) {
@@ -277,7 +278,7 @@ const getDoneProblems = async (ModuleId, UserId) => {
         },
         done: true
       },
-      attributes: ['id']
+      attributes: ['id', 'ProblemId']
     });
     return doneProblems;
   } catch (err) {
