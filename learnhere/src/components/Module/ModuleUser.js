@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Row, ListGroup, Container } from 'react-bootstrap';
+import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify';
 import QuizCard from '../Quiz/QuizCard';
 import MaterialCard from '../Material/MaterialCard';
@@ -13,6 +14,7 @@ const ModuleUser = ({ match }) => {
 
   useEffect(() => {
     api.get(`/modules/${id}`).then((res) => {
+      console.log(res.data.data)
       setDetails(res.data.data);
     }).catch(() => {
       toast.error('Falha ao obter detalhes do módulo');
@@ -21,7 +23,7 @@ const ModuleUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Módulo: </span> {details.name} </p>
+      <p className="f4 pb2 tc"> <span className="b"> Módulo: </span> {details.name} { details.done ?  <BsCheckCircleFill className="green" title="Concluído"/> : null } </p>
 
       <ListGroup className="pt3">
         <ListGroup.Item className="tc" active> Questões </ListGroup.Item>

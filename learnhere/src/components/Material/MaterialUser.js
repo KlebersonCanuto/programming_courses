@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
+import { BsCheckCircleFill } from 'react-icons/bs'
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 import Parser from 'html-react-parser';
@@ -30,7 +31,7 @@ const MaterialUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Título: </span> {details.title} </p>
+      <p className="f4 pb2 tc"> <span className="b"> Título: </span> {details.title} { details.done ?  <BsCheckCircleFill className="green" title="Concluído"/> : null } </p>
       <div>
         {details.content ? Parser(details.content) : null}
       </div>
