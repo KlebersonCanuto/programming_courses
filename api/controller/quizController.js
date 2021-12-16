@@ -1,4 +1,4 @@
-const { Quiz, Answer } = require('../database/models');
+const { Quiz, Sequelize } = require('../database/models');
 
 const getById = async (id) => {
   try{
@@ -11,10 +11,24 @@ const getById = async (id) => {
   }
 }
 
-const getUser = async (id) => {
+const getUser = async (id, userId) => {
   try{
     const quiz = await Quiz.findByPk(id, {
-      attributes: ['title', 'question', 'number', 'ModuleId'],
+      attributes: {
+        include: [
+          Sequelize.literal(`(
+            SELECT COUNT(*) > 0
+            FROM QuizUsers
+            WHERE
+                quiz_id = ${id}
+                AND
+                user_id = ${userId}
+                AND
+                done = true 
+          ) AS done`)
+        ],
+        exclude: ['answers', 'hint', 'createdAt', 'updatedAt']
+      }
     });  
     return quiz;
   } catch(err){

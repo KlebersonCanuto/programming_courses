@@ -1,4 +1,4 @@
-const { Problem, Test } = require('../database/models');
+const { Problem, Test, Sequelize } = require('../database/models');
 
 const getById = async (id) => {
   try {
@@ -26,10 +26,24 @@ const getByModule = async (ModuleId) => {
   }
 }
 
-const getUser = async (id) => {
+const getUser = async (id, userId) => {
   try {
     const problem = await Problem.findByPk(id, {
-      attributes: ['title', 'description', 'ModuleId'],
+      attributes: {
+        include: [
+          Sequelize.literal(`(
+            SELECT COUNT(*) > 0
+            FROM ProblemUsers
+            WHERE
+                problem_id = ${id}
+                AND
+                user_id = ${userId}
+                AND
+                done=true 
+          ) AS done`)
+        ],
+        exclude: ['file_id', 'createdAt', 'updatedAt']
+      },
       include: [
         { model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
       ]

@@ -11,6 +11,17 @@ const get = async (req, res) => {
   }
 }
 
+const getUser = async (req, res) => {
+  try{
+    const id = req.params.id;
+    const userId = req.params.userId;
+    const material = await Material.getUser(id, userId);
+    res.status(200).send({data: material});
+  } catch(err){
+    res.status(400).send();
+  }
+}
+
 const done = async (req, res) => {
   try{
     const id = req.params.id;
@@ -86,6 +97,7 @@ const remove = async (req, res) => {
 
 module.exports = {
   get,
+  getUser,
   done,
   create,
   update,

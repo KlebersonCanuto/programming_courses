@@ -25,7 +25,7 @@ module.exports = {
           as: 'material',
         }
       },
-      read: {
+      done: {
         allowNull: false,
 				type: Sequelize.BOOLEAN,
         defaultValue: false

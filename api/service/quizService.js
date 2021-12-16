@@ -14,7 +14,8 @@ const get = async (req, res) => {
 const getUser = async (req, res) => {
   try{
     const id = req.params.id;
-    const quiz = await Quiz.getUser(id);
+    const userId = req.params.userId;
+    const quiz = await Quiz.getUser(id, userId);
     res.status(200).send({data: quiz});
   } catch(err){
     res.status(400).send();

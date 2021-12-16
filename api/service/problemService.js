@@ -16,7 +16,8 @@ const get = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     const id = req.params.id;
-    const problem = await Problem.getUser(id);
+    const userId = req.params.userId;
+    const problem = await Problem.getUser(id, userId);
     res.status(200).send({data: problem});
   } catch (err) {
     res.status(400).send();

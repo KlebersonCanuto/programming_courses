@@ -17,6 +17,9 @@ module.exports = (sequelize, Sequelize) => {
     ModuleId: {
       type: Sequelize.INTEGER,
       field: 'module_id'
+    },
+    done: {
+      type: Sequelize.VIRTUAL
     }
   });
 

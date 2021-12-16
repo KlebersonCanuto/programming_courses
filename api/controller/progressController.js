@@ -205,7 +205,7 @@ const getMaterial = async (MaterialId, UserId) => {
 const saveMaterial = async (UserId, material) => {
   try {
     await MaterialUser.create({
-      read: true, 
+      done: true, 
       MaterialId: material.id,
       UserId
     }); 
@@ -257,7 +257,7 @@ const getDoneMaterials = async (ModuleId, UserId) => {
         MaterialId: {
           [Sequelize.Op.in]: Sequelize.literal(`(SELECT id FROM Materials WHERE module_id = ${ModuleId})`)
         },
-        read: true
+        done: true
       },
       attributes: ['id']
     });

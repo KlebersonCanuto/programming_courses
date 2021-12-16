@@ -1,4 +1,4 @@
-const { Material } = require('../database/models');
+const { Material, Sequelize } = require('../database/models');
 
 const getById = async (id) => {
   try{
@@ -7,6 +7,33 @@ const getById = async (id) => {
     });  
     return material;
   } catch(err){
+    throw 400;
+  }
+}
+
+const getUser = async (id, userId) => {
+  try{
+    const quiz = await Material.findByPk(id, {
+      attributes: {
+        include: [
+          'id', 'title', 'content', 'complementary', 'number', 'ModuleId',
+          Sequelize.literal(`(
+            SELECT COUNT(*) > 0
+            FROM MaterialUsers
+            WHERE
+                material_id = ${id}
+                AND
+                user_id = ${userId}
+                AND
+                done = true
+          ) AS done`)
+        ],
+        exclude: ['createdAt', 'updatedAt']
+      }
+    });  
+    return quiz;
+  } catch(err){
+    console.log(err)
     throw 400;
   }
 }
@@ -70,6 +97,7 @@ const remove = async (id) => {
 
 module.exports = {
   getById,
+  getUser,
   getNotComplementary,
   create,
   update,
