@@ -6,7 +6,7 @@ const service = require('../service/courseService');
 const router = express.Router();
 
 router.get('/', service.getAll);
-router.get('/:id', service.get);
+router.get('/:id', authentication.checkUser, service.getUser);
 router.post('/', authentication.checkAdmin, service.create);
 router.put('/:id', authentication.checkAdmin, service.update);
 router.delete('/:id', authentication.checkAdmin, service.remove);

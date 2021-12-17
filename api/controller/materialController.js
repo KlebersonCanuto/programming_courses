@@ -33,7 +33,6 @@ const getUser = async (id, userId) => {
     });  
     return quiz;
   } catch(err){
-    console.log(err)
     throw 400;
   }
 }

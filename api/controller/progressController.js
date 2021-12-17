@@ -215,7 +215,6 @@ const saveMaterial = async (UserId, material) => {
       await materialModuleProgress(material.ModuleId, UserId);
     }
   } catch (err) {
-    console.log(err)
     throw 400;
   }
 }
@@ -227,6 +226,26 @@ const getQuiz = async (QuizId, UserId) => {
       attributes: ['done', 'attempts']
     });  
     return quizUser;
+  } catch (err) {
+    throw 400;
+  }
+}
+
+const getDoneModules = async (CourseId, UserId) => {
+  try {
+    const doneQuizzes = await ModuleUser.findAll({ 
+      where: { 
+        UserId,  
+        ModuleId: {
+          [Sequelize.Op.in]: Sequelize.literal(`(SELECT id FROM Modules WHERE course_id = ${CourseId})`)
+        },
+        concludeMaterials: true,
+        concludeQuizzes: true,
+        concludeProblems: true
+      },
+      attributes: ['id', 'ModuleId']
+    });
+    return doneQuizzes;
   } catch (err) {
     throw 400;
   }
@@ -392,6 +411,7 @@ const ranking = async () => {
 module.exports = {
   getPoints,
   getMaterial,
+  getDoneModules,
   getDoneQuizzes,
   getDoneMaterials,
   getDoneProblems,

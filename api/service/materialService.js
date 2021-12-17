@@ -13,8 +13,7 @@ const get = async (req, res) => {
 
 const getUser = async (req, res) => {
   try{
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     const material = await Material.getUser(id, userId);
     res.status(200).send({data: material});
   } catch(err){
@@ -24,8 +23,7 @@ const getUser = async (req, res) => {
 
 const done = async (req, res) => {
   try{
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     await ProgressService.saveMaterial(id, userId);
     res.status(200).send({data: id});
   } catch(err){

@@ -24,11 +24,11 @@ const getByIdAndUser = async (id, userId) => {
           'id', 'name', 'number', 'CourseId',
           Sequelize.literal(`(
               SELECT COUNT(*) > 0
-              FROM ModuleUsers AS mu
+              FROM ModuleUsers
               WHERE
-                  mu.module_id = ${id}
+                  module_id = ${id}
                   AND
-                  mu.user_id = ${userId}
+                  user_id = ${userId}
                   AND
                   concludeQuizzes=true 
                   AND

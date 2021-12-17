@@ -37,8 +37,7 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
 
 const getUser = async (req, res) => {
   try{
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     const module = await Module.getByIdAndUser(id, userId);
     const doneQuizzes = await ProgressService.getDoneQuizzes(id, userId);
     const doneMaterials = await ProgressService.getDoneMaterials(id, userId);

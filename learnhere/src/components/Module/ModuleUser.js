@@ -14,7 +14,6 @@ const ModuleUser = ({ match }) => {
 
   useEffect(() => {
     api.get(`/modules/${id}`).then((res) => {
-      console.log(res.data.data)
       setDetails(res.data.data);
     }).catch(() => {
       toast.error('Falha ao obter detalhes do módulo');

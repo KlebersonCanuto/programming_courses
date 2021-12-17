@@ -1,4 +1,4 @@
-const { Course, Module } = require('../database/models');
+const { Course, Module, Sequelize } = require('../database/models');
 
 const getAll = async () => {
   try{
@@ -12,10 +12,24 @@ const getAll = async () => {
 }
 
 
-const getById = async (id) => {
+const getUser = async (id, userId) => {
   try{
     const course = await Course.findByPk(id, {
-      attributes: ["id", "name"],
+      attributes: {
+        include: [
+          Sequelize.literal(`(
+            SELECT COUNT(*) > 0
+            FROM CourseUsers
+            WHERE
+                course_id = ${id}
+                AND
+                user_id = ${userId}
+                AND
+                conclude=true 
+          ) AS done`)
+        ],
+        exclude: ['createdAt', 'updatedAt']
+      },
       include: [
         { model: Module, as: "modules", attributes: ["id", "name", "number"]}
       ]
@@ -64,7 +78,7 @@ const remove = async (id) => {
 
 module.exports = {
   getAll,
-  getById,
+  getUser,
   create,
   update,
   remove

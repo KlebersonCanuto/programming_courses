@@ -15,8 +15,7 @@ const get = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     const problem = await Problem.getUser(id, userId);
     res.status(200).send({data: problem});
   } catch (err) {
@@ -33,8 +32,7 @@ const validateSubmit = (body) => {
 
 const submit = async (req, res) => {
   try {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     const body = req.body;
     validateSubmit(body);
     const answer = body.answer;
@@ -62,8 +60,7 @@ const validateOracle = (body) => {
 
 const oracle = async (req, res) => {
   try {
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     const body = req.body;
     validateOracle(body);
     const inputOnly = body.inputOnly;

@@ -13,8 +13,7 @@ const get = async (req, res) => {
 
 const getUser = async (req, res) => {
   try{
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     const quiz = await Quiz.getUser(id, userId);
     res.status(200).send({data: quiz});
   } catch(err){
@@ -31,8 +30,7 @@ const validateSubmit = (body) => {
 
 const submit = async (req, res) => {
   try{
-    const id = req.params.id;
-    const userId = req.params.userId;
+    const { id, userId } = req.params;
     const body = req.body;
     validateSubmit(body);
     const answer = body.answer;

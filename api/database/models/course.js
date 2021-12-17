@@ -5,6 +5,9 @@ module.exports = (sequelize, Sequelize) => {
       validate: {
         notEmpty: true
       }
+    },
+    done: {
+      type: Sequelize.VIRTUAL
     }
   });
 
