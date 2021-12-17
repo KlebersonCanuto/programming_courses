@@ -1,9 +1,10 @@
 const Course = require('../controller/courseController');
 const ProgressService = require('./progressService');
 
-const getAll = async (_, res) => {
+const getAllUser = async (req, res) => {
   try{
-    const courses = await Course.getAll();
+    const userId = req.params.userId;
+    const courses = await Course.getAllUser(userId);
     res.status(200).send({data: courses});
   } catch(err){
     res.status(400).send();
@@ -79,7 +80,7 @@ const remove = async (req, res) => {
 }
 
 module.exports = {
-  getAll,
+  getAllUser,
   getUser,
   create,
   update,
