@@ -1,5 +1,16 @@
 const { Course, Module, Sequelize } = require('../database/models');
 
+const getAll = async () => {
+  try{
+    const course = await Course.findAll({
+      attributes: ['id', 'name']
+    });  
+    return course;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const getAllUser = async (userId) => {
   try{
     const course = await Course.findAll({
@@ -91,6 +102,7 @@ const remove = async (id) => {
 }
 
 module.exports = {
+  getAll,
   getAllUser,
   getUser,
   create,

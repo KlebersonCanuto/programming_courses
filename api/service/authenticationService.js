@@ -25,7 +25,17 @@ const checkUser = async (req, res, next) => {
   next();
 }
 
+const getUser = async (req, _, next) => {
+  const id = Auth.getUser(req);
+  if(id) {
+    req.params.userId = id;
+  }
+
+  next();
+}
+
 module.exports = {
   checkAdmin,
-  checkUser
+  checkUser,
+  getUser
 };

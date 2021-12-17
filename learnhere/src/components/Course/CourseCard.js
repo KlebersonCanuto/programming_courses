@@ -1,5 +1,6 @@
 import { Card, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { BsCheckCircleFill } from 'react-icons/bs';
 
 const CourseCard = ({ course }) => {
 
@@ -9,7 +10,7 @@ const CourseCard = ({ course }) => {
         <Card className="dim">
           <Card.Body>
             <Card.Text className="f4 tc black">
-              {course.name}
+              {course.name} { course.done ?  <BsCheckCircleFill className="green" title="Concluído"/> : null }
             </Card.Text>
           </Card.Body>
         </Card>
