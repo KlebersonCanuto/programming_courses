@@ -9,7 +9,7 @@ const upload = multer({
   dest: './tmp/',
 });
 
-router.get('/:id', authentication.checkUser, service.getUser);
+router.get('/:id', authentication.getUser, service.getUser);
 router.post('/:id', authentication.checkUser, service.submit);
 router.post('/oracle/:id', authentication.checkUser, service.oracle);
 router.get('/details/:id', authentication.checkAdmin, service.get);

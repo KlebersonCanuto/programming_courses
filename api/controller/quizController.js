@@ -36,6 +36,17 @@ const getUser = async (id, userId) => {
   }
 }
 
+const getWithoutAnswers = async (id) => {
+  try {
+    const quiz = await Quiz.findByPk(id, {
+      attributes: ['id', 'title', 'question', 'number', 'ModuleId'],
+    });  
+    return quiz;
+  } catch (err) {
+    throw 400;
+  }
+}
+
 const getByModule = async (ModuleId) => {
   try{
     const quizzes = await Quiz.findAll({ 
@@ -110,6 +121,7 @@ const checkAnswer = async (id, answer) => {
 module.exports = {
   getById,
   getUser,
+  getWithoutAnswers,
   getByModule,
   create,
   update,

@@ -54,6 +54,20 @@ const getUser = async (id, userId) => {
   }
 }
 
+const getWithoutTests = async (id) => {
+  try {
+    const problem = await Problem.findByPk(id, {
+      attributes: ['id', 'title', 'description', 'ModuleId'],
+      include: [
+        { model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
+      ]
+    });  
+    return problem;
+  } catch (err) {
+    throw 400;
+  }
+}
+
 const getTests = async (id) => {
   try {
     const problem = await Problem.findByPk(id, {
@@ -128,6 +142,7 @@ module.exports = {
   getById,
   getUser,
   getTests,
+  getWithoutTests,
   getFileId,
   getByModule,
   create,

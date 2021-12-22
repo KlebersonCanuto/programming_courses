@@ -5,7 +5,7 @@ const service = require('../service/materialService');
 
 const router = express.Router();
 
-router.get('/:id', authentication.checkUser, service.getUser);
+router.get('/:id', authentication.getUser, service.getUser);
 router.get('/details/:id', authentication.checkAdmin, service.get);
 router.post('/:id', authentication.checkUser, service.done);
 router.post('/', authentication.checkAdmin, service.create);

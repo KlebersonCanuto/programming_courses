@@ -14,7 +14,12 @@ const get = async (req, res) => {
 const getUser = async (req, res) => {
   try{
     const { id, userId } = req.params;
-    const quiz = await Quiz.getUser(id, userId);
+    let quiz;
+    if (userId) {
+      quiz = await Quiz.getUser(id, userId);
+    } else {
+      quiz = await Quiz.getWithoutAnswers(id);
+    }
     res.status(200).send({data: quiz});
   } catch(err){
     res.status(400).send();

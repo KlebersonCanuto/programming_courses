@@ -14,7 +14,12 @@ const get = async (req, res) => {
 const getUser = async (req, res) => {
   try{
     const { id, userId } = req.params;
-    const material = await Material.getUser(id, userId);
+    let material;
+    if (userId) {
+      material = await Material.getUser(id, userId);
+    } else {
+      material = await Material.getById(id);;
+    }
     res.status(200).send({data: material});
   } catch(err){
     res.status(400).send();

@@ -38,11 +38,16 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
 const getUser = async (req, res) => {
   try{
     const { id, userId } = req.params;
-    const module = await Module.getByIdAndUser(id, userId);
-    const doneQuizzes = await ProgressService.getDoneQuizzes(id, userId);
-    const doneMaterials = await ProgressService.getDoneMaterials(id, userId);
-    const doneProblems = await ProgressService.getDoneProblems(id, userId);
-    const response = generateResponseGet(module, doneQuizzes, doneMaterials, doneProblems);
+    let response;
+    if (userId) {
+      const module = await Module.getByIdAndUser(id, userId);
+      const doneQuizzes = await ProgressService.getDoneQuizzes(id, userId);
+      const doneMaterials = await ProgressService.getDoneMaterials(id, userId);
+      const doneProblems = await ProgressService.getDoneProblems(id, userId);
+      response = generateResponseGet(module, doneQuizzes, doneMaterials, doneProblems);
+    } else {
+      response = await Module.getById(id);
+    }
     res.status(200).send({data: response});
   } catch(err){
     res.status(400).send();
