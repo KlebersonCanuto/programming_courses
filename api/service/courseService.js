@@ -85,10 +85,21 @@ const remove = async (req, res) => {
   }
 }
 
+const lock = async (req, res) => {
+  try{
+    const id = req.params.id;
+    await Course.lock(id);
+    res.status(200).send();
+  } catch(err){
+    res.status(400).send();
+  }
+}
+
 module.exports = {
   getAll,
   getUser,
   create,
   update,
-  remove
+  remove,
+  lock
 };

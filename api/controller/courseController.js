@@ -101,11 +101,24 @@ const remove = async (id) => {
   }
 }
 
+const lock = async (id) => {
+  try{
+    const course = await Course.update(
+      { locked: true },
+      { where: { id } }
+    );  
+    return course;
+  } catch(err){
+    throw 400;
+  }
+}
+
 module.exports = {
   getAll,
   getAllUser,
   getUser,
   create,
   update,
-  remove
+  remove,
+  lock
 };
