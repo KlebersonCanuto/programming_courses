@@ -8,11 +8,19 @@ const getAll = async (req, res) => {
     if (userId) {
       courses = await Course.getAllUser(userId);
     } else {
-      courses = await Course.getAll(userId);
+      courses = await Course.getAllLocked(userId);
     }
     res.status(200).send({data: courses});
   } catch(err){
-    console.log(err)
+    res.status(400).send();
+  }
+}
+
+const getAllAdmin = async (_, res) => {
+  try{
+    const courses = await Course.getAll(userId);
+    res.status(200).send({data: courses});
+  } catch(err){
     res.status(400).send();
   }
 }
@@ -97,6 +105,7 @@ const lock = async (req, res) => {
 
 module.exports = {
   getAll,
+  getAllAdmin,
   getUser,
   create,
   update,

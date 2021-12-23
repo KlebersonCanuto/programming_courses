@@ -2,10 +2,22 @@ const { Course, Module, Sequelize } = require('../database/models');
 
 const getAll = async () => {
   try{
-    const course = await Course.findAll({
-      attributes: ['id', 'name']
+    const courses = await Course.findAll({
+      attributes: ['id', 'name', 'locked']
     });  
-    return course;
+    return courses;
+  } catch(err){
+    throw 400;
+  }
+}
+
+const getAllLocked = async () => {
+  try{
+    const courses = await Course.findAll({
+      attributes: ['id', 'name'],
+      where: { locked: true }
+    });  
+    return courses;
   } catch(err){
     throw 400;
   }
@@ -13,7 +25,8 @@ const getAll = async () => {
 
 const getAllUser = async (userId) => {
   try{
-    const course = await Course.findAll({
+    const courses = await Course.findAll({
+      where: { locked: true },
       attributes: {
         include: [
           Sequelize.literal(`(
@@ -30,7 +43,7 @@ const getAllUser = async (userId) => {
       exclude: ['createdAt', 'updatedAt'],
       },
     });  
-    return course;
+    return courses;
   } catch(err){
     throw 400;
   }
@@ -39,7 +52,8 @@ const getAllUser = async (userId) => {
 
 const getUser = async (id, userId) => {
   try{
-    const course = await Course.findByPk(id, {
+    const course = await Course.findOne({
+      where: { locked: true, id },
       attributes: {
         include: [
           Sequelize.literal(`(
@@ -61,6 +75,7 @@ const getUser = async (id, userId) => {
     });  
     return course;
   } catch(err){
+    console.log(err)
     throw 400;
   }
 }
@@ -115,6 +130,7 @@ const lock = async (id) => {
 
 module.exports = {
   getAll,
+  getAllLocked,
   getAllUser,
   getUser,
   create,
