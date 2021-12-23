@@ -40,7 +40,7 @@ const getUser = async (id, userId) => {
 const getNotComplementary = async (ModuleId) => {
   try{
     const materials = await Material.findAll({ 
-      where: { ModuleId }, 
+      where: { ModuleId, complementary: false }, 
       attributes: ['id'] 
     });  
     return materials;
