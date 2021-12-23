@@ -91,6 +91,17 @@ const saveOracle = async (id, userId, inputOnly) => {
   }
 }
 
+const saveHint = async (id, userId) => {
+  try {
+    const progress = await Progress.getQuiz(id, userId);
+    if (!progress || !progress.done) {
+      await Progress.saveHint(id, userId, progress);
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
 const ranking = async () => {
   try{
     const rank = await Progress.ranking();
@@ -110,5 +121,6 @@ module.exports = {
   saveProblem,
   saveQuiz,
   saveOracle,
+  saveHint,
   ranking
 };

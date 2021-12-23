@@ -87,7 +87,6 @@ const validateUpdate = (body) => {
   }
 }
 
-
 const update = async (req, res) => {
   try{
     const id = req.params.id;
@@ -110,9 +109,21 @@ const remove = async (req, res) => {
   }
 }
 
+const hint = async (req, res) => {
+  try {
+    const { id, userId } = req.params;
+    const hint = await Quiz.getHint(id);
+    await ProgressService.saveHint(id, userId);
+    res.status(200).send({output});
+  } catch (err) {
+    res.status(400).send();
+  }
+}
+
 module.exports = {
   get,
   getUser,
+  hint,
   submit,
   create,
   update,

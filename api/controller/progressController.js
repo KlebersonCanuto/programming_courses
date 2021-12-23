@@ -397,6 +397,28 @@ const saveOracle = async (ProblemId, UserId, problemUser, inputOnly) => {
   }
 }
 
+const saveHint = async (QuizId, UserId, quizUser) => {
+  try {
+    if (!quizUser) {
+      await QuizUser.create({
+        QuizId,
+        UserId,
+        done: false,
+        attempts: 0,
+        hint: true
+      }); 
+    } else {
+      attempts = quizUser.attempts + 1;
+      await QuizUser.update({
+        hint: true,
+        attempts
+      }, { where: { UserId, QuizId }})
+    }
+  } catch (err) {
+    throw 400;
+  }
+}
+
 const ranking = async () => {
   try{
     const user = await PointsUser.findAll({
@@ -421,5 +443,6 @@ module.exports = {
   getProblem,
   saveProblem,
   saveOracle,
+  saveHint,
   ranking
 };
