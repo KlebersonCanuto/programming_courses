@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Row, ListGroup, Container } from 'react-bootstrap';
-import { BsCheckCircleFill } from 'react-icons/bs';
+import { BsFillPatchCheckFill } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import ModuleCard from '../Module/ModuleCard';
 import api from '../../services/api';
@@ -20,7 +20,7 @@ const CourseUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Curso: </span> {details.name} { details.done ?  <BsCheckCircleFill className="green" title="Concluído"/> : null } </p>
+      <p className="f4 pb2 tc"> <span className="b"> Curso: </span> {details.name} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
 
       <ListGroup className="pt3">
         <ListGroup.Item className="tc" active> Módulos </ListGroup.Item>

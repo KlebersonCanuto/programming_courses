@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Button, Container, Spinner } from 'react-bootstrap';
-import { BsCheckCircleFill } from 'react-icons/bs'
+import { BsFillPatchCheckFill } from 'react-icons/bs'
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 import Parser from 'html-react-parser';
@@ -45,7 +45,7 @@ const QuizUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Questão: </span> {details.title} { details.done ?  <BsCheckCircleFill className="green" title="Concluído"/> : null } </p> 
+      <p className="f4 pb2 tc"> <span className="b"> Questão: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p> 
       <div>
         {details.question ? Parser(details.question) : null}
       </div>

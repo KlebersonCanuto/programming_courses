@@ -1,6 +1,6 @@
 import { Card, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { BsCheckCircleFill } from 'react-icons/bs';
+import { BsFillPatchCheckFill } from 'react-icons/bs';
 
 const ProblemCard = ({ problem }) => {
   
@@ -10,7 +10,7 @@ const ProblemCard = ({ problem }) => {
         <Card className="dim">
           <Card.Body>
             <Card.Text className="f4 tc black">
-              {problem.title} { problem.done ?  <BsCheckCircleFill className="green" title="Concluído"/> : null }
+              {problem.title} { problem.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null }
             </Card.Text>
           </Card.Body>
         </Card>
