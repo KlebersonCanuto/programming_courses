@@ -8,7 +8,8 @@ module.exports = (sequelize, Sequelize) => {
     },
     done: {
       type: Sequelize.VIRTUAL
-    }
+    },
+    locked: Sequelize.BOOLEAN,
   });
 
   Course.associate = (models) => {

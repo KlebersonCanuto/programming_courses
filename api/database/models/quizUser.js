@@ -9,7 +9,8 @@ module.exports = (sequelize, Sequelize) => {
     QuizId: {
       type: Sequelize.INTEGER,
       field: 'quiz_id'
-    }
+    },
+    hint: Sequelize.BOOLEAN,
   });
 
   return QuizUser;
