@@ -104,7 +104,7 @@ const CourseDetails = ({ course, updatedItem }) => {
         <ListGroup.Item variant="dark">Módulos</ListGroup.Item>
         { 
           details.modules.map(e =>
-            <Module key={"modulekey"+e.id} module={e} changedItem={changedModule} editModule={editModule}/>
+            <Module key={"modulekey"+e.id} module={e} changedItem={changedModule} editModule={editModule} locked={course.locked}/>
           )
         }
         {

@@ -2,7 +2,7 @@ import { Button, Row, Col, ListGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 
-const Material = ({ material, changedItem, editMaterial }) => {
+const Material = ({ material, changedItem, editMaterial, locked }) => {
 
   const remove = (id) => {
     api.delete(`/materials/${id}`).then(() => {
@@ -20,7 +20,7 @@ const Material = ({ material, changedItem, editMaterial }) => {
         </Col>
         <Col md="6" className="tr">
           <Button onClick={() => editMaterial('material', material.id)}> Editar </Button> {} 
-          <Button variant="danger" onClick={() => {remove(material.id)}}> Remover </Button> 
+          <Button variant="danger" onClick={() => {remove(material.id)}} disabled={locked}> Remover </Button> 
         </Col>
       </Row>
     </ListGroup.Item>

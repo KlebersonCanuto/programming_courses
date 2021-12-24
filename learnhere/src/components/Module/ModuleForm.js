@@ -173,7 +173,7 @@ const ModuleForm = ({ closeModal, courseId, startId, locked }) => {
             <ListGroup.Item variant="dark">Quizzes</ListGroup.Item>
             { 
               quizzes.map(e =>
-                <Quiz key={"quizkey"+e.id} quiz={e} changedItem={changedItem} editQuiz={edit}></Quiz>
+                <Quiz key={"quizkey"+e.id} quiz={e} changedItem={changedItem} editQuiz={edit} locked={locked}></Quiz>
               )
             }
             {
@@ -190,7 +190,7 @@ const ModuleForm = ({ closeModal, courseId, startId, locked }) => {
             <ListGroup.Item variant="dark">Materiais</ListGroup.Item>
             { 
               materials.map(e =>
-                <Material key={"materialkey"+e.id} material={e} changedItem={changedItem} editMaterial={edit}></Material>
+                <Material key={"materialkey"+e.id} material={e} changedItem={changedItem} editMaterial={edit} locked={locked}></Material>
               )
             }
             {
@@ -207,7 +207,7 @@ const ModuleForm = ({ closeModal, courseId, startId, locked }) => {
             <ListGroup.Item variant="dark">Problemas</ListGroup.Item>
             { 
               problems.map(e =>
-                <Problem key={"problemkey"+e.id} problem={e} changedItem={changedItem} editProblem={edit}></Problem>
+                <Problem key={"problemkey"+e.id} problem={e} changedItem={changedItem} editProblem={edit} locked={locked}></Problem>
               )
             }
             {

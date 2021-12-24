@@ -2,7 +2,7 @@ import { Button, Row, Col, ListGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 
-const Quiz = ({ quiz, changedItem, editQuiz }) => {
+const Quiz = ({ quiz, changedItem, editQuiz, locked }) => {
 
   const remove = (id) => {
     api.delete(`/quizzes/${id}`).then(() => {
@@ -20,7 +20,7 @@ const Quiz = ({ quiz, changedItem, editQuiz }) => {
         </Col>
         <Col md="6" className="tr">
           <Button onClick={() => editQuiz('quiz', quiz.id)}> Editar </Button> {} 
-          <Button variant="danger" onClick={() => {remove(quiz.id)}}> Remover </Button> 
+          <Button variant="danger" onClick={() => {remove(quiz.id)}} disabled={locked}> Remover </Button> 
         </Col>
       </Row>
     </ListGroup.Item>
