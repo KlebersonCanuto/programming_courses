@@ -41,6 +41,16 @@ const generateResponseGet = (course, doneModules) => {
   };
 }
 
+const get = async (req, res) => {
+  try{
+    const { id } = req.params;
+    const course = await Course.getById(id);
+    res.status(200).send({data: course});
+  } catch(err){
+    res.status(400).send();
+  }
+}
+
 const getUser = async (req, res) => {
   try{
     const { id, userId } = req.params;
@@ -107,6 +117,7 @@ module.exports = {
   getAll,
   getAllAdmin,
   getUser,
+  get,
   create,
   update,
   remove,

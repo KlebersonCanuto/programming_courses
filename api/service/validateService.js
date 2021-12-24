@@ -4,24 +4,23 @@ const Material = require('../controller/materialController');
 const Quiz = require('../controller/quizController');
 const Problem = require('../controller/problemController');
 
-const courseLocked = async (req) => {
-  const url = req.originalUrl;
-  const id = req.params.id;
+const courseLocked = async (url, params) => {
+  const id = params.id;
   if(url.includes('courses')) {
     return Course.checkCourseLocked(id);
   } else if (url.includes('modules')) {
-    return Module.checkCourseLocked(id);
+      return id ? Module.checkCourseLocked(id) : Course.checkCourseLocked(params.CourseId);
   } else if (url.includes('materials')) {
-    return Material.checkCourseLocked(id);
+    return id ? Material.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
   } else if (url.includes('quizzes')) {
-    return Quiz.checkCourseLocked(id);
+    return id ? Quiz.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
   } else if (url.includes('problems')) {
-    return Problem.checkCourseLocked(id);
+    return id ? Problem.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
   }
 }
 
 const checkCourseLocked = async (req, res, next) => {
-  const locked = courseLocked(req);
+  const locked = courseLocked(req.originalUrl, req.params);
   if (!locked) {
     res.status(400).send();
     return;
@@ -32,7 +31,7 @@ const checkCourseLocked = async (req, res, next) => {
 
 // TODO check with body
 const checkCourseUnlocked = async (req, _, next) => {
-  const locked = courseLocked(req);
+  const locked = courseLocked(req.originalUrl, req.params.id ? req.params : req.body);
   if (locked) {
     res.status(400).send();
     return;

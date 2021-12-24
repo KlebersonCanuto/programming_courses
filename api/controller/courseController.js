@@ -79,6 +79,22 @@ const getUser = async (id, userId) => {
   }
 }
 
+const getById = async (id) => {
+  try{
+    const course = await Course.findByPk(id, {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      },
+      include: [
+        { model: Module, as: "modules", attributes: ["id", "name", "number"]}
+      ]
+    });  
+    return course;
+  } catch(err){
+    throw 400;
+  }
+}
+
 const create = async (args) => {
   try{
     const { name } = args;
@@ -143,6 +159,7 @@ module.exports = {
   getAllLocked,
   getAllUser,
   getUser,
+  getById,
   create,
   update,
   remove,
