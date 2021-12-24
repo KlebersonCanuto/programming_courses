@@ -24,7 +24,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     done: {
       type: Sequelize.VIRTUAL
-    }
+    },
+    locked: {
+      type: Sequelize.VIRTUAL
+    },
   });
 
   Problem.associate = (models) => {

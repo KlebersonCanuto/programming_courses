@@ -75,7 +75,6 @@ const getUser = async (id, userId) => {
     });  
     return course;
   } catch(err){
-    console.log(err)
     throw 400;
   }
 }
@@ -128,6 +127,17 @@ const lock = async (id) => {
   }
 }
 
+const checkCourseLocked = async (id) => {
+  try{
+    const course = await Course.findByPk(id, {
+      attributes: ['locked']
+    });  
+    return course.locked;
+  } catch(err){
+    throw 400;
+  }
+}
+
 module.exports = {
   getAll,
   getAllLocked,
@@ -136,5 +146,6 @@ module.exports = {
   create,
   update,
   remove,
-  lock
+  lock,
+  checkCourseLocked
 };

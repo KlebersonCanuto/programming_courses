@@ -129,6 +129,29 @@ const checkAnswer = async (id, answer) => {
   }
 }
 
+const checkCourseLocked = async (id) => {
+  try{
+    const quiz = await Quiz.findByPk(id, {
+      attributes: [
+        Sequelize.literal(`(
+          SELECT locked
+          FROM Courses
+          WHERE
+              id = (
+                SELECT course_id 
+                FROM Modules
+                WHERE
+                  id = module_id
+              )
+        ) AS locked`),
+      ]
+    });  
+    return quiz.locked;
+  } catch(err){
+    throw 400;
+  }
+}
+
 module.exports = {
   getById,
   getUser,
@@ -138,5 +161,6 @@ module.exports = {
   create,
   update,
   remove,
-  checkAnswer
+  checkAnswer,
+  checkCourseLocked
 };

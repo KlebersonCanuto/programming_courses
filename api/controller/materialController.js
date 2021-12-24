@@ -94,11 +94,35 @@ const remove = async (id) => {
   }
 }
 
+const checkCourseLocked = async (id) => {
+  try{
+    const material = await Material.findByPk(id, {
+      attributes: [
+        Sequelize.literal(`(
+          SELECT locked
+          FROM Courses
+          WHERE
+              id = (
+                SELECT course_id 
+                FROM Modules
+                WHERE
+                  id = module_id
+              )
+        ) AS locked`),
+      ]
+    });  
+    return material.locked;
+  } catch(err){
+    throw 400;
+  }
+}
+
 module.exports = {
   getById,
   getUser,
   getNotComplementary,
   create,
   update,
-  remove
+  remove,
+  checkCourseLocked
 };
