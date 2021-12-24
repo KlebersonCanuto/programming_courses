@@ -35,7 +35,7 @@ const HomeAdmin = () => {
       <Accordion>
         {
           courses.map(e => 
-            <CourseDetails key={e.id} course={e} removedItem={getCourses}></CourseDetails>
+            <CourseDetails key={e.id} course={e} updatedItem={getCourses}></CourseDetails>
           )
         }
       </Accordion>

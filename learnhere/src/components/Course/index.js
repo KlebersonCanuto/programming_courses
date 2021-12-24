@@ -1,21 +1,22 @@
 import { useState } from 'react';
-import { Button, Row, Col, Accordion, ListGroup } from 'react-bootstrap';
+import { Button, Row, Col, Accordion, ListGroup, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import ModuleForm from '../Module/ModuleForm';
 import Module from '../Module';
 import api from '../../services/api';
 import CourseForm from './CourseForm';
 
-const CourseDetails = ({ course, removedItem }) => {
+const CourseDetails = ({ course, updatedItem }) => {
 
   const [details, setDetails] = useState({modules: []});
   const [openCourseForm, setOpenCourseForm] = useState(false);
   const [openForm, setOpenForm] = useState(false);
+  const [confirmLocked, setConfirmLocked] = useState(false);
   const [moduleFormId, setModuleFormId] = useState(null);
 
   const remove = (id) => {
     api.delete(`/courses/${id}`).then(() => {
-      removedItem();
+      updatedItem();
     }).catch(() => {
       toast.error('Falha ao deletar curso');
     })
@@ -44,6 +45,15 @@ const CourseDetails = ({ course, removedItem }) => {
     setOpenForm(true);
     setModuleFormId(id);
   }
+  
+  const lockCourse = () => {
+    api.patch(`/courses/${course.id}`).then(() => {
+      setConfirmLocked(false);
+      updatedItem();
+    }).catch(() => {
+      toast.error('Falha ao finalizar curso');
+    })
+  }
 
   return (
     <Accordion.Item eventKey={"course"+course.id}>
@@ -53,10 +63,30 @@ const CourseDetails = ({ course, removedItem }) => {
       <Row>
         <Col> <p className="f4 pb2"> <span className="b">Curso:</span> {details.name}</p> </Col>
         <Col className="tr"> 
+          {
+            course.locked === false ? 
+              <Button onClick={() => setConfirmLocked(true)}> Finalizar </Button>
+            : null
+          } {}
           <Button onClick={() => setOpenCourseForm(true)}> Editar </Button> {}
           <Button variant="danger" onClick={() => remove(course.id)}>Excluir</Button>
         </Col>
-      </Row>      
+      </Row>
+      
+      <Modal.Dialog open={confirmLocked} onHide={() => setConfirmLocked(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Finalizar Curso</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Ao finalizar, não será possível criar mais módulos, quizzes, problemas e materiais, Deseja continuar?.</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="danger" onClick={() => setConfirmLocked(false)}>Fechar</Button>
+          <Button variant="success" onClick={lockCourse}>Finalizar</Button>
+        </Modal.Footer>
+      </Modal.Dialog>   
 
       <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button>    
       {
