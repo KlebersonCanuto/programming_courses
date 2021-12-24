@@ -10,6 +10,7 @@ const QuizUser = ({ match }) => {
 
   const [details, setDetails] = useState({});
   const [answer, setAnswer] = useState('');
+  const [hint, setHint] = useState('');
   const [sending, setSending] = useState(false);
   const history = useHistory();
   const id = match.params.id;
@@ -43,12 +44,23 @@ const QuizUser = ({ match }) => {
     })
   }
 
+  const askForHint = () => {
+    api.get(`/quizzes/hint/${id}`).then((res) => {
+      setHint(res.data.data)
+    }).catch(() => {
+      toast.error('Falha ao obter dica');
+    })
+  }
+
   return (
     <Container>
       <p className="f4 pb2 tc"> <span className="b"> Questão: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p> 
       <div>
         {details.question ? Parser(details.question) : null}
       </div>
+      {
+        hint ? <p>{hint}</p> : null
+      }
       <p className="f4 pb2 tc b"> Sua resposta </p>
       <Form className="tc pb2" onSubmit={submit}>
         <Form.Group controlId={"answer"} className="pb3">
@@ -63,7 +75,10 @@ const QuizUser = ({ match }) => {
             <Button variant="success" type="submit">
               Enviar
             </Button>
-        }
+        } {}
+        <Button onClick={()=> askForHint()} variant="dark">
+          Pedir dica
+        </Button>
       </Form>
     </Container>
   );

@@ -9,6 +9,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
 
   const [title, setTitle] = useState('');
   const [question, setQuestion] = useState('');
+  const [hint, setHint] = useState('');
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +31,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
     setLoading(true);
     const data = {
       ModuleId: moduleId,
-      hint: '',
+      hint,
       title,
       question,
       answers,
@@ -84,6 +85,11 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
           <Form.Group controlId="question" className="pt3">
             <p className="tc b">Descrição</p>
             <ReactQuill value={question} onChange={setQuestion} formats={quillFormats} modules={quillModules}/>
+          </Form.Group>
+
+          <Form.Group controlId="hint" className="pt3">
+            <p className="tc b">Dica</p>
+            <Form.Control type="text" value={hint} onChange={(e) => setHint(e.target.value)}/>
           </Form.Group>
 
           <p className="tc pt3 b">Respostas</p>
