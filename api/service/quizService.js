@@ -112,9 +112,13 @@ const remove = async (req, res) => {
 const hint = async (req, res) => {
   try {
     const { id, userId } = req.params;
-    const hint = await Quiz.getHint(id);
-    await ProgressService.saveHint(id, userId);
-    res.status(200).send({output});
+    let hint = await Quiz.getHint(id);
+    if (hint) {
+      await ProgressService.saveHint(id, userId);
+    } else {
+      hint = "Não há dica disponível"
+    }
+    res.status(200).send({data: hint});
   } catch (err) {
     res.status(400).send();
   }
