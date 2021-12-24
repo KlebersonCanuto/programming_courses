@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Row, Col, Accordion, ListGroup, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { BsLockFill } from 'react-icons/bs';
 import ModuleForm from '../Module/ModuleForm';
 import Module from '../Module';
 import api from '../../services/api';
@@ -57,7 +58,7 @@ const CourseDetails = ({ course, updatedItem }) => {
 
   return (
     <Accordion.Item eventKey={"course"+course.id}>
-      <Accordion.Header onClick={() => getDetails(course.id)}>{course.name}</Accordion.Header>
+      <Accordion.Header onClick={() => getDetails(course.id)}>{course.name} { course.locked ? <BsLockFill className="red" title="Finalizado"/> : null } </Accordion.Header>
       <Accordion.Body>
       
       <Row>
