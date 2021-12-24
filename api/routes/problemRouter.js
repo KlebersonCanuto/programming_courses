@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 
 const authentication = require('../service/authenticationService');
+const validate = require('../service/validateService');
 const service = require('../service/problemService');
 
 const router = express.Router();
@@ -9,12 +10,12 @@ const upload = multer({
   dest: './tmp/',
 });
 
-router.get('/:id', authentication.getUser, service.getUser);
-router.post('/:id', authentication.checkUser, service.submit);
-router.post('/oracle/:id', authentication.checkUser, service.oracle);
+router.get('/:id', validate.checkCourseLocked, authentication.getUser, service.getUser);
+router.post('/:id', validate.checkCourseLocked, authentication.checkUser, service.submit);
+router.post('/oracle/:id', validate.checkCourseLocked, authentication.checkUser, service.oracle);
 router.get('/details/:id', authentication.checkAdmin, service.get);
-router.post('/', authentication.checkAdmin, upload.single('file'), service.create);
+router.post('/', validate.checkCourseUnlocked, authentication.checkAdmin, upload.single('file'), service.create);
 router.put('/:id', authentication.checkAdmin, upload.single('file'), service.update);
-router.delete('/:id', authentication.checkAdmin, service.remove);
+router.delete('/:id', validate.checkCourseUnlocked, authentication.checkAdmin, service.remove);
 
 module.exports = router;

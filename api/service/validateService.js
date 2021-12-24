@@ -30,6 +30,7 @@ const checkCourseLocked = async (req, res, next) => {
   next();
 }
 
+// TODO check with body
 const checkCourseUnlocked = async (req, _, next) => {
   const locked = courseLocked(req);
   if (locked) {
