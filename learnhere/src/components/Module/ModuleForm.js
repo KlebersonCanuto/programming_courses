@@ -9,7 +9,7 @@ import Quiz from '../Quiz';
 import Problem from '../Problem';
 import api from '../../services/api';
 
-const ModuleForm = ({ closeModal, courseId, startId }) => {
+const ModuleForm = ({ closeModal, courseId, startId, locked }) => {
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState(0);
@@ -167,7 +167,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
           </Modal>
 
           <div className="pt3">
-            <Button onClick={() => confirm("quiz")}> Adicionar quiz </Button>
+            <Button onClick={() => confirm("quiz")} disabled={locked}> Adicionar quiz </Button>
           </div>
           <ListGroup className="pt1">
             <ListGroup.Item variant="dark">Quizzes</ListGroup.Item>
@@ -184,7 +184,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
           </ListGroup>
 
           <div className="pt3">
-            <Button  onClick={() => confirm("material")}> Adicionar material </Button>
+            <Button onClick={() => confirm("material")} disabled={locked}> Adicionar material </Button>
           </div>
           <ListGroup className="pt1">
             <ListGroup.Item variant="dark">Materiais</ListGroup.Item>
@@ -201,7 +201,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
           </ListGroup>
 
           <div className="pt3">
-            <Button  onClick={() => confirm("problem")}> Adicionar problema </Button>
+            <Button onClick={() => confirm("problem")} disabled={locked}> Adicionar problema </Button>
           </div>
           <ListGroup className="pt1 pb3">
             <ListGroup.Item variant="dark">Problemas</ListGroup.Item>

@@ -89,7 +89,7 @@ const CourseDetails = ({ course, updatedItem }) => {
         </Modal.Footer>
       </Modal>   
 
-      <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button>    
+      <Button onClick={() => setOpenForm(true)} disabled={course.locked}> Adicionar módulo </Button>    
       {
         openCourseForm ? 
          <CourseForm closeModal={closeModal} id={course.id}></CourseForm>
@@ -97,7 +97,7 @@ const CourseDetails = ({ course, updatedItem }) => {
       } 
       {
         openForm ? 
-         <ModuleForm closeModal={closeModal} courseId={course.id} startId={moduleFormId}></ModuleForm>
+         <ModuleForm closeModal={closeModal} courseId={course.id} startId={moduleFormId} locked={course.locked}></ModuleForm>
         : null
       }     
       <ListGroup className="pt1">
