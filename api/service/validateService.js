@@ -20,7 +20,7 @@ const courseLocked = async (url, params) => {
 }
 
 const checkCourseLocked = async (req, res, next) => {
-  const locked = courseLocked(req.originalUrl, req.params);
+  const locked = await courseLocked(req.originalUrl, req.params);
   if (!locked) {
     res.status(400).send();
     return;
@@ -29,9 +29,8 @@ const checkCourseLocked = async (req, res, next) => {
   next();
 }
 
-// TODO check with body
-const checkCourseUnlocked = async (req, _, next) => {
-  const locked = courseLocked(req.originalUrl, req.params.id ? req.params : req.body);
+const checkCourseUnlocked = async (req, res, next) => {
+  const locked = await courseLocked(req.originalUrl, req.params.id ? req.params : req.body);
   if (locked) {
     res.status(400).send();
     return;

@@ -14,7 +14,7 @@ router.get('/:id', validate.checkCourseLocked, authentication.getUser, service.g
 router.post('/:id', validate.checkCourseLocked, authentication.checkUser, service.submit);
 router.post('/oracle/:id', validate.checkCourseLocked, authentication.checkUser, service.oracle);
 router.get('/details/:id', authentication.checkAdmin, service.get);
-router.post('/', validate.checkCourseUnlocked, authentication.checkAdmin, upload.single('file'), service.create);
+router.post('/', authentication.checkAdmin, upload.single('file'), validate.checkCourseUnlocked, service.create);
 router.put('/:id', authentication.checkAdmin, upload.single('file'), service.update);
 router.delete('/:id', validate.checkCourseUnlocked, authentication.checkAdmin, service.remove);
 

@@ -18,7 +18,7 @@ const getAll = async (req, res) => {
 
 const getAllAdmin = async (_, res) => {
   try{
-    const courses = await Course.getAll(userId);
+    const courses = await Course.getAll();
     res.status(200).send({data: courses});
   } catch(err){
     res.status(400).send();
