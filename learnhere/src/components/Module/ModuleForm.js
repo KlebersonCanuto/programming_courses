@@ -27,7 +27,7 @@ const ModuleForm = ({ closeModal, courseId, startId }) => {
   const [loading, setLoading] = useState(false);
 
   const getDetails = useCallback((moduleId) => {
-    api.get(`/modules/${moduleId}`).then(res => {
+    api.get(`/modules/details/${moduleId}`).then(res => {
       setName(res.data.data.name);
       setNumber(res.data.data.number);
       setMaterials(res.data.data.materials);

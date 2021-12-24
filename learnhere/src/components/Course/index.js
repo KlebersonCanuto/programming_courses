@@ -23,7 +23,7 @@ const CourseDetails = ({ course, updatedItem }) => {
   }
 
   const getDetails = (id) => {
-    api.get(`/courses/${id}`).then((res) => {
+    api.get(`/courses/details/${id}`).then((res) => {
       setDetails(res.data.data);
     }).catch(() => {
       toast.error('Falha ao obter detalhes do curso');
@@ -73,20 +73,20 @@ const CourseDetails = ({ course, updatedItem }) => {
         </Col>
       </Row>
       
-      <Modal.Dialog open={confirmLocked} onHide={() => setConfirmLocked(false)}>
+      <Modal show={confirmLocked} onHide={() => setConfirmLocked(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Finalizar Curso</Modal.Title>
+          <strong>Finalizar Curso</strong>
         </Modal.Header>
 
         <Modal.Body>
-          <p>Ao finalizar, não será possível criar mais módulos, quizzes, problemas e materiais, Deseja continuar?.</p>
+          <p>Ao finalizar, não será possível criar mais módulos, quizzes, problemas e materiais, Deseja continuar?</p>
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant="danger" onClick={() => setConfirmLocked(false)}>Fechar</Button>
           <Button variant="success" onClick={lockCourse}>Finalizar</Button>
         </Modal.Footer>
-      </Modal.Dialog>   
+      </Modal>   
 
       <Button onClick={() => setOpenForm(true)}> Adicionar módulo </Button>    
       {

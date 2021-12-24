@@ -10,7 +10,7 @@ const HomeAdmin = () => {
   const [openForm, setOpenForm] = useState(false);
 
   const getCourses = () => {
-    api.get('/courses').then(res => {
+    api.get('/courses/all').then(res => {
       setCourses(res.data.data);
     });
   }

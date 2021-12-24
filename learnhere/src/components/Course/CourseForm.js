@@ -10,7 +10,7 @@ const CourseForm = ({ id, closeModal }) => {
 
   useEffect(() => {
     if(id) {
-      api.get(`/courses/${id}`).then(res => {
+      api.get(`/courses/details/${id}`).then(res => {
         setName(res.data.data.name);
       }).catch(() => {
         toast.error('Falha ao carregar curso');
