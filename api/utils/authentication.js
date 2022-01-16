@@ -17,7 +17,7 @@ const getUserByToken = (token) => {
   try {
     let decoded = jwt.verify(token, process.env.JWTTOKEN);
     return decoded.id;
-  } catch{
+  } catch(err) {
     throw 400;
   }
 }

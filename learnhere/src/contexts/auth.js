@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-    api.defaults.headers.common['Authorization'] = null;
+    delete api.defaults.headers.common['Authorization'];
     localStorage.clear();
   }
 

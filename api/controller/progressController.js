@@ -404,7 +404,7 @@ const saveHint = async (QuizId, UserId, quizUser) => {
         QuizId,
         UserId,
         done: false,
-        attempts: 0,
+        attempts: 1,
         hint: true
       }); 
     } else {
