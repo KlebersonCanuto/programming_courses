@@ -14,6 +14,15 @@ module.exports = (sequelize, Sequelize) => {
     done: {
       type: Sequelize.VIRTUAL
     },
+    doneMaterials: {
+      type: Sequelize.VIRTUAL
+    },
+    doneQuizzes: {
+      type: Sequelize.VIRTUAL
+    },
+    doneProblems: {
+      type: Sequelize.VIRTUAL
+    },
     locked: {
       type: Sequelize.VIRTUAL
     },

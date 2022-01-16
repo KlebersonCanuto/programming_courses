@@ -28,7 +28,9 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
 
   return {
     name: module.name,
-    done: module.done,
+    progressMaterials: materials.length ? module.doneMaterials / materials.length : 1,
+    progressProblems: problems.length ? module.doneProblems / problems.length : 1,
+    progressQuizzes: quizzes.length ? module.doneQuizzes / quizzes.length : 1,
     materials,
     quizzes,
     problems,

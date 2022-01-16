@@ -23,26 +23,35 @@ const getByIdAndUser = async (id, userId) => {
         include: [
           'id', 'name', 'number', 'CourseId',
           Sequelize.literal(`(
-              SELECT COUNT(*) > 0
-              FROM ModuleUsers
-              WHERE
-                  module_id = ${id}
-                  AND
-                  user_id = ${userId}
-                  AND
-                  concludeQuizzes=true 
-                  AND
-                  concludeMaterials=true 
-                  AND 
-                  concludeProblems=true
-          ) AS done`),
+            SELECT conclusionMaterials
+            FROM ModuleUsers
+            WHERE
+                module_id = ${id}
+                AND
+                user_id = ${userId}
+          ) AS doneMaterials`),
+          Sequelize.literal(`(
+            SELECT conclusionQuizzes
+            FROM ModuleUsers
+            WHERE
+                module_id = ${id}
+                AND
+                user_id = ${userId}
+          ) AS doneQuizzes`),
+          Sequelize.literal(`(
+            SELECT conclusionProblems
+            FROM ModuleUsers
+            WHERE
+                module_id = ${id}
+                AND
+                user_id = ${userId}
+          ) AS doneProblems`),
         ]
       },
       include: [
         { model: Material, as: 'materials', attributes: ['id', 'title', 'complementary', 'number']},
         { model: Quiz, as: 'quizzes', attributes: ['id', 'title', 'number']},
         { model: Problem, as: 'problems', attributes: ['id', 'title']},
-
       ]
     });  
     return module;

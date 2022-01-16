@@ -20,7 +20,8 @@ const Register = () => {
       username,
       email,
       password,
-      confirmPassword
+      confirmPassword,
+      profileImageURL: ''
     };
 
     api.post('/users', data).finally(() => {
@@ -55,7 +56,7 @@ const Register = () => {
         <Col md={{ span: 6, offset: 3 }}>
           <Form.Group controlId="confirmPassword" className="pb3">
             <p className="tc b">Confirme sua senha</p>
-            <Form.Control type="confirmPassword" maxLength="12" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+            <Form.Control type="password" maxLength="12" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
           </Form.Group>
         </Col>
           <div className="tc pb3">

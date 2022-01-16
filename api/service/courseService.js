@@ -36,7 +36,7 @@ const generateResponseGet = (course, doneModules) => {
 
   return {
     name: course.name,
-    done: course.done,
+    progress: course.done/modules.length,
     modules,
   };
 }

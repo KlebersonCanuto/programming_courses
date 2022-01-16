@@ -57,14 +57,12 @@ const getUser = async (id, userId) => {
       attributes: {
         include: [
           Sequelize.literal(`(
-            SELECT COUNT(*) > 0
+            SELECT conclusion
             FROM CourseUsers
             WHERE
                 course_id = ${id}
                 AND
                 user_id = ${userId}
-                AND
-                conclude=true 
           ) AS done`)
         ],
         exclude: ['createdAt', 'updatedAt']

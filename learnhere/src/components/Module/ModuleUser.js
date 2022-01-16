@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, ListGroup, Container } from 'react-bootstrap';
+import { Row, ListGroup, Container, ProgressBar } from 'react-bootstrap';
 import { BsFillPatchCheckFill } from 'react-icons/bs'
 import { toast } from 'react-toastify';
 import QuizCard from '../Quiz/QuizCard';
@@ -22,7 +22,7 @@ const ModuleUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Módulo: </span> {details.name} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
+      <p className="f4 pb2 tc"> <span className="b"> Módulo: </span> {details.name} { details.progressMaterials === 1 && details.progressQuizzes === 1 && details.progressProblems === 1 ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
 
       <ListGroup className="pt3">
         <ListGroup.Item className="tc" active> Questões </ListGroup.Item>
@@ -30,7 +30,8 @@ const ModuleUser = ({ match }) => {
       {
         !details.quizzes.length ? 
           <ListGroup.Item className="tc">Não há quizzes cadastrados neste módulo</ListGroup.Item>
-        : null
+        : 
+          <ProgressBar variant={details.progressQuizzes === 1 ? "success" : "info"} striped now={details.progressQuizzes*100} label={`${details.progressQuizzes*100}%`} />  
       }
       <Row>
         {
@@ -46,7 +47,8 @@ const ModuleUser = ({ match }) => {
       {
         !details.materials.length ? 
           <ListGroup.Item className="tc">Não há materiais cadastrados neste módulo</ListGroup.Item>
-        : null
+        : 
+          <ProgressBar variant={details.progressMaterials === 1 ? "success" : "info"} striped now={details.progressMaterials*100} label={`${details.progressMaterials*100}%`} />
       }
       <Row>
         {
@@ -62,7 +64,8 @@ const ModuleUser = ({ match }) => {
       {
         !details.problems.length ? 
           <ListGroup.Item className="tc">Não há problemas cadastrados neste módulo</ListGroup.Item>
-        : null
+        :
+          <ProgressBar variant={details.progressProblems === 1 ? "success" : "info"} striped now={details.progressProblems*100} label={`${details.progressProblems*100}%`} />
       }
       <Row>
         {
