@@ -10,6 +10,7 @@ import ModuleUser from './components/Module/ModuleUser';
 import QuizUser from './components/Quiz/QuizUser';
 import MaterialUser from './components/Material/MaterialUser';
 import ProblemUser from './components/Problem/ProblemUser';
+import FreeEditor from './components/Problem/FreeEditor';
 import Ranking from './components/Ranking';
 import { useAuth } from './contexts/auth';
 
@@ -20,6 +21,7 @@ const Routes = () => {
   return (
     <Switch>
 
+      <Route exact path="/editor" component={FreeEditor} />
       <Route exact path="/rank" component={Ranking}/>
       {admin ? <Route exact path="/admin" component={HomeAdmin} /> : null}
 

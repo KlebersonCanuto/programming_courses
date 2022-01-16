@@ -11,6 +11,7 @@ const upload = multer({
 });
 
 router.get('/:id', validate.checkCourseLocked, authentication.getUser, service.getUser);
+router.post('/code', service.exec);
 router.post('/:id', validate.checkCourseLocked, authentication.checkUser, service.submit);
 router.post('/oracle/:id', validate.checkCourseLocked, authentication.checkUser, service.oracle);
 router.get('/details/:id', authentication.checkAdmin, service.get);

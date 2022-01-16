@@ -2,6 +2,7 @@ const Problem = require('../controller/problemController');
 const FileService = require('./fileService');
 const TestService = require('./testService');
 const ProgressService = require('./progressService');
+const ShellService = require('../utils/shell');
 
 const get = async (req, res) => {
   try {
@@ -45,6 +46,17 @@ const submit = async (req, res) => {
     const correct = await TestService.compare(tests, answer);
     await ProgressService.saveProblem(id, userId, correct);
     res.status(200).send({correct});
+  } catch (err) {
+    res.status(400).send();
+  }
+}
+
+const exec = async (req, res) => {
+  try {
+    const code = req.body.code;
+    const input = req.body.input;
+    const output = await ShellService.getOutput(code, input);
+    res.status(200).send({output});
   } catch (err) {
     res.status(400).send();
   }
@@ -186,6 +198,7 @@ module.exports = {
   get,
   getUser,
   submit,
+  exec,
   oracle,
   create,
   update,
