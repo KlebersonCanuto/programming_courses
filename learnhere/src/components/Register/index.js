@@ -1,8 +1,12 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Button, Form, Container, Alert, Spinner, Col } from 'react-bootstrap';
 import api from '../../services/api';
 
 const Register = () => {
+
+  const history = useHistory();
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -26,6 +30,9 @@ const Register = () => {
 
     api.post('/users', data).finally(() => {
       setLoading(false);
+    }).then(() => {
+      toast.success('Cadastrado com sucesso');
+      history.push('/');
     }).catch(res => {
       setInvalid(true);
     });
@@ -63,7 +70,7 @@ const Register = () => {
             {
               loading ? (
                 <Button variant="success" disabled>
-                  <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true"/> Registrando...
+                  <Spinner animation="border" as="span" size="sm" role="status" aria-hidden="true"/> Cadastrando...
                 </Button>
               ) :
                 <Button variant="success" type="submit">
