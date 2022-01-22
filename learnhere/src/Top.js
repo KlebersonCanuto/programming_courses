@@ -26,7 +26,7 @@ const Top = () => {
         </Nav>
 
         <Nav>
-          { admin === "true" ? 
+          { admin ? 
             <Nav.Link as={Link} to="/admin" className="f5 white hover-light-gray">
               Área de administração
             </Nav.Link> : null

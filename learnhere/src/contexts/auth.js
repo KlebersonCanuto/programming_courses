@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const storagedToken = localStorage.getItem('token');
     if (storagedToken && storagedAdmin) {
       setUser({
-        admin: Boolean(storagedAdmin),
+        admin: storagedAdmin === "true",
         auth: Boolean(storagedToken)
       });
       api.defaults.headers.common['Authorization'] = storagedToken;

@@ -23,7 +23,7 @@ const Routes = () => {
 
       <Route exact path="/editor" component={FreeEditor} />
       <Route exact path="/rank" component={Ranking}/>
-      {admin === "true" ? <Route exact path="/admin" component={HomeAdmin} /> : null}
+      {admin ? <Route exact path="/admin" component={HomeAdmin} /> : null}
 
       {auth ? <>
         <Route exact path="/course/:id" component={CourseUser}/>
