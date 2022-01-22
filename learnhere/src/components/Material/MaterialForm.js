@@ -20,6 +20,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
         setTitle(res.data.data.title);
         setContent(res.data.data.content);
         setComplementary(res.data.data.complementary);
+        setVideoLink(res.data.data.video_link);
       }).catch(() => {
         toast.error('Falha ao carregar material');
         closeModal();
@@ -92,7 +93,8 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
                   <BsFillQuestionSquareFill className="blue" size={18} />
                 </Button>
               </OverlayTrigger> 
-              <p className="gray small"> Ficará ao final do material </p> 
+              <br/>
+              <span className="gray small"> Ficará ao final do material </span> 
             </p>
             <Form.Control type="text" value={video_link} onChange={(e) => setVideoLink(e.target.value)}/>
           </Form.Group>
