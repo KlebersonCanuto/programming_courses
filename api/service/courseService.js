@@ -24,9 +24,11 @@ const getAll = async (req, res) => {
 
 const getAllAdmin = async (_, res) => {
   try{
+    logger.info('getAll', `getting all courses to admin`);
     const courses = await Course.getAll();
     res.status(200).send({data: courses});
   } catch(err){
+    logger.error('getAllAdmin', err);
     res.status(400).send();
   }
 }
@@ -50,9 +52,11 @@ const generateResponseGet = (course, doneModules) => {
 const get = async (req, res) => {
   try{
     const { id } = req.params;
+    logger.debug('get', `course id: ${id}`);
     const course = await Course.getById(id);
     res.status(200).send({data: course});
   } catch(err){
+    logger.error('get', err);
     res.status(400).send();
   }
 }
@@ -60,11 +64,13 @@ const get = async (req, res) => {
 const getUser = async (req, res) => {
   try{
     const { id, userId } = req.params;
+    logger.debug('getUser', `course id: ${id}`, `user id: ${userId}`);
     const course = await Course.getUser(id, userId);
     const doneModules = await ProgressService.getDoneModules(id, userId);
     const response = generateResponseGet(course, doneModules);
     res.status(200).send({data: response});
   } catch(err){
+    logger.error('getUser', err);
     res.status(400).send();
   }
 }
@@ -80,9 +86,11 @@ const create = async (req, res) => {
   try{
     const body = req.body;
     validateCourse(body);
+    logger.info('create', `creating course`);
     const course = await Course.create(body);
     res.status(200).send({data: course});
   } catch(err){
+    logger.error('create', err);
     res.status(400).send();
   }
 }
@@ -90,11 +98,14 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('update', `course id: ${id}`);
     const body = req.body;
     validateCourse(body);
+    logger.info('update', `updating course`);
     const course = await Course.update(id, body);
     res.status(200).send({data: course});
   } catch(err){
+    logger.error('update', err);
     res.status(400).send();
   }
 }
@@ -102,9 +113,11 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('remove', `course id: ${id}`);
     const course = await Course.remove(id);
     res.status(200).send({data: course});
   } catch(err){
+    logger.error('remove', err);
     res.status(400).send();
   }
 }
@@ -112,9 +125,11 @@ const remove = async (req, res) => {
 const lock = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('lock', `course id: ${id}`);
     await Course.lock(id);
     res.status(200).send();
   } catch(err){
+    logger.error('lock', err);
     res.status(400).send();
   }
 }
