@@ -3,7 +3,7 @@ const { Material, Sequelize } = require('../database/models');
 const getById = async (id) => {
   try{
     const material = await Material.findByPk(id, {
-      attributes: ['id', 'title', 'content', 'complementary', 'number', 'ModuleId']
+      attributes: ['id', 'title', 'content', 'complementary', 'number', 'video_link', 'ModuleId']
     });  
     return material;
   } catch(err){
@@ -51,12 +51,13 @@ const getNotComplementary = async (ModuleId) => {
 
 const create = async (args) => {
   try{
-    const { title, content, complementary, number, ModuleId } = args;
+    const { title, content, complementary, number, video_link, ModuleId } = args;
     const material = await Material.create({
       title, 
       content, 
       complementary, 
       number, 
+      video_link,
       ModuleId
     });  
     return material;
@@ -67,13 +68,14 @@ const create = async (args) => {
 
 const update = async (id, args) => {
   try{
-    const { title, content, complementary, number } = args;
+    const { title, content, complementary, video_link, number } = args;
     const material = await Material.update(
       {       
         title, 
         content, 
         complementary, 
-        number
+        number,
+        video_link
       },
       { where: { id } }
     );  

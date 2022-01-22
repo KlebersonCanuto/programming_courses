@@ -5,7 +5,7 @@ const getById = async (id) => {
     const problem = await Problem.findByPk(id, {
       attributes: ['id', 'title', 'description', 'ModuleId'],
       include: [
-        { model: Test, as: 'tests', attributes: ['id', 'input', 'output', 'example']},
+        { model: Test, as: 'tests', attributes: ['id', 'input', 'output', 'example', 'image_link']},
       ]
     });  
     return problem;
@@ -57,7 +57,7 @@ const getUser = async (id, userId) => {
 const getWithoutTests = async (id) => {
   try {
     const problem = await Problem.findByPk(id, {
-      attributes: ['id', 'title', 'description', 'ModuleId'],
+      attributes: ['id', 'title', 'image_link', 'description', 'ModuleId'],
       include: [
         { model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
       ]
@@ -92,13 +92,14 @@ const getFileId = async (id) => {
   }
 }
 
-const create = async (args, file_id) => {
+const create = async (args, file_id, image_link) => {
   try {
     const { title, description, ModuleId } = args;
     const problem = await Problem.create({
       title, 
       description, 
       file_id,
+      image_link,
       ModuleId
     });  
     return problem;
@@ -107,7 +108,7 @@ const create = async (args, file_id) => {
   }
 }
 
-const update = async (id, args, file_id) => {
+const update = async (id, args, file_id, image_link) => {
   try {
     const { title, description } = args;
     let updateAttributes = {
@@ -116,6 +117,9 @@ const update = async (id, args, file_id) => {
     }
     if (file_id) {
       updateAttributes.file_id = file_id;
+    }
+    if (image_link) {
+      updateAttributes.image_link = image_link;
     }
     const problem = await Problem.update(
       updateAttributes,

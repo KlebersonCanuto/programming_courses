@@ -9,6 +9,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [video_link, setVideoLink] = useState('');
   const [complementary, setComplementary] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -33,6 +34,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
       complementary,
       title,
       content,
+      video_link,
       number: 0
     };
 
@@ -71,6 +73,14 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
           <Form.Group controlId="content" className="pt3">
             <p className="tc b">Conteúdo</p>
             <ReactQuill value={content} onChange={setContent} formats={quillFormats} modules={quillModules}/>
+          </Form.Group>
+
+          <Form.Group controlId="video_link" className="pt3">
+            <p className="tc"> 
+              <span className="b"> Link de um vídeo no youtube (opcional) </span> 
+              <p className="gray small"> Ficará ao final do material </p> 
+            </p>
+            <Form.Control type="text" value={video_link} onChange={(e) => setVideoLink(e.target.value)}/>
           </Form.Group>
         
           <Form.Group controlId="complementary" className="pt3 pb3">

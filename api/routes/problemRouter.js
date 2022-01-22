@@ -15,8 +15,8 @@ router.post('/code', service.exec);
 router.post('/:id', validate.checkCourseLocked, authentication.checkUser, service.submit);
 router.post('/oracle/:id', validate.checkCourseLocked, authentication.checkUser, service.oracle);
 router.get('/details/:id', authentication.checkAdmin, service.get);
-router.post('/', authentication.checkAdmin, upload.single('file'), validate.checkCourseUnlocked, service.create);
-router.put('/:id', authentication.checkAdmin, upload.single('file'), service.update);
+router.post('/', authentication.checkAdmin, upload.array('files', 2), validate.checkCourseUnlocked, service.create);
+router.put('/:id', authentication.checkAdmin, upload.array('files', 2), service.update);
 router.delete('/:id', validate.checkCourseUnlocked, authentication.checkAdmin, service.remove);
 
 module.exports = router;

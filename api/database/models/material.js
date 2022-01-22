@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
         notEmpty: true
       }
     },
+    video_link: {
+      type: Sequelize.STRING,
+    },
     complementary: Sequelize.BOOLEAN,
     number: Sequelize.INTEGER,
     ModuleId: {

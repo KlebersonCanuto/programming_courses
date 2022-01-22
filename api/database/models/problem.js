@@ -22,6 +22,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       field: 'module_id'
     },
+    image_link: {
+      type: Sequelize.STRING,
+    },
     done: {
       type: Sequelize.VIRTUAL
     },

@@ -37,7 +37,7 @@ const done = async (req, res) => {
 }
 
 const validateCreate = (body) => {
-  const { title, content, complementary, ModuleId } = body;
+  const { title, content, complementary, ModuleId, video_link } = body;
   if (!title) {
     throw 400;
   }
@@ -48,6 +48,9 @@ const validateCreate = (body) => {
     throw 400;
   }
   if (!ModuleId) {
+    throw 400;
+  }
+  if (!video_link && video_link !== '') {
     throw 400;
   }
 }
@@ -72,6 +75,9 @@ const validateUpdate = (body) => {
     throw 400;
   }
   if (complementary !== false && complementary !== true) {
+    throw 400;
+  }
+  if (!video_link && video_link !== '') {
     throw 400;
   }
 }

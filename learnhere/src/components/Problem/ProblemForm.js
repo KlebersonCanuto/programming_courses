@@ -9,6 +9,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
 
   const [title, setTitle] = useState('');
   const [file, setFile] = useState();
+  const [image, setImage] = useState();
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [tests, setTests] = useState([]);
@@ -32,7 +33,11 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     let data = new FormData();
     data.append('ModuleId', moduleId);
     data.append('title', title);
-    data.append('file', file);
+    data.append('files', file);
+    if (image) {
+      data.append('files', image);
+    }
+    data.append('files', image);
     data.append('description', description);
     data.append('tests', JSON.stringify(tests));
     let request, op;
@@ -105,16 +110,26 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
             <Form.Control type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
           </Form.Group>
 
-          <Form.Group controlId="description" className="pt3 pb3">
+          <Form.Group controlId="description" className="pt3">
             <p className="tc b">Descrição</p>
             <ReactQuill value={description} onChange={setDescription} formats={quillFormats} modules={quillModules}/>
           </Form.Group>
 
-          <Form.Group controlId="file" className="mb-3">
+          <Form.Group controlId="file" className="pt3">
             <p className="tc b">Escolha o arquivo solução</p>
             <Form.Control type="file" onChange={(e) => {
               setFile(e.target.files[0]);
             }} accept=".py" size="sm" />
+          </Form.Group>
+
+          <Form.Group controlId="image" className="pt3">
+            <p className="tc"> 
+              <span className="b"> Escolha uma imagem (opcional) </span> 
+              <p className="gray small"> Ficará após a descrição </p> 
+            </p>
+            <Form.Control type="file" onChange={(e) => {
+              setImage(e.target.files[0]);
+            }} accept="image/*" size="sm" />
           </Form.Group>
 
           <p className="tc pt3 b">Respostas</p>
