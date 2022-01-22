@@ -37,7 +37,6 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     if (image) {
       data.append('files', image);
     }
-    data.append('files', image);
     data.append('description', description);
     data.append('tests', JSON.stringify(tests));
     let request, op;

@@ -1,10 +1,11 @@
 const DriveService = require('../utils/drive');
 const fs = require('fs');
 
-const uploadFile = async (file) => {
+const uploadFile = async (file, isImage) => {
   let id;
   try{
-    id = await DriveService.fileUpload(`${file.filename}.py`, file);
+    const split = file.originalname.split('.');
+    id = await DriveService.fileUpload(`${file.filename}.${split[split.length-1]}`, file, isImage);
     fs.unlinkSync(file.path)
   } catch (err) {
     return;

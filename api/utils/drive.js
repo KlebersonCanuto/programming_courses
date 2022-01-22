@@ -2,11 +2,11 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const driveApi = require('./driveApi');
  
-const fileUpload = async (fileName, filePath) => {
+const fileUpload = async (fileName, filePath, isImage) => {
   const auth = driveApi();
   const fileMetadata = {
     name: fileName,
-    parents: [process.env.FOLDER_ID]
+    parents: [isImage ? process.env.IMAGE_FOLDER_ID : process.env.FOLDER_ID]
   };
   const media = {
     body: fs.createReadStream(filePath.path)

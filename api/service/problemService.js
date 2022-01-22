@@ -96,7 +96,7 @@ const oracle = async (req, res) => {
   }
 }
 
-const validateCreate = (body, file) => {
+const validateCreate = (body, files) => {
   const { title, description, tests, ModuleId } = body;
   if (!title) {
     throw 400;
@@ -107,31 +107,44 @@ const validateCreate = (body, file) => {
   if (!ModuleId) {
     throw 400;
   }
-  if (!file) {
+  if (!files || !files.length) {
     throw 400;
   }
-  if (!tests || !tests.length) {
+  
+  if (!tests || tests === '[]') {
     throw 400;
   }
 }
 
 const create = async (req, res) => {
   try {
-    const { file, body } = req;
-    validateCreate(body, file);
-    const file_id = await FileService.uploadFile(file);
-    const problem = await Problem.create(body, file_id);
+    const { files, body } = req;
+    validateCreate(body, files);
+
+    const file = files[0];
+    const file_id = await FileService.uploadFile(file, false);
+
+    let image_link = '';
+    if (files.length > 1) {
+      const image = files[1]
+      const image_id = await FileService.uploadFile(image, true);
+      image_link = `https://drive.google.com/uc?id=${image_id}`;
+    }
+
+    const problem = await Problem.create(body, file_id, image_link);
     const parsedTests = JSON.parse(body.tests);
     const tests = parsedTests.map(e => {
       e.ProblemId = problem.id;
       return e;
     });
+
     try {
       await TestService.register(tests, file_id);
     } catch (err) {
       await Problem.remove(problem.id);
       throw err;
     }
+    
     res.status(200).send({data: problem});
   } catch (err) {
     res.status(400).send();
