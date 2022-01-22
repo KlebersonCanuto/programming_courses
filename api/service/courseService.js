@@ -1,17 +1,23 @@
 const Course = require('../controller/courseController');
 const ProgressService = require('./progressService');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('CourseService');
 
 const getAll = async (req, res) => {
   try{
     const userId = req.params.userId;
     let courses;
     if (userId) {
+      logger.debug('getAll', `userId: ${userId}`);
       courses = await Course.getAllUser(userId);
     } else {
+      logger.info('getAll', `getting courses without userId`);
       courses = await Course.getAllLocked(userId);
     }
     res.status(200).send({data: courses});
   } catch(err){
+    logger.error('getAll', err);
     res.status(400).send();
   }
 }
