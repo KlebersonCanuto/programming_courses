@@ -3,9 +3,9 @@ const { Problem, Test, Sequelize } = require('../database/models');
 const getById = async (id) => {
   try {
     const problem = await Problem.findByPk(id, {
-      attributes: ['id', 'title', 'description', 'ModuleId'],
+      attributes: ['id', 'title', 'description', 'image_link', 'ModuleId'],
       include: [
-        { model: Test, as: 'tests', attributes: ['id', 'input', 'output', 'example', 'image_link']},
+        { model: Test, as: 'tests', attributes: ['id', 'input', 'output', 'example']},
       ]
     });  
     return problem;

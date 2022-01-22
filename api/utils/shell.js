@@ -21,10 +21,10 @@ const execShell = (code, tests) => {
 
   let finished = 0;
   return new Promise((resolve, reject) => {
+    logger.info("execShell", `starting tests`);
     tests.map(test => {
       const ps = new PythonShell(filePath);
       let output = [];
-      logger.info("execShell", "starting tests");
       ps.on('message', (message) => {
         output.push(message);
       });

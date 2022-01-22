@@ -2,7 +2,9 @@ const { Test } = require('../database/models');
 
 const createMany = async (args) => {
   try {
-    const tests = await Test.bulkCreate(args);  
+    const tests = await Test.bulkCreate(args, {
+      updateOnDuplicate: ['id']
+    });  
     return tests;
   } catch (err) {
     throw 400;

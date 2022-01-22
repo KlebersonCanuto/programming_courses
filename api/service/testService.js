@@ -8,6 +8,9 @@ const logger = new Logger('testService');
 const register = async (tests, file_id) => {
   try {
     logger.debug('register', `file id: ${file_id}`);
+    if (!tests.length) {
+      return [];
+    } 
     const file = await FileService.getFile(file_id);
     logger.info('register', `executing tests`);
     const testsExec = await ShellService.execShell(file, tests);

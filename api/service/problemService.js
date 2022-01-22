@@ -167,17 +167,24 @@ const validateUpdate = (body) => {
 const update = async (req, res) => {
   try {
     const id = req.params.id;
-    const { file, body } = req;
+    const { files, body } = req;
     validateUpdate(body);
     let parsedTests = JSON.parse(body.tests);
     let file_id;
-    if (file) {
-      file_id = await FileService.uploadFile(file);
-      parsedTests = parsedTests.map(e => {
-        e.output = null;
-        return e;
-      });
-    } else {
+    let image_link;
+    for (let file of files) {
+      if (file.mimetype.includes('image')) {
+        const image_id = await FileService.uploadFile(file, true);
+        image_link = `https://drive.google.com/uc?id=${image_id}`;
+      } else {
+        file_id = await FileService.uploadFile(file, false);
+        parsedTests = parsedTests.map(e => {
+          e.output = null;
+          return e;
+        });
+      }
+    };
+    if (!file_id) {
       file_id = await Problem.getFileId(id);
     }
 
@@ -186,7 +193,7 @@ const update = async (req, res) => {
     const testsId = tests.map(e => e.id);
     let problem;
     try {
-      problem = await Problem.update(id, body, file_id);
+      problem = await Problem.update(id, body, file_id, image_link);
     } catch (err) {
       await TestService.deleteMany(testsId);
       throw err;
