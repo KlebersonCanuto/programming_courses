@@ -4,7 +4,7 @@ import { Container, Button } from 'react-bootstrap';
 import { BsFillPatchCheckFill } from 'react-icons/bs'
 import { toast } from 'react-toastify';
 import api from '../../services/api';
-import ReactPlayer from 'react-player/youtube'
+import ReactPlayer from 'react-player'
 import Parser from 'html-react-parser';
 import './player.css'
 

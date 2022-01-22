@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Modal, Button, Form, Spinner, Container } from 'react-bootstrap';
+import { Modal, Button, Form, Spinner, Container, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import ReactQuill from 'react-quill';
 import api from '../../services/api';
 import { quillFormats, quillModules } from '../../services/util';
+import { BsFillQuestionSquareFill } from 'react-icons/bs';
 
 const MaterialForm = ({ closeModal, moduleId, id }) => {
 
@@ -77,7 +78,20 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
 
           <Form.Group controlId="video_link" className="pt3">
             <p className="tc"> 
-              <span className="b"> Link de um vídeo no youtube (opcional) </span> 
+              <span className="b"> Link de um vídeo (opcional) </span> 
+              <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={
+                      <Tooltip id="button-tooltip-2">
+                        São aceitos vídeos de YouTube, Facebook, Twitch, SoundCloud e Vimeo
+                      </Tooltip>
+                    }
+              >
+                <Button size="sm" variant="light" className="d-inline-flex tl">
+                  <BsFillQuestionSquareFill className="blue" size={18} />
+                </Button>
+              </OverlayTrigger> 
               <p className="gray small"> Ficará ao final do material </p> 
             </p>
             <Form.Control type="text" value={video_link} onChange={(e) => setVideoLink(e.target.value)}/>
