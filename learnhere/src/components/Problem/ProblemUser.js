@@ -56,6 +56,13 @@ const ProblemUser = ({ match }) => {
         {details.description ? Parser(details.description) : null}
       </div>
 
+      <div className="tc">
+        { details.image_link ? 
+          <img height="480" alt="Imagem" src={details.image_link}/> 
+          : null
+        }
+      </div>
+
       <Form className="tc pb2" onSubmit={submit}>
         <p className="f4 pt4 pb2 tc b"> 
           Testes públicos <Button onClick={()=> setOpen(true)} variant="dark">

@@ -4,7 +4,9 @@ import { Container, Button } from 'react-bootstrap';
 import { BsFillPatchCheckFill } from 'react-icons/bs'
 import { toast } from 'react-toastify';
 import api from '../../services/api';
+import ReactPlayer from 'react-player/youtube'
 import Parser from 'html-react-parser';
+import './player.css'
 
 const MaterialUser = ({ match }) => {
 
@@ -31,10 +33,18 @@ const MaterialUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Título: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
+      <p className="f4 tc"> <span className="b"> Título: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
       <div>
         {details.content ? Parser(details.content) : null}
       </div>
+
+      <div className="player-wrapper pb2 relative">
+        { details.video_link ? 
+          <ReactPlayer className="absolute center-player" controls={true} width="854px"  height="480px"  url={details.video_link}/> 
+          : null
+        }
+      </div>
+
       <div className="tc">
         <Button onClick={()=> markAsRead()} variant="dark">
           Marcar como visto
