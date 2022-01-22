@@ -1,26 +1,30 @@
 const DriveService = require('../utils/drive');
 const fs = require('fs');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('fileService');
 
 const uploadFile = async (file, isImage) => {
-  let id;
   try{
     const split = file.originalname.split('.');
-    id = await DriveService.fileUpload(`${file.filename}.${split[split.length-1]}`, file, isImage);
+    const id = await DriveService.fileUpload(`${file.filename}.${split[split.length-1]}`, file, isImage);
+    logger.debug('uploadFile', `file id: ${id}`);
     fs.unlinkSync(file.path)
+    return id;
   } catch (err) {
-    return;
+    logger.error('uploadFile', err);
+    throw err;
   }
-  return id;
 }
 
-const getFile = async (file_id) => {
-  let file;
+const getFile = async (id) => {
   try{
-    file = await DriveService.getFile(file_id);
+    logger.debug('uploadFile', `file id: ${id}`);
+    return await DriveService.getFile(id);
   } catch (err) {
-    return;
+    logger.error('getFile', err);
+    throw err;
   }
-  return file;
 }
 
 module.exports = {
