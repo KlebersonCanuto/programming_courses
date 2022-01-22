@@ -1,10 +1,14 @@
 const { PythonShell } = require('python-shell');
 const fs = require('fs');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('shell');
 
 const deleteFile = (filePath) => {
   try {
     fs.unlinkSync(filePath);
-  } catch {
+  } catch (err) {
+    logger.error("deleteFile", err);
     return;
   }
 }
@@ -12,19 +16,22 @@ const deleteFile = (filePath) => {
 const execShell = (code, tests) => {
   const randomInt = Math.floor(Math.random() * 10000000000);
   const filePath = `./tmp/tmp-${randomInt}.py`;
-  fs.writeFileSync(filePath, code); // Handle if exists
+  logger.info("execShell", "creating file");
+  fs.writeFileSync(filePath, code);
 
   let finished = 0;
   return new Promise((resolve, reject) => {
     tests.map(test => {
       const ps = new PythonShell(filePath);
       let output = [];
+      logger.info("execShell", "starting tests");
       ps.on('message', (message) => {
         output.push(message);
       });
       ps.send(test.input);
       ps.end((err) => {
         if (err) {
+          logger.error("execShell", err);
           deleteFile(filePath);
           reject(err); 
           return;     
@@ -32,6 +39,7 @@ const execShell = (code, tests) => {
         test.output = output.join('\n');
         finished++;
         if (finished === tests.length) {
+          logger.info("execShell", "tests complete");
           deleteFile(filePath);
           resolve(tests);
         }
@@ -43,7 +51,8 @@ const execShell = (code, tests) => {
 const compare = (code, tests) => {
   const randomInt = Math.floor(Math.random() * 10000000000);
   const filePath = `./tmp/tmp-${randomInt}.py`;
-  fs.writeFileSync(filePath, code); // Handle if exists
+  logger.info("compare", "creating file");
+  fs.writeFileSync(filePath, code);
 
   let finished = 0;
   let correct = 0;
@@ -51,12 +60,14 @@ const compare = (code, tests) => {
     tests.map(test => {
       const ps = new PythonShell(filePath);
       let output = [];
+      logger.info("compare", "starting comparison");
       ps.on('message', (message) => {
         output.push(message);
       });
       ps.send(test.input);
       ps.end((err) => {
         if (err) {
+          logger.error("compare", err);
           deleteFile(filePath);
           reject(err); 
           return;     
@@ -67,6 +78,7 @@ const compare = (code, tests) => {
           correct++;
         }
         if (finished === tests.length) {
+          logger.info("compare", "comparison done");
           deleteFile(filePath);
           resolve(finished === correct);
           return;
@@ -79,11 +91,13 @@ const compare = (code, tests) => {
 const compareIO = (code, input, answer) => {
   const randomInt = Math.floor(Math.random() * 10000000000);
   const filePath = `./tmp/tmp-${randomInt}.py`;
-  fs.writeFileSync(filePath, code); // Handle if exists
+  logger.info("compareIO", "creating file");
+  fs.writeFileSync(filePath, code);
 
   return new Promise((resolve, reject) => {
       const ps = new PythonShell(filePath);
       let output = [];
+      logger.info("compareIO", "starting comparison");
       ps.on('message', (message) => {
         output.push(message);
       });
@@ -91,10 +105,12 @@ const compareIO = (code, input, answer) => {
       ps.end((err) => {
         deleteFile(filePath);
         if (err) {
+          logger.error("compareIO", err);
           reject(err); 
           return;     
         }
         const outputStr = output.join('\n');
+        logger.info("compareIO", "comparison done");
         resolve(outputStr === answer);
       });
   })
@@ -103,11 +119,13 @@ const compareIO = (code, input, answer) => {
 const getOutput = (code, input) => {
   const randomInt = Math.floor(Math.random() * 10000000000);
   const filePath = `./tmp/tmp-${randomInt}.py`;
-  fs.writeFileSync(filePath, code); // Handle if exists
+  logger.info("getOutput", "creating file");
+  fs.writeFileSync(filePath, code);
 
   return new Promise((resolve, reject) => {
       const ps = new PythonShell(filePath);
       let output = [];
+      logger.info("getOutput", "starting get output");
       ps.on('message', (message) => {
         output.push(message);
       });
@@ -115,9 +133,11 @@ const getOutput = (code, input) => {
       ps.end((err) => {
         deleteFile(filePath);
         if (err) {
+          logger.error("getOutput", err);
           reject(err); 
           return;     
         }
+        logger.info("getOutput", "finished get output");
         resolve(output.join('\n'));
       });
   })

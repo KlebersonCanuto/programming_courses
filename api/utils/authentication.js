@@ -1,4 +1,7 @@
 const jwt = require('jsonwebtoken');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('authentication');
 
 const auth = (id) => {
   return jwt.sign({id}, process.env.JWTTOKEN, {
@@ -18,6 +21,7 @@ const getUserByToken = (token) => {
     let decoded = jwt.verify(token, process.env.JWTTOKEN);
     return decoded.id;
   } catch(err) {
+    logger.error('getUserByToken', err);
     throw 400;
   }
 }
@@ -30,6 +34,7 @@ const getUser = (req) => {
     else
       return false;
   } catch(err) {
+    logger.error('getUser', err);
     throw 400;
   }
 }
@@ -44,6 +49,7 @@ const isValid = (req) => {
     else
       return false;
   } catch(err) {
+    logger.error('isValid', err);
     throw 400;
   }
 }
@@ -51,6 +57,5 @@ const isValid = (req) => {
 module.exports = {
   auth,
   getUser,
-  isValid,
-  getUserByToken
+  isValid
 };
