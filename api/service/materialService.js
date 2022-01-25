@@ -1,12 +1,17 @@
 const Material = require('../controller/materialController');
 const ProgressService = require('./progressService');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('materialService');
 
 const get = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('get', `material id: ${id}`);
     const material = await Material.getById(id);
     res.status(200).send({data: material});
   } catch(err){
+    logger.error('get', err);
     res.status(400).send();
   }
 }
@@ -14,6 +19,7 @@ const get = async (req, res) => {
 const getUser = async (req, res) => {
   try{
     const { id, userId } = req.params;
+    logger.debug('getUser', `material id: ${id}`, `user id: ${userId}`);
     let material;
     if (userId) {
       material = await Material.getUser(id, userId);
@@ -22,6 +28,7 @@ const getUser = async (req, res) => {
     }
     res.status(200).send({data: material});
   } catch(err){
+    logger.error('getUser', err);
     res.status(400).send();
   }
 }
@@ -29,9 +36,11 @@ const getUser = async (req, res) => {
 const done = async (req, res) => {
   try{
     const { id, userId } = req.params;
+    logger.debug('done', `material id: ${id}`, `user id: ${userId}`);
     await ProgressService.saveMaterial(id, userId);
     res.status(200).send({data: id});
   } catch(err){
+    logger.error('done', err);
     res.status(400).send();
   }
 }
@@ -59,9 +68,11 @@ const create = async (req, res) => {
   try{
     const body = req.body;
     validateCreate(body);
+    logger.info('create', `creating material`);
     const material = await Material.create(body);
     res.status(200).send({data: material});
   } catch(err){
+    logger.error('create', err);
     res.status(400).send();
   }
 }
@@ -85,11 +96,13 @@ const validateUpdate = (body) => {
 const update = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('update', `material id: ${id}`);
     const body = req.body;
     validateUpdate(body);
     const material = await Material.update(id, body);
     res.status(200).send({data: material});
   } catch(err){
+    logger.error('update', err);
     res.status(400).send();
   }
 }
@@ -97,9 +110,11 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('remove', `material id: ${id}`);
     const material = await Material.remove(id);
     res.status(200).send({data: material});
   } catch(err){
+    logger.error('remove', err);
     res.status(400).send();
   }
 }

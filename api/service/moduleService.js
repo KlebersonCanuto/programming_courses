@@ -1,5 +1,8 @@
 const Module = require('../controller/moduleController');
 const ProgressService = require('./progressService');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('moduleService');
 
 const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) => {
   const doneQuizzesId = doneQuizzes.map(e => e.QuizId);
@@ -40,11 +43,15 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
 const getUser = async (req, res) => {
   try{
     const { id, userId } = req.params;
+    logger.debug('getUser', `module id: ${id}`, `user id: ${userId}`);
     let response;
     if (userId) {
       const module = await Module.getByIdAndUser(id, userId);
+      logger.info('getUser', `getting done quizzes`);
       const doneQuizzes = await ProgressService.getDoneQuizzes(id, userId);
+      logger.info('getUser', `getting done materials`);
       const doneMaterials = await ProgressService.getDoneMaterials(id, userId);
+      logger.info('getUser', `getting done problems`);
       const doneProblems = await ProgressService.getDoneProblems(id, userId);
       response = generateResponseGet(module, doneQuizzes, doneMaterials, doneProblems);
     } else {
@@ -52,6 +59,7 @@ const getUser = async (req, res) => {
     }
     res.status(200).send({data: response});
   } catch(err){
+    logger.error('getUser', err);
     res.status(400).send();
   }
 }
@@ -59,9 +67,11 @@ const getUser = async (req, res) => {
 const get = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('get', `module id: ${id}`);
     const module = await Module.getById(id);
     res.status(200).send({data: module});
   } catch(err){
+    logger.error('get', err);
     res.status(400).send();
   }
 }
@@ -80,9 +90,11 @@ const create = async (req, res) => {
   try{
     const body = req.body;
     validateCreate(body);
+    logger.info('create', `creating module`);
     const module = await Module.create(body);
     res.status(200).send({data: module});
   } catch(err){
+    logger.error('create', err);
     res.status(400).send();
   }
 }
@@ -97,11 +109,13 @@ const validateUpdate = (body) => {
 const update = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('update', `module id: ${id}`);
     const body = req.body;
     validateUpdate(body);
     const module = await Module.update(id, body);
     res.status(200).send({data: module});
   } catch(err){
+    logger.error('update', err);
     res.status(400).send();
   }
 }
@@ -109,9 +123,11 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try{
     const id = req.params.id;
+    logger.debug('remove', `module id: ${id}`);
     const module = await Module.remove(id);
     res.status(200).send({data: module});
   } catch(err){
+    logger.error('remove', err);
     res.status(400).send();
   }
 }
