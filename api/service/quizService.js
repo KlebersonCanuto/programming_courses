@@ -1,6 +1,7 @@
 const Quiz = require('../controller/quizController');
 const ProgressService = require('./progressService');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('quizService');
 
@@ -36,7 +37,7 @@ const getUser = async (req, res) => {
 const validateSubmit = (body) => {
   const { answer } = body;
   if (!answer) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_ANSWER;
   }
 }
 
@@ -60,16 +61,16 @@ const submit = async (req, res) => {
 const validateCreate = (body) => {
   const { title, question, answers, ModuleId } = body;
   if (!title) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_TITLE;
   }
   if (!question) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_QUESTION;
   }
   if (!answers || !answers.length) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_ANSWER;
   }
   if (!ModuleId) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_MODULE_ID;
   }
 }
 
@@ -89,13 +90,13 @@ const create = async (req, res) => {
 const validateUpdate = (body) => {
   const { title, question, answers } = body;
   if (!title) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_TITLE;
   }
   if (!question) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_QUESTION;
   }
   if (!answers || !answers.length) {
-    throw 400;
+    throw Errors.QuizErrors.INVALID_ANSWER;
   }
 }
 

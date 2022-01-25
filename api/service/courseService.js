@@ -1,6 +1,7 @@
 const Course = require('../controller/courseController');
 const ProgressService = require('./progressService');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('CourseService');
 
@@ -78,7 +79,7 @@ const getUser = async (req, res) => {
 const validateCourse = (body) => {
   const { name } = body;
   if (!name) {
-    throw 400;
+    throw Errors.CourseErrors.INVALID_NAME;
   }
 }
 

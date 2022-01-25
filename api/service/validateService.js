@@ -22,7 +22,6 @@ const courseLocked = async (url, params) => {
       return id ? Problem.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
     }
   } catch(err) {
-    logger.error('courseLocked', err);
     throw err;
   }
 }

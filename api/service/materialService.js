@@ -1,6 +1,7 @@
 const Material = require('../controller/materialController');
 const ProgressService = require('./progressService');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('materialService');
 
@@ -48,19 +49,19 @@ const done = async (req, res) => {
 const validateCreate = (body) => {
   const { title, content, complementary, ModuleId, video_link } = body;
   if (!title) {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_TITLE;
   }
   if (!content) {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_CONTENT;
   }
   if (complementary !== false && complementary !== true) {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_COMPLEMENTARY;
   }
   if (!ModuleId) {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_MODULE_ID;
   }
   if (!video_link && video_link !== '') {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_VIDEO_LINK;
   }
 }
 
@@ -80,16 +81,16 @@ const create = async (req, res) => {
 const validateUpdate = (body) => {
   const { title, content, complementary } = body;
   if (!title) {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_TITLE;
   }
   if (!content) {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_CONTENT;
   }
   if (complementary !== false && complementary !== true) {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_COMPLEMENTARY;
   }
   if (!video_link && video_link !== '') {
-    throw 400;
+    throw Errors.MaterialErrors.INVALID_VIDEO_LINK;
   }
 }
 

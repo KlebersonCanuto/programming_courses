@@ -1,7 +1,8 @@
 const { google } = require('googleapis');
 const fs = require('fs');
 const driveApi = require('./driveApi');
-const Logger = require('../utils/logger');
+const Logger = require('./logger');
+const Errors = require('./errors');
 
 const logger = new Logger('drive');
 
@@ -26,7 +27,7 @@ const fileUpload = async (fileName, filePath, isImage) => {
     return id;
   } catch (err) {
     logger.error('fileUpload', err);
-    throw err;
+    throw Errors.FileErrors.FAILED_TO_UPLOAD_FILE;
   }
 }
 
@@ -42,7 +43,7 @@ const getFile = async (id) => {
     return file.data;
   } catch (err) {
     logger.error('getFile', err);
-    throw err;
+    throw Errors.FileErrors.FAILED_TO_GET_FILE;
   }
 }
  

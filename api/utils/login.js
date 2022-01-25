@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 
 const auth = require('./authentication');
 const User = require('../controller/userController');
-const Logger = require('../utils/logger');
+const Logger = require('./logger');
 
 const logger = new Logger('login');
 

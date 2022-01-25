@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const Logger = require('../utils/logger');
+const Logger = require('./logger');
+const Errors = require('./errors');
 
 const logger = new Logger('authentication');
 
@@ -22,7 +23,7 @@ const getUserByToken = (token) => {
     return decoded.id;
   } catch(err) {
     logger.error('getUserByToken', err);
-    throw 400;
+    throw Errors.AuthenticationErrors.FAILED_TO_GET_USER;
   }
 }
 
@@ -34,8 +35,7 @@ const getUser = (req) => {
     else
       return false;
   } catch(err) {
-    logger.error('getUser', err);
-    throw 400;
+    throw err;
   }
 }
 
@@ -50,7 +50,7 @@ const isValid = (req) => {
       return false;
   } catch(err) {
     logger.error('isValid', err);
-    throw 400;
+    throw Errors.AuthenticationErrors.FAILED_TO_VALIDATE_USER;
   }
 }
 

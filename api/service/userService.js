@@ -1,6 +1,7 @@
 const User = require('../controller/userController');
 const Progress = require('./progressService');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('userService');
 
@@ -21,16 +22,16 @@ const get = async (req, res) => {
 const validateCreate = (body) => {
   const { username, password, confirmPassword, email } = body;
   if (!username) {
-    throw 400;
+    throw Errors.UserErrors.INVALID_USERNAME;
   }
   if (!password) {
-    throw 400;
+    throw Errors.UserErrors.INVALID_PASSWORD;
   }
   if (!confirmPassword) {
-    throw 400;
+    throw Errors.UserErrors.INVALID_CONFIRM_PASSWORD;
   }
   if (!email) {
-    throw 400;
+    throw Errors.UserErrors.INVALID_EMAIL;
   }
 }
 
@@ -50,7 +51,7 @@ const create = async (req, res) => {
 const validateUpdate = (body) => {
   const { username } = body;
   if (!username) {
-    throw 400;
+    throw Errors.UserErrors.INVALID_USERNAME;
   }
 }
 

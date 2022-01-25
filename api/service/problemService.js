@@ -4,6 +4,7 @@ const TestService = require('./testService');
 const ProgressService = require('./progressService');
 const ShellService = require('../utils/shell');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('problemService');
 
@@ -39,7 +40,7 @@ const getUser = async (req, res) => {
 const validateSubmit = (body) => {
   const { answer } = body;
   if (!answer) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_ANSWER;
   }
 }
 
@@ -78,13 +79,13 @@ const exec = async (req, res) => {
 const validateOracle = (body) => {
   const { inputOnly, input, output } = body;
   if (inputOnly !== false && inputOnly !== true) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_INPUT_ONLY;
   }
   if (!input) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_INPUT;
   }
   if (!inputOnly && !output) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_OUTPUT;
   }
 }
 
@@ -116,20 +117,20 @@ const oracle = async (req, res) => {
 const validateCreate = (body, files) => {
   const { title, description, tests, ModuleId } = body;
   if (!title) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_TITLE;
   }
   if (!description) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_DESCRIPTION;
   }
   if (!ModuleId) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_MODULE_ID;
   }
   if (!files || !files.length) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_FILES;
   }
   
   if (!tests || tests === '[]') {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_TESTS;
   }
 }
 
@@ -177,13 +178,13 @@ const create = async (req, res) => {
 const validateUpdate = (body) => {
   const { title, description, tests } = body;
   if (!title) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_TITLE;
   }
   if (!description) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_DESCRIPTION;
   }
   if (!tests || !tests.length) {
-    throw 400;
+    throw Errors.ProblemErrors.INVALID_TESTS;
   }
 }
 

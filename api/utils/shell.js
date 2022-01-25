@@ -1,6 +1,6 @@
 const { PythonShell } = require('python-shell');
 const fs = require('fs');
-const Logger = require('../utils/logger');
+const Logger = require('./logger');
 
 const logger = new Logger('shell');
 

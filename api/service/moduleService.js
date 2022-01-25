@@ -1,6 +1,7 @@
 const Module = require('../controller/moduleController');
 const ProgressService = require('./progressService');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('moduleService');
 
@@ -79,10 +80,10 @@ const get = async (req, res) => {
 const validateCreate = (body) => {
   const { name, CourseId } = body;
   if (!name) {
-    throw 400;
+    throw Errors.ModuleErrors.INVALID_NAME;
   }
   if (!CourseId) {
-    throw 400;
+    throw Errors.ModuleErrors.INVALID_COURSE_ID;
   }
 }
 
@@ -102,7 +103,7 @@ const create = async (req, res) => {
 const validateUpdate = (body) => {
   const { name } = body;
   if (!name) {
-    throw 400;
+    throw Errors.ModuleErrors.INVALID_NAME;
   }
 }
 
