@@ -106,4 +106,4 @@ dist
 credentials.json
 token.json
 tmp/
-*.txt
+*log.txt
