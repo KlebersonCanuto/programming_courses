@@ -1,6 +1,7 @@
 const { PythonShell } = require('python-shell');
 const fs = require('fs');
 const Logger = require('./logger');
+const Errors = require('./errors');
 
 const logger = new Logger('shell');
 
@@ -33,7 +34,7 @@ const execShell = (code, tests) => {
         if (err) {
           logger.error("execShell", err);
           deleteFile(filePath);
-          reject(err); 
+          reject(Errors.ExecErrors.FAILED_TO_EXECUTE); 
           return;     
         }
         test.output = output.join('\n');
@@ -69,7 +70,7 @@ const compare = (code, tests) => {
         if (err) {
           logger.error("compare", err);
           deleteFile(filePath);
-          reject(err); 
+          reject(Errors.ExecErrors.FAILED_TO_COMPARE); 
           return;     
         }
         const outputStr = output.join('\n');
@@ -106,7 +107,7 @@ const compareIO = (code, input, answer) => {
         deleteFile(filePath);
         if (err) {
           logger.error("compareIO", err);
-          reject(err); 
+          reject(Errors.ExecErrors.FAILED_TO_COMPARE_IO); 
           return;     
         }
         const outputStr = output.join('\n');
@@ -134,7 +135,7 @@ const getOutput = (code, input) => {
         deleteFile(filePath);
         if (err) {
           logger.error("getOutput", err);
-          reject(err); 
+          reject(Errors.ExecErrors.FAILED_TO_GET_OUTPUT); 
           return;     
         }
         logger.info("getOutput", "finished get output");

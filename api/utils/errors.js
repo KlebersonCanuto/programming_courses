@@ -121,7 +121,10 @@ const ValidateErrors = {
 }
 
 const ExecErrors = {
-  
+  FAILED_TO_EXECUTE: new Error('Falha ao executar'),
+  FAILED_TO_COMPARE: new Error('Falha ao comparar'),
+  FAILED_TO_COMPARE_IO: new Error('Falha ao comparar entrada e saída'),
+  FAILED_TO_GET_OUTPUT: new Error('Falha ao obter saída'),
 }
 
 module.exports = {
