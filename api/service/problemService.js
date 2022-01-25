@@ -209,7 +209,7 @@ const update = async (req, res) => {
           return e;
         });
       }
-    };
+    }
     if (!file_id) {
       file_id = await Problem.getFileId(id);
     }

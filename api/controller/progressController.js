@@ -458,7 +458,7 @@ const saveHint = async (QuizId, UserId, quizUser) => {
       }); 
     } else {
       logger.debug('saveHint', `updating quizUser to user ${UserId} and quiz ${QuizId}`);
-      attempts = quizUser.attempts + 1;
+      const attempts = quizUser.attempts + 1;
       await QuizUser.update({
         hint: true,
         attempts

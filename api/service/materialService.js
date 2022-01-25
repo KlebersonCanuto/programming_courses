@@ -25,7 +25,7 @@ const getUser = async (req, res) => {
     if (userId) {
       material = await Material.getUser(id, userId);
     } else {
-      material = await Material.getById(id);;
+      material = await Material.getById(id);
     }
     res.status(200).send({data: material});
   } catch(err){
@@ -79,7 +79,7 @@ const create = async (req, res) => {
 }
 
 const validateUpdate = (body) => {
-  const { title, content, complementary } = body;
+  const { title, content, complementary, video_link } = body;
   if (!title) {
     throw Errors.MaterialErrors.INVALID_TITLE;
   }
