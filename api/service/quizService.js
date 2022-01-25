@@ -13,7 +13,7 @@ const get = async (req, res) => {
     res.status(200).send({data: quiz});
   } catch(err){
     logger.error('get', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -30,7 +30,7 @@ const getUser = async (req, res) => {
     res.status(200).send({data: quiz});
   } catch(err){
     logger.error('getUser', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -54,7 +54,7 @@ const submit = async (req, res) => {
     res.status(200).send({correct});
   } catch(err){
     logger.error('submit', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -83,7 +83,7 @@ const create = async (req, res) => {
     res.status(200).send({data: quiz});
   } catch(err){
     logger.error('create', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -110,7 +110,7 @@ const update = async (req, res) => {
     res.status(200).send({data: quiz});
   } catch(err){
     logger.error('update', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -122,7 +122,7 @@ const remove = async (req, res) => {
     res.status(200).send({data: quiz});
   } catch(err){
     logger.error('remove', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -139,7 +139,7 @@ const hint = async (req, res) => {
     res.status(200).send({data: hint});
   } catch (err) {
     logger.error('hint', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 

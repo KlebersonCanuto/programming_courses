@@ -1,5 +1,6 @@
 const { Test } = require('../database/models');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('testController');
 
@@ -11,7 +12,7 @@ const createMany = async (args) => {
     return tests;
   } catch (err) {
     logger.error('createMany', err);
-    throw 400;
+    throw Errors.TestErrors.FAILED_TO_CREATE_MANY_TESTS;
   }
 }
 
@@ -23,7 +24,7 @@ const deleteMany = async (args) => {
     return tests;
   } catch (err) {
     logger.error('deleteMany', err);
-    throw 400;
+    throw Errors.TestErrors.FAILED_TO_DELETE_MANY_TESTS;
   }
 }
 
@@ -42,7 +43,7 @@ const update = async (id, args) => {
     return test;
   } catch (err) {
     logger.error('update', err);
-    throw 400;
+    throw Errors.TestErrors.FAILED_TO_UPDATE_TEST;
   }
 }
 
@@ -54,7 +55,7 @@ const remove = async (id) => {
     return test;
   } catch (err) {
     logger.error('remove', err);
-    throw 400;
+    throw Errors.TestErrors.FAILED_TO_REMOVE_TEST;
   }
 }
 

@@ -16,7 +16,7 @@ const get = async (req, res) => {
     res.status(200).send({data: problem});
   } catch (err) {
     logger.error('get', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -33,7 +33,7 @@ const getUser = async (req, res) => {
     res.status(200).send({data: problem});
   } catch (err) {
     logger.error('getUser', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -59,7 +59,7 @@ const submit = async (req, res) => {
     res.status(200).send({correct});
   } catch (err) {
     logger.error('submit', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -72,7 +72,7 @@ const exec = async (req, res) => {
     res.status(200).send({output});
   } catch (err) {
     logger.error('exec', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -110,7 +110,7 @@ const oracle = async (req, res) => {
     }
   } catch (err) {
     logger.error('oracle', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -171,7 +171,7 @@ const create = async (req, res) => {
     res.status(200).send({data: problem});
   } catch (err) {
     logger.error('create', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -230,7 +230,7 @@ const update = async (req, res) => {
     res.status(200).send({data: problem});
   } catch (err) {
     logger.error('update', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -242,7 +242,7 @@ const remove = async (req, res) => {
     res.status(200).send({data: problem});
   } catch (err) {
     logger.error('remove', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 

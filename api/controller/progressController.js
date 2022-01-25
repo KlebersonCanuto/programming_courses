@@ -4,6 +4,7 @@ const Problem = require('./problemController');
 const Material = require('./materialController');
 const Module = require('./moduleController');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('progressController');
 
@@ -25,7 +26,7 @@ const addPoints = async (UserId, points) => {
     return;
   } catch (err) {
     logger.error('addPoints', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_ADD_POINTS;
   }
 }
 
@@ -61,7 +62,7 @@ const checkCourseComplete = async (UserId, CourseId) => {
     }
   } catch (err) {
     logger.error('checkCourseComplete', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_CHECK_COURSE_COMPLETED;
   }
 }
 
@@ -83,7 +84,7 @@ const checkModuleComplete = async (id) => {
     }
   } catch (err) {
     logger.error('checkModuleComplete', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_CHECK_MODULE_COMPLETED;
   }
 }
 
@@ -119,7 +120,7 @@ const materialModuleProgress = async (ModuleId, UserId) => {
     }
   } catch (err) {
     logger.error('materialModuleProgress', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_MATERIAL_MODULE_PROGRESS;
   }
 }
 
@@ -157,7 +158,7 @@ const quizModuleProgress = async (QuizId, UserId) => {
     }
   } catch (err) {
     logger.error('quizModuleProgress', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_QUIZ_MODULE_PROGRESS;
   }
 }
 
@@ -195,7 +196,7 @@ const problemModuleProgress = async (ProblemId, UserId) => {
     }
   } catch (err) {
     logger.error('problemModuleProgress', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_PROBLEM_MODULE_PROGRESS;
   }
 }
 
@@ -212,7 +213,7 @@ const getPoints = async (UserId) => {
     return pointsUser.points;
   } catch (err) {
     logger.error('getPoints', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_POINTS;
   }
 }
 
@@ -225,7 +226,7 @@ const getMaterial = async (MaterialId, UserId) => {
     return materialUser;
   } catch (err) {
     logger.error('getMaterial', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_MATERIAL;
   }
 }
 
@@ -244,7 +245,7 @@ const saveMaterial = async (UserId, material) => {
     }
   } catch (err) {
     logger.error('saveMaterial', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_MATERIAL_PROGRESS;
   }
 }
 
@@ -257,7 +258,7 @@ const getQuiz = async (QuizId, UserId) => {
     return quizUser;
   } catch (err) {
     logger.error('getQuiz', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_QUIZ;
   }
 }
 
@@ -278,7 +279,7 @@ const getDoneModules = async (CourseId, UserId) => {
     return doneQuizzes;
   } catch (err) {
     logger.error('getDoneModules', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_DONE_MODULES;
   }
 }
 
@@ -297,7 +298,7 @@ const getDoneQuizzes = async (ModuleId, UserId) => {
     return doneQuizzes;
   } catch (err) {
     logger.error('getDoneQuizzes', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_DONE_QUIZZES;
   }
 }
 
@@ -316,7 +317,7 @@ const getDoneMaterials = async (ModuleId, UserId) => {
     return doneMaterials;
   } catch (err) {
     logger.error('getDoneMaterials', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_DONE_MATERIALS;
   }
 }
 
@@ -335,7 +336,7 @@ const getDoneProblems = async (ModuleId, UserId) => {
     return doneProblems;
   } catch (err) {
     logger.error('getDoneProblems', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_DONE_PROBLEMS;
   }
 }
 
@@ -367,7 +368,7 @@ const saveQuiz = async (QuizId, UserId, quizUser, done) => {
     }
   } catch (err) {
     logger.error('saveQuiz', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_QUIZ_PROGRESS;
   }
 }
 
@@ -380,7 +381,7 @@ const getProblem = async (ProblemId, UserId) => {
     return problemUser;
   } catch (err) {
     logger.error('getProblem', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_PROBLEM;
   }
 }
 
@@ -413,7 +414,7 @@ const saveProblem = async (ProblemId, UserId, problemUser, done) => {
     }
   } catch (err) {
     logger.error('saveProblem', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_PROBLEM_PROGRESS;
   }
 }
 
@@ -440,7 +441,7 @@ const saveOracle = async (ProblemId, UserId, problemUser, inputOnly, correct) =>
     }
   } catch (err) {
     logger.error('saveOracle', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_ORACLE;
   }
 }
 
@@ -465,7 +466,7 @@ const saveHint = async (QuizId, UserId, quizUser) => {
     }
   } catch (err) {
     logger.error('saveHint', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_SAVE_HINT;
   }
 }
 
@@ -477,7 +478,7 @@ const ranking = async () => {
     return user;
   } catch(err){
     logger.error('ranking', err);
-    throw 400;
+    throw Errors.ProgressErrors.FAILED_TO_GET_RANKING;
   }
 }
 

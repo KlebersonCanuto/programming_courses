@@ -15,7 +15,7 @@ const get = async (req, res) => {
     res.status(200).send({user, points});
   } catch(err){
     logger.error('get', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -44,7 +44,7 @@ const create = async (req, res) => {
     res.status(200).send({data: user});
   } catch(err){
     logger.error('create', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -65,7 +65,7 @@ const update = async (req, res) => {
     res.status(200).send({data: user});
   } catch(err){
     logger.error('update', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -87,7 +87,7 @@ const ranking = async (_, res) => {
     res.status(200).send({rank: formated});
   } catch(err){
     logger.error('ranking', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 

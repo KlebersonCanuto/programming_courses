@@ -1,5 +1,6 @@
 const { Module, Material, Quiz, Problem, Sequelize } = require('../database/models');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('moduleController');
 
@@ -16,7 +17,7 @@ const getById = async (id) => {
     return module;
   } catch(err){
     logger.error('getById', err);
-    throw 400;
+    throw Errors.ModuleErrors.FAILED_TO_GET_MODULE;
   }
 }
 
@@ -61,7 +62,7 @@ const getByIdAndUser = async (id, userId) => {
     return module;
   } catch(err){
     logger.error('getByIdAndUser', err);
-    throw 400;
+    throw Errors.ModuleErrors.FAILED_TO_GET_MODULE;
   }
 }
 
@@ -74,7 +75,7 @@ const getByCourse = async (CourseId) => {
     return modules;
   } catch(err){
     logger.error('getByCourse', err);
-    throw 400;
+    throw Errors.ModuleErrors.FAILED_TO_GET_MODULE;
   }
 }
 
@@ -89,7 +90,7 @@ const create = async (args) => {
     return module;
   } catch(err){
     logger.error('create', err);
-    throw 400;
+    throw Errors.ModuleErrors.FAILED_TO_CREATE_MODULE;
   }
 }
 
@@ -106,7 +107,7 @@ const update = async (id, args) => {
     return module;
   } catch(err){
     logger.error('update', err);
-    throw 400;
+    throw Errors.ModuleErrors.FAILED_TO_UPDATE_MODULE;
   }
 }
 
@@ -118,7 +119,7 @@ const remove = async (id) => {
     return module;
   } catch(err){
     logger.error('remove', err);
-    throw 400;
+    throw Errors.ModuleErrors.FAILED_TO_REMOVE_MODULE;
   }
 }
 
@@ -137,7 +138,7 @@ const checkCourseLocked = async (id) => {
     return module.locked;
   } catch(err){
     logger.error('checkCourseLocked', err);
-    throw 400;
+    throw Errors.ModuleErrors.FAILED_TO_CHECK_COURSE_LOCKED;
   }
 }
 

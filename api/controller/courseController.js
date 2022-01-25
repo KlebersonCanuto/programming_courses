@@ -1,5 +1,6 @@
 const { Course, Module, Sequelize } = require('../database/models');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('courseController');
 
@@ -11,7 +12,7 @@ const getAll = async () => {
     return courses;
   } catch(err){
     logger.error('getAll', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_GET_COURSES;
   }
 }
 
@@ -24,7 +25,7 @@ const getAllLocked = async () => {
     return courses;
   } catch(err){
     logger.error('getAllLocked', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_GET_COURSES;
   }
 }
 
@@ -51,7 +52,7 @@ const getAllUser = async (userId) => {
     return courses;
   } catch(err){
     logger.error('getAllUser', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_GET_COURSES;
   }
 }
 
@@ -80,7 +81,7 @@ const getUser = async (id, userId) => {
     return course;
   } catch(err){
     logger.error('getUser', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_GET_COURSE;
   }
 }
 
@@ -97,7 +98,7 @@ const getById = async (id) => {
     return course;
   } catch(err){
     logger.error('getById', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_GET_COURSE;
   }
 }
 
@@ -110,7 +111,7 @@ const create = async (args) => {
     return course;
   } catch(err){
     logger.error('create', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_CREATE_COURSE;
   }
 }
 
@@ -124,7 +125,7 @@ const update = async (id, args) => {
     return course;
   } catch(err){
     logger.error('update', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_UPDATE_COURSE;
   }
 }
 
@@ -136,7 +137,7 @@ const remove = async (id) => {
     return course;
   } catch(err){
     logger.error('remove', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_REMOVE_COURSE;
   }
 }
 
@@ -149,7 +150,7 @@ const lock = async (id) => {
     return course;
   } catch(err){
     logger.error('lock', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_LOCK_COURSE;
   }
 }
 
@@ -161,7 +162,7 @@ const checkCourseLocked = async (id) => {
     return course.locked;
   } catch(err){
     logger.error('checkCourseLocked', err);
-    throw 400;
+    throw Errors.CourseErrors.FAILED_TO_CHECK_COURSE_LOCKED;
   }
 }
 

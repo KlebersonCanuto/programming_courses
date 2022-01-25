@@ -4,6 +4,7 @@ const Material = require('../controller/materialController');
 const Quiz = require('../controller/quizController');
 const Problem = require('../controller/problemController');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('validateService');
 
@@ -31,14 +32,14 @@ const checkCourseLocked = async (req, res, next) => {
     const locked = await courseLocked(req.originalUrl, req.params);
     logger.debug('checkCourseLocked', `course locked: ${locked}`);
     if (!locked) {
-      res.status(400).send();
+      res.status(400).send({message: Errors.ValidateErrors.COURSE_UNLOCKED.message});
       return;
     }
   
     next();
   } catch(err) {
     logger.error('checkCourseLocked', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -47,13 +48,13 @@ const checkCourseUnlocked = async (req, res, next) => {
     const locked = await courseLocked(req.originalUrl, req.params.id ? req.params : req.body);
     logger.debug('checkCourseLocked', `course locked: ${locked}`);
     if (locked) {
-      res.status(400).send();
+      res.status(400).send({message: Errors.ValidateErrors.COURSE_LOCKED.message});
       return;
     }
     next();
   } catch(err) {
     logger.error('checkCourseUnlocked', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 

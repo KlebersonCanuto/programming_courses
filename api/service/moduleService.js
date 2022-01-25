@@ -61,7 +61,7 @@ const getUser = async (req, res) => {
     res.status(200).send({data: response});
   } catch(err){
     logger.error('getUser', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -73,7 +73,7 @@ const get = async (req, res) => {
     res.status(200).send({data: module});
   } catch(err){
     logger.error('get', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -96,7 +96,7 @@ const create = async (req, res) => {
     res.status(200).send({data: module});
   } catch(err){
     logger.error('create', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -117,7 +117,7 @@ const update = async (req, res) => {
     res.status(200).send({data: module});
   } catch(err){
     logger.error('update', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -129,7 +129,7 @@ const remove = async (req, res) => {
     res.status(200).send({data: module});
   } catch(err){
     logger.error('remove', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 

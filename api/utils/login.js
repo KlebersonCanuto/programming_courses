@@ -38,7 +38,7 @@ const getData = async (req, res) => {
     res.status(200).send(user);
   } catch(err){
     logger.error('getData', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 

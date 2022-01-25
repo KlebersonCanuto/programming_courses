@@ -13,7 +13,7 @@ const get = async (req, res) => {
     res.status(200).send({data: material});
   } catch(err){
     logger.error('get', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -30,7 +30,7 @@ const getUser = async (req, res) => {
     res.status(200).send({data: material});
   } catch(err){
     logger.error('getUser', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -42,7 +42,7 @@ const done = async (req, res) => {
     res.status(200).send({data: id});
   } catch(err){
     logger.error('done', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -74,7 +74,7 @@ const create = async (req, res) => {
     res.status(200).send({data: material});
   } catch(err){
     logger.error('create', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -104,7 +104,7 @@ const update = async (req, res) => {
     res.status(200).send({data: material});
   } catch(err){
     logger.error('update', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
@@ -116,7 +116,7 @@ const remove = async (req, res) => {
     res.status(200).send({data: material});
   } catch(err){
     logger.error('remove', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 

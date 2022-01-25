@@ -1,5 +1,6 @@
 const { Quiz, Sequelize } = require('../database/models');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('quizController');
 
@@ -11,7 +12,7 @@ const getById = async (id) => {
     return quiz;
   } catch(err){
     logger.error('getById', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_GET_QUIZ;
   }
 }
 
@@ -23,7 +24,7 @@ const getHint = async (id) => {
     return quiz.hint;
   } catch(err){
     logger.error('getHint', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_GET_QUIZ;
   }
 }
 
@@ -49,7 +50,7 @@ const getUser = async (id, userId) => {
     return quiz;
   } catch(err){
     logger.error('getUser', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_GET_QUIZ;
   }
 }
 
@@ -61,7 +62,7 @@ const getWithoutAnswers = async (id) => {
     return quiz;
   } catch (err) {
     logger.error('getWithoutAnswers', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_GET_QUIZ;
   }
 }
 
@@ -74,7 +75,7 @@ const getByModule = async (ModuleId) => {
     return quizzes;
   } catch(err){
     logger.error('getByModule', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_GET_QUIZ;
   }
 }
 
@@ -92,7 +93,7 @@ const create = async (args) => {
     return quiz;
   } catch(err){
     logger.error('create', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_CREATE_QUIZ;
   }
 }
 
@@ -112,7 +113,7 @@ const update = async (id, args) => {
     return quiz;
   } catch(err){
     logger.error('update', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_UPDATE_QUIZ;
   }
 }
 
@@ -124,7 +125,7 @@ const remove = async (id) => {
     return quiz;
   } catch(err){
     logger.error('remove', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_REMOVE_QUIZ;
   }
 }
 
@@ -136,7 +137,7 @@ const checkAnswer = async (id, answer) => {
     const correct = quiz.answers.includes(answer);
     return correct;
   } catch(err){
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_CHECK_ANSWER;
   }
 }
 
@@ -160,7 +161,7 @@ const checkCourseLocked = async (id) => {
     return quiz.locked;
   } catch(err){
     logger.error('checkCourseLocked', err);
-    throw 400;
+    throw Errors.QuizErrors.FAILED_TO_CHECK_COURSE_LOCKED;
   }
 }
 

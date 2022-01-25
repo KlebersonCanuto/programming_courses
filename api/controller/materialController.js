@@ -1,5 +1,6 @@
 const { Material, Sequelize } = require('../database/models');
 const Logger = require('../utils/logger');
+const Errors = require('../utils/errors');
 
 const logger = new Logger('materialController');
 
@@ -11,7 +12,7 @@ const getById = async (id) => {
     return material;
   } catch(err){
     logger.error('getById', err);
-    throw 400;
+    throw Errors.MaterialErrors.FAILED_TO_GET_MATERIAL;
   }
 }
 
@@ -38,7 +39,7 @@ const getUser = async (id, userId) => {
     return quiz;
   } catch(err){
     logger.error('getUser', err);
-    throw 400;
+    throw Errors.MaterialErrors.FAILED_TO_GET_MATERIAL;
   }
 }
 
@@ -51,7 +52,7 @@ const getNotComplementary = async (ModuleId) => {
     return materials;
   } catch(err){
     logger.error('getNotComplementary', err);
-    throw 400;
+    throw Errors.MaterialErrors.FAILED_TO_GET_MATERIAL;
   }
 }
 
@@ -69,7 +70,7 @@ const create = async (args) => {
     return material;
   } catch(err){
     logger.error('create', err);
-    throw 400;
+    throw Errors.MaterialErrors.FAILED_TO_CREATE_MATERIAL;
   }
 }
 
@@ -89,7 +90,7 @@ const update = async (id, args) => {
     return material;
   } catch(err){
     logger.error('update', err);
-    throw 400;
+    throw Errors.MaterialErrors.FAILED_TO_UPDATE_MATERIAL;
   }
 }
 
@@ -101,7 +102,7 @@ const remove = async (id) => {
     return material;
   } catch(err){
     logger.error('remove', err);
-    throw 400;
+    throw Errors.MaterialErrors.FAILED_TO_REMOVE_MATERIAL;
   }
 }
 
@@ -125,7 +126,7 @@ const checkCourseLocked = async (id) => {
     return material.locked;
   } catch(err){
     logger.error('checkCourseLocked', err);
-    throw 400;
+    throw Errors.MaterialErrors.FAILED_TO_CHECK_COURSE_LOCKED;
   }
 }
 

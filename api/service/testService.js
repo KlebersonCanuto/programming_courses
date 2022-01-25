@@ -79,7 +79,7 @@ const remove = async (req, res) => {
     res.status(200).send({data: test});
   } catch (err) {
     logger.error('remove', err);
-    res.status(400).send();
+    res.status(400).send({message: err.message});
   }
 }
 
