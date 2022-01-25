@@ -104,7 +104,7 @@ const oracle = async (req, res) => {
     } else {
       const correct = await TestService.compareIO(file_id, body.input, body.output);
       logger.info('oracle', `saving progress`);
-      await ProgressService.saveOracle(id, userId, inputOnly);
+      await ProgressService.saveOracle(id, userId, inputOnly, correct);
       res.status(200).send({correct});
     }
   } catch (err) {
