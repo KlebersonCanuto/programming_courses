@@ -2,6 +2,10 @@ const bcrypt = require('bcrypt');
 
 const { User } = require('../database/models');
 
+const Logger = require('../utils/logger');
+
+const logger = new Logger('userController');
+
 const create = async (args) => {
   try{
     const { username, password, confirmPassword, email, profileImageURL } = args;
@@ -21,6 +25,7 @@ const create = async (args) => {
       throw 400;
     }
   } catch(err){
+    logger.error('create', err);
     throw 400;
   }
 }
@@ -34,6 +39,7 @@ const update = async (id, args) => {
     );  
     return user;
   } catch(err){
+    logger.error('update', err);
     throw 400;
   }
 }
@@ -43,6 +49,7 @@ const getByEmail = async (email) => {
     const user = await User.findOne({ where: { email } });
     return user;
   } catch(err){
+    logger.error('getByEmail', err);
     throw 400;
   }
 }
@@ -54,6 +61,7 @@ const getById = async (id) => {
     });
     return user;
   } catch(err){
+    logger.error('getById', err);
     throw 400;
   }
 }

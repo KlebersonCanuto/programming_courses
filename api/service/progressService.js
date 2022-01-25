@@ -102,13 +102,13 @@ const saveProblem = async (id, userId, done) => {
   }
 }
 
-const saveOracle = async (id, userId, inputOnly) => {
+const saveOracle = async (id, userId, inputOnly, correct) => {
   try {
     logger.debug('saveOracle', `problem id: ${id}`, `user id: ${userId}`);
     const progress = await Progress.getProblem(id, userId);
     logger.debug('saveOracle', `progress: ${progress}`);
     if (!progress || !progress.done) {
-      await Progress.saveOracle(id, userId, progress, inputOnly);
+      await Progress.saveOracle(id, userId, progress, inputOnly, correct);
     }
   } catch (err) {
     logger.error('saveOracle', err);

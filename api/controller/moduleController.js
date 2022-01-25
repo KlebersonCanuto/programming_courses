@@ -1,4 +1,7 @@
 const { Module, Material, Quiz, Problem, Sequelize } = require('../database/models');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('moduleController');
 
 const getById = async (id) => {
   try{
@@ -12,6 +15,7 @@ const getById = async (id) => {
     });  
     return module;
   } catch(err){
+    logger.error('getById', err);
     throw 400;
   }
 }
@@ -56,6 +60,7 @@ const getByIdAndUser = async (id, userId) => {
     });  
     return module;
   } catch(err){
+    logger.error('getByIdAndUser', err);
     throw 400;
   }
 }
@@ -68,6 +73,7 @@ const getByCourse = async (CourseId) => {
     });  
     return modules;
   } catch(err){
+    logger.error('getByCourse', err);
     throw 400;
   }
 }
@@ -82,6 +88,7 @@ const create = async (args) => {
     });  
     return module;
   } catch(err){
+    logger.error('create', err);
     throw 400;
   }
 }
@@ -98,6 +105,7 @@ const update = async (id, args) => {
     );  
     return module;
   } catch(err){
+    logger.error('update', err);
     throw 400;
   }
 }
@@ -109,6 +117,7 @@ const remove = async (id) => {
     );
     return module;
   } catch(err){
+    logger.error('remove', err);
     throw 400;
   }
 }
@@ -127,6 +136,7 @@ const checkCourseLocked = async (id) => {
     });  
     return module.locked;
   } catch(err){
+    logger.error('checkCourseLocked', err);
     throw 400;
   }
 }

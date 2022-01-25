@@ -1,4 +1,7 @@
 const { Test } = require('../database/models');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('testController');
 
 const createMany = async (args) => {
   try {
@@ -7,6 +10,7 @@ const createMany = async (args) => {
     });  
     return tests;
   } catch (err) {
+    logger.error('createMany', err);
     throw 400;
   }
 }
@@ -18,6 +22,7 @@ const deleteMany = async (args) => {
     );
     return tests;
   } catch (err) {
+    logger.error('deleteMany', err);
     throw 400;
   }
 }
@@ -36,6 +41,7 @@ const update = async (id, args) => {
     );  
     return test;
   } catch (err) {
+    logger.error('update', err);
     throw 400;
   }
 }
@@ -47,6 +53,7 @@ const remove = async (id) => {
     );
     return test;
   } catch (err) {
+    logger.error('remove', err);
     throw 400;
   }
 }

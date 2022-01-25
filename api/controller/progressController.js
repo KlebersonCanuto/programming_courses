@@ -3,22 +3,28 @@ const Quiz = require('./quizController');
 const Problem = require('./problemController');
 const Material = require('./materialController');
 const Module = require('./moduleController');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('progressController');
 
 const addPoints = async (UserId, points) => {
   try {
     const pointsUser = await PointsUser.findOne({ where: { UserId } });
     if (!pointsUser) {
+      logger.debug('addPoints', `creating points to user ${UserId}`);
       await PointsUser.create({
         UserId,
         points
       });
     } else {
+      logger.debug('addPoints', `updating user ${UserId} points`);
       await PointsUser.update({
         points: Sequelize.literal(`points + ${points}`)
       }, { where: { id: pointsUser.id }})
     }
     return;
   } catch (err) {
+    logger.error('addPoints', err);
     throw 400;
   }
 }
@@ -36,11 +42,13 @@ const checkCourseComplete = async (UserId, CourseId) => {
     let conclude = false;
     let conclusion = false;
     if (!courseUser) {
+      logger.debug('checkCourseComplete', `creating courseUser to user ${UserId} and course ${CourseId}`);
       conclusion = 1;
       conclude = total === conclusion;
       const mu = await CourseUser.create({CourseId, UserId, conclusion, conclude});
       id = mu.id;
     } else {
+      logger.debug('checkCourseComplete', `updating courseUser to user ${UserId} and course ${CourseId}`);
       id = courseUser.id;
       conclusion = courseUser.conclusion + 1;
       conclude = total === conclusion;
@@ -48,9 +56,11 @@ const checkCourseComplete = async (UserId, CourseId) => {
     }
 
     if (conclude) {
+      logger.debug('checkCourseComplete', `user ${UserId} completed course ${CourseId}`);
       await addPoints(UserId, 10);
     }
   } catch (err) {
+    logger.error('checkCourseComplete', err);
     throw 400;
   }
 }
@@ -66,11 +76,13 @@ const checkModuleComplete = async (id) => {
     const CourseId = module.CourseId;
     if (moduleUser.conclusionMaterials === module.materials.filter(e => !e.complementary).length &&
     moduleUser.conclusionQuizzes === module.quizzes.length && moduleUser.conclusionProblems === module.problems.length) {
+      logger.debug('checkModuleComplete', `user ${moduleUser.UserId} completed module ${moduleUser.ModuleId}`);
       await ModuleUser.update({concludeProblems: true, concludeMaterials: true, concludeQuizzes: true}, {where: {id}});
       await checkCourseComplete(UserId, CourseId);
       await addPoints(UserId, 3);
     }
   } catch (err) {
+    logger.error('checkModuleComplete', err);
     throw 400;
   }
 }
@@ -87,11 +99,13 @@ const materialModuleProgress = async (ModuleId, UserId) => {
     let concludeMaterials = false;
     let conclusionMaterials = false;
     if (!moduleUser) {
+      logger.debug('materialModuleProgress', `creating moduleUser to user ${UserId} and module ${ModuleId}`);
       conclusionMaterials = 1;
       concludeMaterials = total === conclusionMaterials;
       const mu = await ModuleUser.create({ModuleId, UserId, conclusionMaterials, concludeMaterials});
       id = mu.id;
     } else {
+      logger.debug('materialModuleProgress', `updating moduleUser to user ${UserId} and module ${ModuleId}`);
       id = moduleUser.id;
       conclusionMaterials = moduleUser.conclusionMaterials + 1;
       concludeMaterials = total === conclusionMaterials;
@@ -99,10 +113,12 @@ const materialModuleProgress = async (ModuleId, UserId) => {
     }
     
     if (concludeMaterials) {
+      logger.debug('materialModuleProgress', `user ${UserId} completed module ${ModuleId} materials`);
       await checkModuleComplete(id);
       await addPoints(UserId, 1);
     }
   } catch (err) {
+    logger.error('materialModuleProgress', err);
     throw 400;
   }
 }
@@ -121,11 +137,13 @@ const quizModuleProgress = async (QuizId, UserId) => {
     let concludeQuizzes = false;
     let conclusionQuizzes = false;
     if (!moduleUser) {
+      logger.debug('quizModuleProgress', `creating moduleUser to user ${UserId} and module ${ModuleId}`);
       conclusionQuizzes = 1;
       concludeQuizzes = total === conclusionQuizzes;
       const mu = await ModuleUser.create({ModuleId, UserId, conclusionQuizzes, concludeQuizzes});
       id = mu.id;
     } else {
+      logger.debug('quizModuleProgress', `updating moduleUser to user ${UserId} and module ${ModuleId}`);
       id = moduleUser.id;
       conclusionQuizzes = moduleUser.conclusionQuizzes + 1;
       concludeQuizzes = total === conclusionQuizzes;
@@ -133,10 +151,12 @@ const quizModuleProgress = async (QuizId, UserId) => {
     }
     
     if (concludeQuizzes) {
+      logger.debug('quizModuleProgress', `user ${UserId} completed module ${ModuleId} quizzes`);
       await checkModuleComplete(id);
       await addPoints(UserId, 2);
     }
   } catch (err) {
+    logger.error('quizModuleProgress', err);
     throw 400;
   }
 }
@@ -155,11 +175,13 @@ const problemModuleProgress = async (ProblemId, UserId) => {
     let concludeProblems = false;
     let conclusionProblems = false;
     if (!moduleUser) {
+      logger.debug('problemModuleProgress', `creating moduleUser to user ${UserId} and module ${ModuleId}`);
       conclusionProblems = 1;
       concludeProblems = total === conclusionProblems;
       const mu = await ModuleUser.create({ModuleId, UserId, conclusionProblems, concludeProblems});
       id = mu.id;
     } else {
+      logger.debug('problemModuleProgress', `updating moduleUser to user ${UserId} and module ${ModuleId}`);
       id = moduleUser.id;
       conclusionProblems = moduleUser.conclusionProblems + 1;
       concludeProblems = total === conclusionProblems;
@@ -167,10 +189,12 @@ const problemModuleProgress = async (ProblemId, UserId) => {
     }
     
     if (concludeProblems) {
+      logger.debug('problemModuleProgress', `user ${UserId} completed module ${ModuleId} problems`);
       await checkModuleComplete(id);
       await addPoints(UserId, 2);
     }
   } catch (err) {
+    logger.error('problemModuleProgress', err);
     throw 400;
   }
 }
@@ -182,10 +206,12 @@ const getPoints = async (UserId) => {
       attributes: ['points']
     });
     if (!pointsUser) {
+      logger.debug('getPoints', `user ${UserId} points not created`);
       return 0;
     }
     return pointsUser.points;
   } catch (err) {
+    logger.error('getPoints', err);
     throw 400;
   }
 }
@@ -198,6 +224,7 @@ const getMaterial = async (MaterialId, UserId) => {
     });  
     return materialUser;
   } catch (err) {
+    logger.error('getMaterial', err);
     throw 400;
   }
 }
@@ -212,9 +239,11 @@ const saveMaterial = async (UserId, material) => {
 
     await addPoints(UserId, 1);
     if (!material.complementary) {
+      logger.debug('saveMaterial', `user ${UserId} completed mandatory material ${material.id}`);
       await materialModuleProgress(material.ModuleId, UserId);
     }
   } catch (err) {
+    logger.error('saveMaterial', err);
     throw 400;
   }
 }
@@ -227,6 +256,7 @@ const getQuiz = async (QuizId, UserId) => {
     });  
     return quizUser;
   } catch (err) {
+    logger.error('getQuiz', err);
     throw 400;
   }
 }
@@ -247,6 +277,7 @@ const getDoneModules = async (CourseId, UserId) => {
     });
     return doneQuizzes;
   } catch (err) {
+    logger.error('getDoneModules', err);
     throw 400;
   }
 }
@@ -265,6 +296,7 @@ const getDoneQuizzes = async (ModuleId, UserId) => {
     });
     return doneQuizzes;
   } catch (err) {
+    logger.error('getDoneQuizzes', err);
     throw 400;
   }
 }
@@ -283,6 +315,7 @@ const getDoneMaterials = async (ModuleId, UserId) => {
     });
     return doneMaterials;
   } catch (err) {
+    logger.error('getDoneMaterials', err);
     throw 400;
   }
 }
@@ -301,6 +334,7 @@ const getDoneProblems = async (ModuleId, UserId) => {
     });
     return doneProblems;
   } catch (err) {
+    logger.error('getDoneProblems', err);
     throw 400;
   }
 }
@@ -309,6 +343,7 @@ const saveQuiz = async (QuizId, UserId, quizUser, done) => {
   try {
     let attempts;
     if (!quizUser) {
+      logger.debug('saveQuiz', `creating quizUser to user ${UserId} and quiz ${QuizId}`);
       attempts = 1;
       await QuizUser.create({
         QuizId,
@@ -317,6 +352,7 @@ const saveQuiz = async (QuizId, UserId, quizUser, done) => {
         attempts
       }); 
     } else {
+      logger.debug('saveQuiz', `updating quizUser to user ${UserId} and quiz ${QuizId}`);
       attempts = quizUser.attempts + 1;
       await QuizUser.update({
         attempts,
@@ -325,10 +361,12 @@ const saveQuiz = async (QuizId, UserId, quizUser, done) => {
     }
 
     if (done) {
+      logger.debug('saveQuiz', `user ${UserId} completed quiz ${QuizId}`);
       await addPoints(UserId, Math.max(6-attempts, 3));
       await quizModuleProgress(QuizId, UserId);
     }
   } catch (err) {
+    logger.error('saveQuiz', err);
     throw 400;
   }
 }
@@ -341,6 +379,7 @@ const getProblem = async (ProblemId, UserId) => {
     });  
     return problemUser;
   } catch (err) {
+    logger.error('getProblem', err);
     throw 400;
   }
 }
@@ -349,6 +388,7 @@ const saveProblem = async (ProblemId, UserId, problemUser, done) => {
   try {
     let attempts;
     if (!problemUser) {
+      logger.debug('saveProblem', `creating problemUser to user ${UserId} and problem ${ProblemId}`);
       attempts = 1;
       await ProblemUser.create({
         ProblemId,
@@ -358,6 +398,7 @@ const saveProblem = async (ProblemId, UserId, problemUser, done) => {
         oracle: false
       }); 
     } else {
+      logger.debug('saveProblem', `updating problemUser to user ${UserId} and problem ${ProblemId}`);
       attempts = problemUser.attempts + 1;
       await ProblemUser.update({
         attempts,
@@ -366,17 +407,20 @@ const saveProblem = async (ProblemId, UserId, problemUser, done) => {
     }
 
     if (done) {
+      logger.debug('saveProblem', `user ${UserId} completed problem ${ProblemId}`);
       await addPoints(UserId, Math.max(11-attempts, 5));
       await problemModuleProgress(ProblemId, UserId);
     }
   } catch (err) {
+    logger.error('saveProblem', err);
     throw 400;
   }
 }
 
-const saveOracle = async (ProblemId, UserId, problemUser, inputOnly) => {
+const saveOracle = async (ProblemId, UserId, problemUser, inputOnly, correct) => {
   try {
     if (!problemUser) {
+      logger.debug('saveOracle', `creating problemUser to user ${UserId} and problem ${ProblemId}`);
       await ProblemUser.create({
         ProblemId,
         UserId,
@@ -384,15 +428,18 @@ const saveOracle = async (ProblemId, UserId, problemUser, inputOnly) => {
         attempts: 0,
         oracle: true
       }); 
-      if (!inputOnly) {
+      if (!inputOnly && correct) {
+        logger.debug('saveOracle', `user ${UserId} used oracle to ${ProblemId} in input only mode`);
         await addPoints(UserId, 2);
       }
     } else {
+      logger.debug('saveOracle', `updating problemUser to user ${UserId} and problem ${ProblemId}`);
       await ProblemUser.update({
         oracle: true
       }, { where: { UserId, ProblemId }})
     }
   } catch (err) {
+    logger.error('saveOracle', err);
     throw 400;
   }
 }
@@ -400,6 +447,7 @@ const saveOracle = async (ProblemId, UserId, problemUser, inputOnly) => {
 const saveHint = async (QuizId, UserId, quizUser) => {
   try {
     if (!quizUser) {
+      logger.debug('saveHint', `creating quizUser to user ${UserId} and quiz ${QuizId}`);
       await QuizUser.create({
         QuizId,
         UserId,
@@ -408,6 +456,7 @@ const saveHint = async (QuizId, UserId, quizUser) => {
         hint: true
       }); 
     } else {
+      logger.debug('saveHint', `updating quizUser to user ${UserId} and quiz ${QuizId}`);
       attempts = quizUser.attempts + 1;
       await QuizUser.update({
         hint: true,
@@ -415,6 +464,7 @@ const saveHint = async (QuizId, UserId, quizUser) => {
       }, { where: { UserId, QuizId }})
     }
   } catch (err) {
+    logger.error('saveHint', err);
     throw 400;
   }
 }
@@ -426,6 +476,7 @@ const ranking = async () => {
     });
     return user;
   } catch(err){
+    logger.error('ranking', err);
     throw 400;
   }
 }

@@ -1,4 +1,7 @@
 const { Problem, Test, Sequelize } = require('../database/models');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('problemController');
 
 const getById = async (id) => {
   try {
@@ -10,6 +13,7 @@ const getById = async (id) => {
     });  
     return problem;
   } catch (err) {
+    logger.error('getById', err);
     throw 400;
   }
 }
@@ -22,6 +26,7 @@ const getByModule = async (ModuleId) => {
     });  
     return problems;
   } catch(err){
+    logger.error('getByModule', err);
     throw 400;
   }
 }
@@ -50,6 +55,7 @@ const getUser = async (id, userId) => {
     });  
     return problem;
   } catch (err) {
+    logger.error('getUser', err);
     throw 400;
   }
 }
@@ -64,6 +70,7 @@ const getWithoutTests = async (id) => {
     });  
     return problem;
   } catch (err) {
+    logger.error('getWithoutTests', err);
     throw 400;
   }
 }
@@ -77,6 +84,7 @@ const getTests = async (id) => {
     });  
     return problem.tests;
   } catch (err) {
+    logger.error('getTests', err);
     throw 400;
   }
 }
@@ -88,6 +96,7 @@ const getFileId = async (id) => {
     });  
     return problem.file_id;
   } catch (err) {
+    logger.error('getFileId', err);
     throw 400;
   }
 }
@@ -104,6 +113,7 @@ const create = async (args, file_id, image_link) => {
     });  
     return problem;
   } catch (err) {
+    logger.error('create', err);
     throw 400;
   }
 }
@@ -116,9 +126,11 @@ const update = async (id, args, file_id, image_link) => {
       description
     }
     if (file_id) {
+      logger.info('update', 'updating file_id');
       updateAttributes.file_id = file_id;
     }
     if (image_link) {
+      logger.info('update', 'updating image_link');
       updateAttributes.image_link = image_link;
     }
     const problem = await Problem.update(
@@ -127,6 +139,7 @@ const update = async (id, args, file_id, image_link) => {
     );  
     return problem;
   } catch (err) {
+    logger.error('update', err);
     throw 400;
   }
 }
@@ -138,6 +151,7 @@ const remove = async (id) => {
     );
     return problem;
   } catch (err) {
+    logger.error('remove', err);
     throw 400;
   }
 }
@@ -161,6 +175,7 @@ const checkCourseLocked = async (id) => {
     });  
     return problem.locked;
   } catch(err){
+    logger.error('checkCourseLocked', err);
     throw 400;
   }
 }

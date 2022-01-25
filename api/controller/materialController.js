@@ -1,4 +1,7 @@
 const { Material, Sequelize } = require('../database/models');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('materialController');
 
 const getById = async (id) => {
   try{
@@ -7,6 +10,7 @@ const getById = async (id) => {
     });  
     return material;
   } catch(err){
+    logger.error('getById', err);
     throw 400;
   }
 }
@@ -33,6 +37,7 @@ const getUser = async (id, userId) => {
     });  
     return quiz;
   } catch(err){
+    logger.error('getUser', err);
     throw 400;
   }
 }
@@ -45,6 +50,7 @@ const getNotComplementary = async (ModuleId) => {
     });  
     return materials;
   } catch(err){
+    logger.error('getNotComplementary', err);
     throw 400;
   }
 }
@@ -62,6 +68,7 @@ const create = async (args) => {
     });  
     return material;
   } catch(err){
+    logger.error('create', err);
     throw 400;
   }
 }
@@ -81,6 +88,7 @@ const update = async (id, args) => {
     );  
     return material;
   } catch(err){
+    logger.error('update', err);
     throw 400;
   }
 }
@@ -92,6 +100,7 @@ const remove = async (id) => {
     );
     return material;
   } catch(err){
+    logger.error('remove', err);
     throw 400;
   }
 }
@@ -115,6 +124,7 @@ const checkCourseLocked = async (id) => {
     });  
     return material.locked;
   } catch(err){
+    logger.error('checkCourseLocked', err);
     throw 400;
   }
 }

@@ -1,4 +1,7 @@
 const { Course, Module, Sequelize } = require('../database/models');
+const Logger = require('../utils/logger');
+
+const logger = new Logger('courseController');
 
 const getAll = async () => {
   try{
@@ -7,6 +10,7 @@ const getAll = async () => {
     });  
     return courses;
   } catch(err){
+    logger.error('getAll', err);
     throw 400;
   }
 }
@@ -19,6 +23,7 @@ const getAllLocked = async () => {
     });  
     return courses;
   } catch(err){
+    logger.error('getAllLocked', err);
     throw 400;
   }
 }
@@ -45,6 +50,7 @@ const getAllUser = async (userId) => {
     });  
     return courses;
   } catch(err){
+    logger.error('getAllUser', err);
     throw 400;
   }
 }
@@ -73,6 +79,7 @@ const getUser = async (id, userId) => {
     });  
     return course;
   } catch(err){
+    logger.error('getUser', err);
     throw 400;
   }
 }
@@ -89,6 +96,7 @@ const getById = async (id) => {
     });  
     return course;
   } catch(err){
+    logger.error('getById', err);
     throw 400;
   }
 }
@@ -101,6 +109,7 @@ const create = async (args) => {
     });  
     return course;
   } catch(err){
+    logger.error('create', err);
     throw 400;
   }
 }
@@ -114,6 +123,7 @@ const update = async (id, args) => {
     );  
     return course;
   } catch(err){
+    logger.error('update', err);
     throw 400;
   }
 }
@@ -125,6 +135,7 @@ const remove = async (id) => {
     );
     return course;
   } catch(err){
+    logger.error('remove', err);
     throw 400;
   }
 }
@@ -137,6 +148,7 @@ const lock = async (id) => {
     );  
     return course;
   } catch(err){
+    logger.error('lock', err);
     throw 400;
   }
 }
@@ -148,6 +160,7 @@ const checkCourseLocked = async (id) => {
     });  
     return course.locked;
   } catch(err){
+    logger.error('checkCourseLocked', err);
     throw 400;
   }
 }
