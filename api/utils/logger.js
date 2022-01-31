@@ -8,7 +8,8 @@ class Log {
   log = (prefix, ...data) => {
     const line = `[${prefix}] ${new Date().toISOString()} | ${data.join(" | ")}`;
     console.log(line);
-    fs.appendFile(`${this.name}.log.txt`, `${line}\n`, 'utf8', () => {});
+    if (process.env.NODE_ENV !== "test")
+      fs.appendFile(`${this.name}.log.txt`, `${line}\n`, 'utf8', () => {});
   };
   
   error = (...data) => {
