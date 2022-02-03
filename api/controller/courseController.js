@@ -56,7 +56,6 @@ const getAllUser = async (userId) => {
   }
 }
 
-
 const getUser = async (id, userId) => {
   try{
     const course = await Course.findOne({
