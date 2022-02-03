@@ -6,10 +6,14 @@ module.exports = (sequelize, Sequelize) => {
         notEmpty: true
       }
     },
-    number: Sequelize.INTEGER,
+    number: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
+    },
     CourseId: {
       type: Sequelize.INTEGER,
-      field: 'course_id'
+      field: 'course_id',
+      allowNull: false,
     },
     done: {
       type: Sequelize.VIRTUAL

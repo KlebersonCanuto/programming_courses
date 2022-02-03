@@ -5,8 +5,8 @@ const errors = require('../utils/errors');
 describe("Test Course", () => {  
   let id;
 
-  beforeAll(() => {
-    Course.destroy({ where: {} });
+  beforeAll(async () => {
+    await Course.destroy({ where: {} });
   });
 
   it("Should get no course", async () => {
@@ -175,5 +175,4 @@ describe("Test Course", () => {
     const qtd = await courseController.remove(id);
     expect(qtd).toEqual(1);
   })
-
 })
