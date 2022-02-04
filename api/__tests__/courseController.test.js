@@ -1,6 +1,5 @@
 const courseController = require('../controller/courseController');
 const { Course } = require('../database/models');
-const errors = require('../utils/errors');
 
 describe("Test Course", () => {  
   let id;
@@ -90,31 +89,31 @@ describe("Test Course", () => {
 
   it("Should fail to get all courses", async () => {
     const spy = jest.spyOn(Course, 'findAll').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.getAll()).rejects.toThrow(errors.FAILED_TO_GET_COURSES);
+    await expect(courseController.getAll()).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to get all locked courses", async () => {
     const spy = jest.spyOn(Course, 'findAll').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.getAllLocked()).rejects.toThrow(errors.FAILED_TO_GET_COURSES);
+    await expect(courseController.getAllLocked()).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to get all courses with user", async () => {
     const spy = jest.spyOn(Course, 'findAll').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.getAllUser()).rejects.toThrow(errors.FAILED_TO_GET_COURSES);
+    await expect(courseController.getAllUser()).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to get couse with user", async () => {
     const spy = jest.spyOn(Course, 'findOne').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.getUser(id, 1)).rejects.toThrow(errors.FAILED_TO_GET_COURSE);
+    await expect(courseController.getUser(id, 1)).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to get couse by id", async () => {
     const spy = jest.spyOn(Course, 'findByPk').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.getById(id)).rejects.toThrow(errors.FAILED_TO_GET_COURSE);
+    await expect(courseController.getById(id)).rejects.toThrow();
     spy.mockRestore();
   })
 
@@ -122,53 +121,53 @@ describe("Test Course", () => {
     const spy = jest.spyOn(Course, 'create').mockImplementation(() => { throw new Error('error') });
     await expect(courseController.create({
       name: "Course 2",
-    })).rejects.toThrow(errors.FAILED_TO_CREATE_COURSE);
+    })).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to create couse (invalid name)", async () => {
     await expect(courseController.create({
       name: "",
-    })).rejects.toThrow(errors.FAILED_TO_CREATE_COURSE);
+    })).rejects.toThrow();
   })
 
   it("Should fail to create couse (without name)", async () => {
     await expect(courseController.create({
-    })).rejects.toThrow(errors.FAILED_TO_CREATE_COURSE);
+    })).rejects.toThrow();
   })
 
   it("Should fail to update couse", async () => {
     const spy = jest.spyOn(Course, 'update').mockImplementation(() => { throw new Error('error') });
     await expect(courseController.update(id, {
       name: "Course 2",
-    })).rejects.toThrow(errors.FAILED_TO_UPDATE_COURSE);
+    })).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to update couse (invalid name)", async () => {
-    await expect(courseController.update(id, {name: ""})).rejects.toThrow(errors.FAILED_TO_UPDATE_COURSE);
+    await expect(courseController.update(id, {name: ""})).rejects.toThrow();
   })
 
   it("Should fail to remove couse", async () => {
     const spy = jest.spyOn(Course, 'destroy').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.remove(id)).rejects.toThrow(errors.FAILED_TO_REMOVE_COURSE);
+    await expect(courseController.remove(id)).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to lock couse", async () => {
     const spy = jest.spyOn(Course, 'update').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.lock(id)).rejects.toThrow(errors.FAILED_TO_LOCK_COURSE);
+    await expect(courseController.lock(id)).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to check course locked", async () => {
     const spy = jest.spyOn(Course, 'findByPk').mockImplementation(() => { throw new Error('error') });
-    await expect(courseController.checkCourseLocked(id)).rejects.toThrow(errors.FAILED_TO_CHECK_COURSE_LOCKED);
+    await expect(courseController.checkCourseLocked(id)).rejects.toThrow();
     spy.mockRestore();
   })
 
   it("Should fail to check course locked (course not found)", async () => {
-    await expect(courseController.checkCourseLocked(id*2)).rejects.toThrow(errors.FAILED_TO_CHECK_COURSE_LOCKED);
+    await expect(courseController.checkCourseLocked(id*2)).rejects.toThrow();
   })
 
   it("Should remove course", async () => {

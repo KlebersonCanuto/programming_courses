@@ -19,7 +19,10 @@ module.exports = (sequelize, Sequelize) => {
       }
     },
     emailConfirmed: Sequelize.BOOLEAN,
-    profileImageURL: Sequelize.STRING,
+    profileImageURL: {
+      type: Sequelize.STRING,
+      defaultValue: ""
+    },
     admin: Sequelize.BOOLEAN
   });
 
