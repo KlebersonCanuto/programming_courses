@@ -1,6 +1,6 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Materials', {
+	up: async (queryInterface, Sequelize) => {
+		await queryInterface.createTable('Materials', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -11,7 +11,7 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.STRING
 			},
-      content: {
+			content: {
 				allowNull: false,
 				type: Sequelize.STRING
 			},
@@ -19,20 +19,20 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.INTEGER,
 			},
-      complementary: {
+			complementary: {
 				allowNull: false,
 				type: Sequelize.BOOLEAN,
-        defaultValue: false
+				defaultValue: false
 			},
-      module_id: {
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Modules',
-          key: 'id',
-          as: 'module',
-        }
-      },
+			module_id: {
+				type: Sequelize.INTEGER,
+				onDelete: 'CASCADE',
+				references: {
+					model: 'Modules',
+					key: 'id',
+					as: 'module',
+				}
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -44,9 +44,9 @@ module.exports = {
 				defaultValue: Sequelize.fn('NOW')
 			}
 		});
-  },
+	},
 
-  down: async (queryInterface) => {
-    await queryInterface.dropTable('Materials');
-  }
+	down: async (queryInterface) => {
+		await queryInterface.dropTable('Materials');
+	}
 };

@@ -1,6 +1,6 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Tests', {
+	up: async (queryInterface, Sequelize) => {
+		await queryInterface.createTable('Tests', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -15,20 +15,20 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.STRING
 			},
-      example: {
+			example: {
 				allowNull: false,
 				type: Sequelize.BOOLEAN,
-        defaultValue: false
-      },
-      problem_id: {
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Problems',
-          key: 'id',
-          as: 'problem',
-        }
-      },
+				defaultValue: false
+			},
+			problem_id: {
+				type: Sequelize.INTEGER,
+				onDelete: 'CASCADE',
+				references: {
+					model: 'Problems',
+					key: 'id',
+					as: 'problem',
+				}
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -40,9 +40,9 @@ module.exports = {
 				defaultValue: Sequelize.fn('NOW')
 			}
 		});
-  },
+	},
 
-  down: async (queryInterface) => {
-    await queryInterface.dropTable('Tests');
-  }
+	down: async (queryInterface) => {
+		await queryInterface.dropTable('Tests');
+	}
 };

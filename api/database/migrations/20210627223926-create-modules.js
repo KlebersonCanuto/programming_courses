@@ -1,5 +1,5 @@
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+	up: async (queryInterface, Sequelize) => {
 		await queryInterface.createTable('Modules', {
 			id: {
 				allowNull: false,
@@ -15,15 +15,15 @@ module.exports = {
 				allowNull: false,
 				type: Sequelize.INTEGER,
 			},
-      course_id: {
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Courses',
-          key: 'id',
-          as: 'course',
-        }
-      },
+			course_id: {
+				type: Sequelize.INTEGER,
+				onDelete: 'CASCADE',
+				references: {
+					model: 'Courses',
+					key: 'id',
+					as: 'course',
+				}
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -35,9 +35,9 @@ module.exports = {
 				defaultValue: Sequelize.fn('NOW')
 			}
 		});
-  },
+	},
 
-  down: async (queryInterface) => {
-    await queryInterface.dropTable('Modules');
-  }
+	down: async (queryInterface) => {
+		await queryInterface.dropTable('Modules');
+	}
 };

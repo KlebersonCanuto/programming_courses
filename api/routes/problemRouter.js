@@ -7,7 +7,7 @@ const service = require('../service/problemService');
 
 const router = express.Router();
 const upload = multer({
-  dest: './tmp/',
+	dest: './tmp/',
 });
 
 router.get('/:id', validate.checkCourseLocked, authentication.getUser, service.getUser);
