@@ -253,7 +253,7 @@ const getQuiz = async (QuizId, UserId) => {
 	try {
 		const quizUser = await QuizUser.findOne({ 
 			where: { UserId, QuizId },
-			attributes: ['done', 'attempts']
+			attributes: ['done', 'attempts', 'hint']
 		});  
 		return quizUser;
 	} catch (err) {

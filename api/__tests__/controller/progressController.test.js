@@ -52,6 +52,9 @@ describe('Test Progress', () => {
 		});
 		problemId = problem.id;
 
+		console.log("problem")
+		console.log(problem)
+
 		const user = await User.create({
 			username: 'User',
 			email: '123',
@@ -105,6 +108,40 @@ describe('Test Progress', () => {
 		expect(materialUser).toEqual([]);
 	}); 
 
+	it('Should save oracle', async () => {
+		await progressController.saveOracle(problemId, userId, false, false, true);
+		const problemsUser = await progressController.getDoneProblems(moduleId, userId);
+		expect(problemsUser.length).toEqual(0);
+		const problemUser = await progressController.getProblem(problemId, userId);
+		expect(problemUser.oracle).toEqual(true);
+	}); 
+
+	it('Should save oracle with existent problemUser', async () => {
+		await progressController.saveOracle(problemId, userId, true, false, true);
+		const problemsUser = await progressController.getDoneProblems(moduleId, userId);
+		expect(problemsUser.length).toEqual(0);
+		const problemUser = await progressController.getProblem(problemId, userId);
+		expect(problemUser.oracle).toEqual(true);
+	}); 
+
+	it('Should save hint', async () => {
+		await progressController.saveHint(quizId, userId, null);
+		const quizzesUser = await progressController.getDoneQuizzes(moduleId, userId);
+		expect(quizzesUser.length).toEqual(0);
+		const quizUser = await progressController.getQuiz(quizId, userId);
+		expect(quizUser.attempts).toEqual(1);
+		expect(quizUser.hint).toEqual(true);
+	}); 
+
+	it('Should save hint with existent quizUser', async () => {
+		await progressController.saveHint(quizId, userId, {attempts: 1});
+		const quizzesUser = await progressController.getDoneQuizzes(moduleId, userId);
+		expect(quizzesUser.length).toEqual(0);
+		const quizUser = await progressController.getQuiz(quizId, userId);
+		expect(quizUser.attempts).toEqual(2);
+		expect(quizUser.hint).toEqual(true);
+	}); 
+
 	it('Should fail get ranking', async () => {
 		const spy = jest.spyOn(PointsUser, 'findAll').mockImplementation(() => { throw new Error('error'); });
 		await expect(progressController.ranking()).rejects.toThrow();
@@ -156,6 +193,18 @@ describe('Test Progress', () => {
 	it('Should fail get done problems', async () => {
 		const spy = jest.spyOn(ProblemUser, 'findAll').mockImplementation(() => { throw new Error('error'); });
 		await expect(progressController.getDoneProblems(moduleId, userId)).rejects.toThrow();
+		spy.mockRestore();
+	});
+
+	it('Should fail to save oracle', async () => {
+		const spy = jest.spyOn(ProblemUser, 'create').mockImplementation(() => { throw new Error('error'); });
+		await expect(progressController.saveOracle(problemId, userId, false, false, true)).rejects.toThrow();
+		spy.mockRestore();
+	});
+
+	it('Should fail to save hint', async () => {
+		const spy = jest.spyOn(QuizUser, 'create').mockImplementation(() => { throw new Error('error'); });
+		await expect(progressController.saveHint(problemId, userId, null)).rejects.toThrow();
 		spy.mockRestore();
 	});
 });

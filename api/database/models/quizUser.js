@@ -4,11 +4,13 @@ module.exports = (sequelize, Sequelize) => {
 		attempts: Sequelize.INTEGER,
 		UserId: {
 			type: Sequelize.INTEGER,
-			field: 'user_id'
+			field: 'user_id',
+			allowNull: false,
 		},
 		QuizId: {
 			type: Sequelize.INTEGER,
-			field: 'quiz_id'
+			field: 'quiz_id',
+			allowNull: false,
 		},
 		hint: Sequelize.BOOLEAN,
 	});
