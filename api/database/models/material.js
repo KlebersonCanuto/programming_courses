@@ -15,11 +15,18 @@ module.exports = (sequelize, Sequelize) => {
 		video_link: {
 			type: Sequelize.STRING,
 		},
-		complementary: Sequelize.BOOLEAN,
-		number: Sequelize.INTEGER,
+		complementary: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false
+		},
+		number: {
+			type: Sequelize.INTEGER,
+			defaultValue: 0
+		},
 		ModuleId: {
 			type: Sequelize.INTEGER,
-			field: 'module_id'
+			field: 'module_id',
+			allowNull: false,
 		},
 		done: {
 			type: Sequelize.VIRTUAL

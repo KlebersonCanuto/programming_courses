@@ -93,6 +93,13 @@ describe('Test Module', () => {
 		spy.mockRestore();
 	});
 
+	it('Should fail to create module (invalid course id)', async () => {
+		await expect(moduleController.create({
+			name: 'Module 2',
+			CourseId: courseId*2,
+		})).rejects.toThrow();
+	});
+
 	it('Should fail to create module (no name)', async () => {
 		await expect(moduleController.create({
 			CourseId: courseId,
