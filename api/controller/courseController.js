@@ -36,15 +36,15 @@ const getAllUser = async (userId) => {
 			attributes: {
 				include: [
 					Sequelize.literal(`(
-            SELECT COUNT(*) > 0
-            FROM CourseUsers
-            WHERE
-                course_id = Course.id
-                AND
-                user_id = ${userId}
-                AND
-                conclude = true
-          ) AS done`)
+						SELECT COUNT(*) > 0
+						FROM CourseUsers
+						WHERE
+							course_id = Course.id
+							AND
+							user_id = ${userId}
+							AND
+							conclude = true
+					) AS done`)
 				],
 				exclude: ['createdAt', 'updatedAt'],
 			},
@@ -63,13 +63,13 @@ const getUser = async (id, userId) => {
 			attributes: {
 				include: [
 					Sequelize.literal(`(
-            SELECT conclusion
-            FROM CourseUsers
-            WHERE
-                course_id = ${id}
-                AND
-                user_id = ${userId}
-          ) AS done`)
+						SELECT conclusion
+						FROM CourseUsers
+						WHERE
+							course_id = ${id}
+							AND
+							user_id = ${userId}
+					) AS done`)
 				],
 				exclude: ['createdAt', 'updatedAt']
 			},

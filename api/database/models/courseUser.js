@@ -4,11 +4,13 @@ module.exports = (sequelize, Sequelize) => {
 		conclude: Sequelize.BOOLEAN,
 		UserId: {
 			type: Sequelize.INTEGER,
-			field: 'user_id'
+			field: 'user_id',
+			allowNull: false,
 		},
 		CourseId: {
 			type: Sequelize.INTEGER,
-			field: 'course_id'
+			field: 'course_id',
+			allowNull: false,
 		}
 	});
 

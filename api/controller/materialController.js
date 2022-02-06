@@ -23,15 +23,15 @@ const getUser = async (id, userId) => {
 				include: [
 					'id', 'title', 'content', 'complementary', 'number', 'ModuleId',
 					Sequelize.literal(`(
-            SELECT COUNT(*) > 0
-            FROM MaterialUsers
-            WHERE
-                material_id = ${id}
-                AND
-                user_id = ${userId}
-                AND
-                done = true
-          ) AS done`)
+						SELECT COUNT(*) > 0
+						FROM MaterialUsers
+						WHERE
+							material_id = ${id}
+							AND
+							user_id = ${userId}
+							AND
+							done = true
+					) AS done`),
 				],
 				exclude: ['createdAt', 'updatedAt']
 			}
@@ -111,16 +111,16 @@ const checkCourseLocked = async (id) => {
 		const material = await Material.findByPk(id, {
 			attributes: [
 				Sequelize.literal(`(
-          SELECT locked
-          FROM Courses
-          WHERE
-              id = (
-                SELECT course_id 
-                FROM Modules
-                WHERE
-                  id = module_id
-              )
-        ) AS locked`),
+					SELECT locked
+					FROM Courses
+					WHERE
+						id = (
+							SELECT course_id 
+							FROM Modules
+							WHERE
+							id = module_id
+						)
+				) AS locked`),
 			]
 		});  
 		return material.locked;

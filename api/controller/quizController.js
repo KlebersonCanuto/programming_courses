@@ -34,15 +34,15 @@ const getUser = async (id, userId) => {
 			attributes: {
 				include: [
 					Sequelize.literal(`(
-            SELECT COUNT(*) > 0
-            FROM QuizUsers
-            WHERE
-                quiz_id = ${id}
-                AND
-                user_id = ${userId}
-                AND
-                done = true 
-          ) AS done`)
+						SELECT COUNT(*) > 0
+						FROM QuizUsers
+						WHERE
+							quiz_id = ${id}
+							AND
+							user_id = ${userId}
+							AND
+							done = true 
+					) AS done`),
 				],
 				exclude: ['answers', 'hint', 'createdAt', 'updatedAt']
 			}
@@ -146,16 +146,16 @@ const checkCourseLocked = async (id) => {
 		const quiz = await Quiz.findByPk(id, {
 			attributes: [
 				Sequelize.literal(`(
-          SELECT locked
-          FROM Courses
-          WHERE
-              id = (
-                SELECT course_id 
-                FROM Modules
-                WHERE
-                  id = module_id
-              )
-        ) AS locked`),
+					SELECT locked
+					FROM Courses
+					WHERE
+						id = (
+							SELECT course_id 
+							FROM Modules
+							WHERE
+							id = module_id
+						)
+				) AS locked`),
 			]
 		});  
 		return quiz.locked;

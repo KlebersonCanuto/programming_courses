@@ -20,7 +20,8 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		ModuleId: {
 			type: Sequelize.INTEGER,
-			field: 'module_id'
+			field: 'module_id',
+			allowNull: false,
 		},
 		image_link: {
 			type: Sequelize.STRING,

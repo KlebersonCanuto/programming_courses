@@ -28,29 +28,29 @@ const getByIdAndUser = async (id, userId) => {
 				include: [
 					'id', 'name', 'number', 'CourseId',
 					Sequelize.literal(`(
-            SELECT conclusionMaterials
-            FROM ModuleUsers
-            WHERE
-                module_id = ${id}
-                AND
-                user_id = ${userId}
-          ) AS doneMaterials`),
+						SELECT conclusionMaterials
+						FROM ModuleUsers
+						WHERE
+							module_id = ${id}
+							AND
+							user_id = ${userId}
+					) AS doneMaterials`),
 					Sequelize.literal(`(
-            SELECT conclusionQuizzes
-            FROM ModuleUsers
-            WHERE
-                module_id = ${id}
-                AND
-                user_id = ${userId}
-          ) AS doneQuizzes`),
+						SELECT conclusionQuizzes
+						FROM ModuleUsers
+						WHERE
+							module_id = ${id}
+							AND
+							user_id = ${userId}
+					) AS doneQuizzes`),
 					Sequelize.literal(`(
-            SELECT conclusionProblems
-            FROM ModuleUsers
-            WHERE
-                module_id = ${id}
-                AND
-                user_id = ${userId}
-          ) AS doneProblems`),
+						SELECT conclusionProblems
+						FROM ModuleUsers
+						WHERE
+							module_id = ${id}
+							AND
+							user_id = ${userId}
+					) AS doneProblems`),
 				]
 			},
 			include: [
@@ -128,11 +128,11 @@ const checkCourseLocked = async (id) => {
 		const module = await Module.findByPk(id, {
 			attributes: [
 				Sequelize.literal(`(
-          SELECT locked
-          FROM Courses
-          WHERE
-              id = course_id
-        ) AS locked`),
+					SELECT locked
+					FROM Courses
+					WHERE
+						id = course_id
+				) AS locked`),
 			]
 		});  
 		return module.locked;

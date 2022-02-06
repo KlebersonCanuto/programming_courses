@@ -5,7 +5,8 @@ module.exports = (sequelize, Sequelize) => {
 		example: Sequelize.BOOLEAN,
 		ProblemId: {
 			type: Sequelize.INTEGER,
-			field: 'problem_id'
+			field: 'problem_id',
+			allowNull: false,
 		}
 	});
 

@@ -3,7 +3,8 @@ module.exports = (sequelize, Sequelize) => {
 		points: Sequelize.INTEGER,
 		UserId: {
 			type: Sequelize.INTEGER,
-			field: 'user_id'
+			field: 'user_id',
+			allowNull: false,
 		}
 	});
 

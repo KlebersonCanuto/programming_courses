@@ -13,14 +13,20 @@ module.exports = (sequelize, Sequelize) => {
 			},
 		},
 		hint: Sequelize.STRING,
-		number: Sequelize.INTEGER,
+		number: {
+			type: Sequelize.INTEGER,
+			defaultValue: 0
+		},
 		answers: {
 			type: Sequelize.STRING,
 			validate: {
 				notEmpty: true
 			},
 			get() {
-				return this.getDataValue('answers').split('====');
+				if (this.getDataValue('answers')) {
+					return this.getDataValue('answers').split('====');
+				}
+				return [];
 			},
 			set(val) {
 				this.setDataValue('answers',val.join('===='));
@@ -28,7 +34,8 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		ModuleId: {
 			type: Sequelize.INTEGER,
-			field: 'module_id'
+			field: 'module_id',
+			allowNull: false,
 		},
 		done: {
 			type: Sequelize.VIRTUAL

@@ -126,7 +126,6 @@ describe('Test Module', () => {
 		})).rejects.toThrow();
 	});
 
-
 	it('Should fail to remove module', async () => {
 		const spy = jest.spyOn(Module, 'destroy').mockImplementation(() => { throw new Error('error'); });
 		await expect(moduleController.remove(id)).rejects.toThrow();

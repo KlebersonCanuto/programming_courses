@@ -190,8 +190,6 @@ describe('Test Material', () => {
 		})).rejects.toThrow();
 	});
 
-
-
 	it('Should fail to remove material', async () => {
 		const spy = jest.spyOn(Material, 'destroy').mockImplementation(() => { throw new Error('error'); });
 		await expect(materialController.remove(id)).rejects.toThrow();

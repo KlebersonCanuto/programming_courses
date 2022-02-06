@@ -5,11 +5,13 @@ module.exports = (sequelize, Sequelize) => {
 		attempts: Sequelize.INTEGER,
 		UserId: {
 			type: Sequelize.INTEGER,
-			field: 'user_id'
+			field: 'user_id',
+			allowNull: false,
 		},
 		ProblemId: {
 			type: Sequelize.INTEGER,
-			field: 'problem_id'
+			field: 'problem_id',
+			allowNull: false,
 		}
 	});
 

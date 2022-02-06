@@ -3,11 +3,13 @@ module.exports = (sequelize, Sequelize) => {
 		done: Sequelize.BOOLEAN,
 		UserId: {
 			type: Sequelize.INTEGER,
-			field: 'user_id'
+			field: 'user_id',
+			allowNull: false,
 		},
 		MaterialId: {
 			type: Sequelize.INTEGER,
-			field: 'material_id'
+			field: 'material_id',
+			allowNull: false,
 		}
 	});
 

@@ -8,11 +8,13 @@ module.exports = (sequelize, Sequelize) => {
 		conclusionProblems: Sequelize.INTEGER,
 		UserId: {
 			type: Sequelize.INTEGER,
-			field: 'user_id'
+			field: 'user_id',
+			allowNull: false,
 		},
 		ModuleId: {
 			type: Sequelize.INTEGER,
-			field: 'module_id'
+			field: 'module_id',
+			allowNull: false,
 		}
 	});
 
