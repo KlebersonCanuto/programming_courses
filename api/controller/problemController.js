@@ -38,22 +38,24 @@ const getUser = async (id, userId) => {
 			attributes: {
 				include: [
 					Sequelize.literal(`(
-            SELECT COUNT(*) > 0
-            FROM ProblemUsers
-            WHERE
-                problem_id = ${id}
-                AND
-                user_id = ${userId}
-                AND
-                done=true 
-          ) AS done`)
+						SELECT COUNT(*) > 0
+						FROM ProblemUsers
+						WHERE
+							problem_id = ${id}
+							AND
+							user_id = ${userId}
+							AND
+							done=true 
+					) AS done`)
 				],
 				exclude: ['file_id', 'createdAt', 'updatedAt']
 			},
 			include: [
-				{ model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
+				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example'] },
 			]
 		});  
+		if (problem)
+			problem.tests = problem.tests.filter(test => test.example === true);
 		return problem;
 	} catch (err) {
 		logger.error('getUser', err);
@@ -64,11 +66,13 @@ const getUser = async (id, userId) => {
 const getWithoutTests = async (id) => {
 	try {
 		const problem = await Problem.findByPk(id, {
-			attributes: ['id', 'title', 'image_link', 'description', 'ModuleId'],
+			attributes: ['id', 'title', 'description', 'image_link', 'ModuleId'],
 			include: [
-				{ model: Test, as: 'tests', attributes: ['input', 'output'], where: { example: true }},
+				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example']},
 			]
 		});  
+		if (problem)
+			problem.tests = problem.tests.filter(test => test.example === true);
 		return problem;
 	} catch (err) {
 		logger.error('getWithoutTests', err);
@@ -162,16 +166,16 @@ const checkCourseLocked = async (id) => {
 		const problem = await Problem.findByPk(id, {
 			attributes: [
 				Sequelize.literal(`(
-          SELECT locked
-          FROM Courses
-          WHERE
-              id = (
-                SELECT course_id 
-                FROM Modules
-                WHERE
-                  id = module_id
-              )
-        ) AS locked`),
+					SELECT locked
+					FROM Courses
+					WHERE
+						id = (
+							SELECT course_id 
+							FROM Modules
+							WHERE
+							id = module_id
+						)
+					) AS locked`),
 			]
 		});  
 		return problem.locked;

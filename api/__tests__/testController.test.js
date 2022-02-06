@@ -38,7 +38,6 @@ describe('Test Tests', () => {
 			example: false,
 			ProblemId: problemId,
 		}]);
-		console.log()
 		ids = tests.map(test => test.id);
 		expect(tests.length).toEqual(2);
 	});
