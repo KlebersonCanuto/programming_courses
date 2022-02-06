@@ -28,25 +28,6 @@ const deleteMany = async (args) => {
 	}
 };
 
-const update = async (id, args) => {
-	try {
-		const { input, output, example, ProblemId } = args;
-		const test = await Test.update(
-			{       
-				input, 
-				output, 
-				example, 
-				ProblemId 
-			},
-			{ where: { id } }
-		);  
-		return test;
-	} catch (err) {
-		logger.error('update', err);
-		throw Errors.TestErrors.FAILED_TO_UPDATE_TEST;
-	}
-};
-
 const remove = async (id) => {
 	try {
 		const test = await Test.destroy(
@@ -62,6 +43,5 @@ const remove = async (id) => {
 module.exports = {
 	createMany,
 	deleteMany,
-	update,
 	remove
 };

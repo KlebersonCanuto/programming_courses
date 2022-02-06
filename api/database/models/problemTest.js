@@ -2,7 +2,10 @@ module.exports = (sequelize, Sequelize) => {
 	const Test = sequelize.define('Test', {
 		input: Sequelize.STRING,
 		output: Sequelize.STRING,
-		example: Sequelize.BOOLEAN,
+		example: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false,
+		},
 		ProblemId: {
 			type: Sequelize.INTEGER,
 			field: 'problem_id',
