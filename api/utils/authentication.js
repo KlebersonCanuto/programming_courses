@@ -28,15 +28,11 @@ const getUserByToken = (token) => {
 };
 
 const getUser = (req) => {
-	try{
-		const token = getToken(req);
-		if(token)
-			return getUserByToken(token);
-		else
-			return false;
-	} catch(err) {
-		throw err;
-	}
+	const token = getToken(req);
+	if(token)
+		return getUserByToken(token);
+	else
+		return false;
 };
 
 const isValid = (req) => {

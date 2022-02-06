@@ -257,7 +257,6 @@ describe('Test Progress', () => {
 		expect(points).toEqual(61);
 	}); 
 
-
 	it('Should fail get ranking', async () => {
 		const spy = jest.spyOn(PointsUser, 'findAll').mockImplementation(() => { throw new Error('error'); });
 		await expect(progressController.ranking()).rejects.toThrow();
