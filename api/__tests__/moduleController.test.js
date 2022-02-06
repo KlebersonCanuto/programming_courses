@@ -7,6 +7,7 @@ describe('Test Module', () => {
 
 	beforeAll(async () => {
 		await Course.destroy({ where: {} });
+		
 		const course = await Course.create({
 			name: 'Course',
 		});

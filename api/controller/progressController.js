@@ -472,10 +472,10 @@ const saveHint = async (QuizId, UserId, quizUser) => {
 
 const ranking = async () => {
 	try{
-		const user = await PointsUser.findAll({
+		const users = await PointsUser.findAll({
 			include: { association: 'user' }
 		});
-		return user;
+		return users;
 	} catch(err){
 		logger.error('ranking', err);
 		throw Errors.ProgressErrors.FAILED_TO_GET_RANKING;

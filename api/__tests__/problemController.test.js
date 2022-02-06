@@ -8,10 +8,12 @@ describe('Test Problem', () => {
 
 	beforeAll(async () => {
 		await Course.destroy({ where: {} });
+
 		const course = await Course.create({
 			name: 'Course',
 		});
 		const courseId = course.id;
+		
 		const module = await Module.create({
 			name: 'Module',
 			CourseId: courseId,
