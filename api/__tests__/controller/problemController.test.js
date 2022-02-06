@@ -1,6 +1,5 @@
-const problemController = require('../controller/problemController');
-const testController = require('../controller/testController');
-const { Course, Module, Problem } = require('../database/models');
+const problemController = require('../../controller/problemController');
+const { Course, Module, Problem } = require('../../database/models');
 
 describe('Test Problem', () => {  
 	let moduleId;

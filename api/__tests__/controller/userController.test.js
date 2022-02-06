@@ -1,5 +1,5 @@
-const userController = require('../controller/userController');
-const { User } = require('../database/models');
+const userController = require('../../controller/userController');
+const { User } = require('../../database/models');
 
 describe('Test User', () => {  
 	let id;

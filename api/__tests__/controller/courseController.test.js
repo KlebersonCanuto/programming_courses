@@ -1,5 +1,5 @@
-const courseController = require('../controller/courseController');
-const { Course } = require('../database/models');
+const courseController = require('../../controller/courseController');
+const { Course } = require('../../database/models');
 
 describe('Test Course', () => {  
 	let id;

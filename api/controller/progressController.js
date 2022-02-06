@@ -264,7 +264,7 @@ const getQuiz = async (QuizId, UserId) => {
 
 const getDoneModules = async (CourseId, UserId) => {
 	try {
-		const doneQuizzes = await ModuleUser.findAll({ 
+		const doneModules = await ModuleUser.findAll({ 
 			where: { 
 				UserId,  
 				ModuleId: {
@@ -276,7 +276,7 @@ const getDoneModules = async (CourseId, UserId) => {
 			},
 			attributes: ['id', 'ModuleId']
 		});
-		return doneQuizzes;
+		return doneModules;
 	} catch (err) {
 		logger.error('getDoneModules', err);
 		throw Errors.ProgressErrors.FAILED_TO_GET_DONE_MODULES;
@@ -485,14 +485,14 @@ const ranking = async () => {
 module.exports = {
 	getPoints,
 	getMaterial,
+	getProblem,
+	getQuiz,
 	getDoneModules,
 	getDoneQuizzes,
 	getDoneMaterials,
 	getDoneProblems,
 	saveMaterial,
-	getQuiz,
 	saveQuiz,
-	getProblem,
 	saveProblem,
 	saveOracle,
 	saveHint,

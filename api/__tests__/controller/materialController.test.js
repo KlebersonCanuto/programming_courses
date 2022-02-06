@@ -1,5 +1,5 @@
-const materialController = require('../controller/materialController');
-const { Course, Module, Material } = require('../database/models');
+const materialController = require('../../controller/materialController');
+const { Course, Module, Material } = require('../../database/models');
 
 describe('Test Material', () => {  
 	let moduleId;
