@@ -15,7 +15,7 @@ generateResponse = (fn) => {
 	return response;
 };
 
-describe('Test User', () => {  
+describe('Test Login', () => {  
 	let token;
 
 	beforeAll(async () => {-
