@@ -1,5 +1,5 @@
 const userService = require('../../service/userService');
-const { User } = require('../../database/models');
+const { User, PointsUser } = require('../../database/models');
 
 generateResponse = (fn) => {
 	const response = {
@@ -86,5 +86,109 @@ describe('Test Login', () => {
         });
 
 		await userService.ranking(null, res);
+	});
+
+    it('Should get ranking with points', async () => {
+        await PointsUser.create({
+            UserId: id,
+            points: 10,
+        });
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(200);
+            expect(response.rank.length).toEqual(1);
+        });
+
+		await userService.ranking(null, res);
+	});
+
+    it('Should fail to get ranking', async () => {
+        const spy = jest.spyOn(User, 'findAll').mockImplementation(() => { throw new Error('error'); });
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await userService.ranking(null, res);
+		spy.mockRestore();
+	});
+
+    it('Should fail to get user', async () => {
+        const spy = jest.spyOn(User, 'findByPk').mockImplementation(() => { throw new Error('error'); });
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await userService.get({
+            params: {
+                userId: id
+            }
+		}, res);
+		spy.mockRestore();
+	});
+
+    it('Should fail to create user (invalid username)', async () => {
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await userService.create({
+            body: {
+                username: '',
+            }
+		}, res);
+	});
+
+    it('Should fail to create user (invalid password)', async () => {
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await userService.create({
+            body: {
+                username: 'User',
+                password: '',
+            }
+		}, res);
+	});
+
+    it('Should fail to create user (invalid confirmPassword)', async () => {
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await userService.create({
+            body: {
+                username: 'User',
+                password: 'User',
+                confirmPassword: '',
+            }
+		}, res);
+	});
+
+    it('Should fail to create user (invalid email)', async () => {
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await userService.create({
+            body: {
+                username: 'User',
+                password: 'User',
+                confirmPassword: 'User',
+            }
+		}, res);
+	});
+
+    it('Should fail to update user (invalid username)', async () => {
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await userService.update({
+            body: {
+                username: ''
+            }, params: {
+                userId: id
+            }
+		}, res);
 	});
 });
