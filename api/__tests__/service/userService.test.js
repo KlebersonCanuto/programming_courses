@@ -13,7 +13,7 @@ generateResponse = (fn) => {
 	return response;
 };
 
-describe('Test Login', () => {  
+describe('Test User', () => {  
 	let id;
 
 	beforeAll(async () => {-
