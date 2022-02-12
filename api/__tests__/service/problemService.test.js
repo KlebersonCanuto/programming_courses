@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const problemService = require('../../service/problemService');
-const { Course, Module, Problem, User } = require('../../database/models');
+const { Course, Module, Problem, User, Test } = require('../../database/models');
 require('dotenv').config();
 
 generateResponse = (fn) => {
@@ -16,7 +16,7 @@ generateResponse = (fn) => {
 	return response;
 };
 
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 describe('Test Problem', () => {  
 	let moduleId;
@@ -120,30 +120,6 @@ describe('Test Problem', () => {
 		}, res);
 	});
 
-	it('Should update problem description', async () => {
-		const res = generateResponse((response) => {
-			expect(res.code).toEqual(200);
-		});
-
-		const test_file = `tmp/${process.env.TEST_FILE}`
-		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
-
-		fs.copyFileSync(process.env.TEST_FILE, test_file);
-		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
-
-		await problemService.update({
-			body: {
-				title: 'Problem2',
-				description: '12345', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
-			},
-			params: {
-				id
-			},
-			files: []
-		}, res);
-	});
-
 	it('Should get by id without user data', async () => {
 		const res = generateResponse((response) => {
 			expect(res.code).toEqual(200);
@@ -204,6 +180,76 @@ describe('Test Problem', () => {
 		});
 
 		await problemService.getUser({
+			params: {
+				id,
+				userId
+			}
+		}, res);
+	});
+
+	it('Should exec', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.output).toEqual('3');
+		});
+
+		await problemService.exec({
+			body: {
+				code: "x = int(input())\ny = int(input())\nprint(x+y)",
+				input: "1\n2"
+			}
+		}, res);
+	});
+
+	it('Should exec oracle', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.correct).toEqual(true);
+		});
+
+		await problemService.oracle({
+			body: {
+				input: "1\n2",
+				inputOnly: false,
+				output: "3"
+			},
+			params: {
+				id,
+				userId
+			}
+		}, res);
+	});
+
+	it('Should exec oracle incorrect', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.correct).toEqual(false);
+		});
+
+		await problemService.oracle({
+			body: {
+				input: "1\n2",
+				inputOnly: false,
+				output: "12"
+			},
+			params: {
+				id,
+				userId
+			}
+		}, res);
+	});
+
+	it('Should exec oracle inputOnly', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.output).toEqual('3');
+		});
+
+		await problemService.oracle({
+			body: {
+				input: "1\n2",
+				inputOnly: true
+			},
 			params: {
 				id,
 				userId
@@ -372,6 +418,115 @@ describe('Test Problem', () => {
 		}, res);
 	});
 
+	it('Should fail to update tests', async () => {
+		const spy = jest.spyOn(Problem, 'update').mockImplementation(() => { throw new Error('error'); });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		const test_file = `tmp/${process.env.TEST_FILE}`
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+
+		fs.copyFileSync(process.env.TEST_FILE, test_file);
+		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
+
+		await problemService.update({
+			body: {
+				title: 'Problem2',
+				description: '12345', 
+				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+			},
+			params: {
+				id
+			},
+			files: []
+		}, res);
+
+		spy.mockRestore();
+	});
+
+	it('Should fail to create problem tests', async () => {
+		const spy = jest.spyOn(Test, 'bulkCreate').mockImplementation(() => { throw new Error('error'); });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		const test_file = `tmp/${process.env.TEST_FILE}`
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+
+		fs.copyFileSync(process.env.TEST_FILE, test_file);
+		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
+
+		await problemService.create({
+			body: {
+				title: 'Problem',
+				description: '123', 
+				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				ModuleId: moduleId,
+			},
+			files: [{
+				path: test_file,
+				filename: test_file,
+				originalname: test_file
+			}]
+		}, res);
+		spy.mockRestore();
+	});
+
+	it('Should fail to exec', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		await problemService.exec({
+			body: {
+				code: "x = int(input())\ny = int(input())\nprint(x+y)",
+				input: "1"
+			}
+		}, res);
+	});
+
+	it('Should fail to exec oracle (no inputOnly attribute)', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		await problemService.oracle({
+			body: {
+				input: "1\n2"
+			},
+			params: {}
+		}, res);
+	});
+
+	it('Should fail to exec oracle (no input)', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		await problemService.oracle({
+			body: {
+				inputOnly: true,
+				input: ""
+			},
+			params: {}
+		}, res);
+	});
+
+	it('Should fail to exec oracle (no inputOnly without output)', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		await problemService.oracle({
+			body: {
+				inputOnly: false,
+				input: "1\n2"
+			},
+			params: {}
+		}, res);
+	});
+
 	it('Should fail to remove problem', async () => {
 		const spy = jest.spyOn(Problem, 'destroy').mockImplementation(() => { throw new Error('error'); });
 		const res = generateResponse((response) => {
@@ -385,20 +540,6 @@ describe('Test Problem', () => {
 		}, res);
 		spy.mockRestore();
 	});
-
-	// it('Should fail to get hint', async () => {
-	// 	const res = generateResponse((response) => {
-	// 		expect(res.code).toEqual(400);
-	// 	});
-
-	// 	await problemService.hint({
-	// 		params: {
-	// 			id: id*2,
-	// 			userId
-	// 		}
-	// 	}, res);
-	// });
-
 
 	it('Should fail to submit problem', async () => {
 		const res = generateResponse((response) => {
@@ -415,32 +556,6 @@ describe('Test Problem', () => {
 			}
 		}, res);
 	});
-
-	// it('Should get no hint', async () => {
-	// 	const problem = await Problem.create({
-	// 		title: 'Problem',
-	// 		question: '123', 
-	// 		answers: ['1', '2', '3'],
-	// 		ModuleId: moduleId
-	// 	});
-	// 	const quizId = problem.id;
-
-	// 	const res = generateResponse((response) => {
-	// 		expect(res.code).toEqual(200);
-	// 		expect(response.data).toEqual('Não há dica disponível');
-	// 	});
-
-	// 	await problemService.hint({
-	// 		params: {
-	// 			id: quizId,
-	// 			userId
-	// 		}
-	// 	}, res);
-
-	// 	await Problem.destroy(
-	// 		{ where: { id: quizId } }
-	// 	);
-	// });
 
 	it('Should remove problem', async () => {
 		const res = generateResponse((response) => {
