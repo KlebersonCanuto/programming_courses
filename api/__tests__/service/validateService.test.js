@@ -18,20 +18,20 @@ describe('Test Validate', () => {
 	let courseUnlockedId;
 	let moduleId;
 
-	beforeAll(async () => {-
-	await Course.destroy({ where: {} });
+	beforeAll(async () => {
+		await Course.destroy({ where: {} });
 
-	const course = await Course.create({
-		name: 'Course',
-		locked: false
-	});
-	courseUnlockedId = course.id;
-		
-	const courseLocked = await Course.create({
-		name: 'Course locked',
-		locked: true
-	});
-	courseLockedId = courseLocked.id;
+		const course = await Course.create({
+			name: 'Course',
+			locked: false
+		});
+		courseUnlockedId = course.id;
+			
+		const courseLocked = await Course.create({
+			name: 'Course locked',
+			locked: true
+		});
+		courseLockedId = courseLocked.id;
 	});
     
 	it('Should check course locked', async () => {

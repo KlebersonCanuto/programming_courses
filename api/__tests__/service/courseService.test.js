@@ -17,7 +17,7 @@ describe('Test Course', () => {
 	let id;
 
 	beforeAll(async () => {-
-	await Course.destroy({ where: {} });
+		await Course.destroy({ where: {} });
 	});
     
 	it('Should get no course', async () => {
