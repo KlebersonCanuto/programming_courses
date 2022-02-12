@@ -47,8 +47,8 @@ describe('Test Problem', () => {
 			id = response.data.id;
 		});
 
-		const test_file = `tmp/${process.env.TEST_FILE}`
-		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+		const test_file = `tmp/${process.env.TEST_FILE}`;
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`;
 
 		fs.copyFileSync(process.env.TEST_FILE, test_file);
 		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
@@ -57,7 +57,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem',
 				description: '123', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 				ModuleId: moduleId,
 			},
 			files: [{
@@ -91,8 +91,8 @@ describe('Test Problem', () => {
 			expect(res.code).toEqual(200);
 		});
 
-		const test_file = `tmp/${process.env.TEST_FILE}`
-		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+		const test_file = `tmp/${process.env.TEST_FILE}`;
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`;
 
 		fs.copyFileSync(process.env.TEST_FILE, test_file);
 		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
@@ -101,7 +101,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem2',
 				description: '1234', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 			},
 			params: {
 				id
@@ -110,12 +110,12 @@ describe('Test Problem', () => {
 				path: test_file,
 				filename: test_file,
 				originalname: test_file,
-				mimetype: "application"
+				mimetype: 'application'
 			}, {
 				path: image_file,
 				filename: image_file,
 				originalname: image_file,
-				mimetype: "image"
+				mimetype: 'image'
 			}]
 		}, res);
 	});
@@ -167,7 +167,7 @@ describe('Test Problem', () => {
 				userId
 			},
 			body: {
-				answer: "x = int(input())\ny = int(input())\nprint(x+y)"
+				answer: 'x = int(input())\ny = int(input())\nprint(x+y)'
 			}
 		}, res);
 	});
@@ -195,8 +195,8 @@ describe('Test Problem', () => {
 
 		await problemService.exec({
 			body: {
-				code: "x = int(input())\ny = int(input())\nprint(x+y)",
-				input: "1\n2"
+				code: 'x = int(input())\ny = int(input())\nprint(x+y)',
+				input: '1\n2'
 			}
 		}, res);
 	});
@@ -209,9 +209,9 @@ describe('Test Problem', () => {
 
 		await problemService.oracle({
 			body: {
-				input: "1\n2",
+				input: '1\n2',
 				inputOnly: false,
-				output: "3"
+				output: '3'
 			},
 			params: {
 				id,
@@ -228,9 +228,9 @@ describe('Test Problem', () => {
 
 		await problemService.oracle({
 			body: {
-				input: "1\n2",
+				input: '1\n2',
 				inputOnly: false,
-				output: "12"
+				output: '12'
 			},
 			params: {
 				id,
@@ -246,9 +246,9 @@ describe('Test Problem', () => {
 
 		await problemService.oracle({
 			body: {
-				input: "1",
+				input: '1',
 				inputOnly: false,
-				output: "12"
+				output: '12'
 			},
 			params: {
 				id,
@@ -265,7 +265,7 @@ describe('Test Problem', () => {
 
 		await problemService.oracle({
 			body: {
-				input: "1\n2",
+				input: '1\n2',
 				inputOnly: true
 			},
 			params: {
@@ -282,7 +282,7 @@ describe('Test Problem', () => {
 
 		await problemService.oracle({
 			body: {
-				input: "1",
+				input: '1',
 				inputOnly: true
 			},
 			params: {
@@ -329,7 +329,7 @@ describe('Test Problem', () => {
 			body: {
 				title: '',
 				description: '123', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 				ModuleId: moduleId,
 			},
 		}, res);
@@ -344,7 +344,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem',
 				description: '', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 				ModuleId: moduleId,
 			},
 		}, res);
@@ -359,7 +359,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem',
 				description: '123', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 				ModuleId: moduleId,
 			},
 		}, res);
@@ -392,7 +392,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem',
 				description: '123', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 			},
 		}, res);
 	});
@@ -406,7 +406,7 @@ describe('Test Problem', () => {
 			body: {
 				title: '',
 				description: '1234', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 			},
 			params: {
 				id
@@ -425,7 +425,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem2',
 				description: '', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 			},
 			params: {
 				id
@@ -459,8 +459,8 @@ describe('Test Problem', () => {
 			expect(res.code).toEqual(400);
 		});
 
-		const test_file = `tmp/${process.env.TEST_FILE}`
-		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+		const test_file = `tmp/${process.env.TEST_FILE}`;
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`;
 
 		fs.copyFileSync(process.env.TEST_FILE, test_file);
 		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
@@ -469,7 +469,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem2',
 				description: '12345', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 			},
 			params: {
 				id
@@ -487,8 +487,8 @@ describe('Test Problem', () => {
 			expect(res.code).toEqual(400);
 		});
 
-		const test_file = `tmp/${process.env.TEST_FILE}`
-		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+		const test_file = `tmp/${process.env.TEST_FILE}`;
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`;
 
 		fs.copyFileSync(process.env.TEST_FILE, test_file);
 		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
@@ -497,7 +497,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem2',
 				description: '12345', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 			},
 			params: {
 				id
@@ -515,8 +515,8 @@ describe('Test Problem', () => {
 			expect(res.code).toEqual(400);
 		});
 
-		const test_file = `tmp/${process.env.TEST_FILE}`
-		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+		const test_file = `tmp/${process.env.TEST_FILE}`;
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`;
 
 		fs.copyFileSync(process.env.TEST_FILE, test_file);
 		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
@@ -525,7 +525,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem',
 				description: '123', 
-				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
 				ModuleId: moduleId,
 			},
 			files: [{
@@ -544,8 +544,8 @@ describe('Test Problem', () => {
 
 		await problemService.exec({
 			body: {
-				code: "x = int(input())\ny = int(input())\nprint(x+y)",
-				input: "1"
+				code: 'x = int(input())\ny = int(input())\nprint(x+y)',
+				input: '1'
 			}
 		}, res);
 	});
@@ -557,7 +557,7 @@ describe('Test Problem', () => {
 
 		await problemService.oracle({
 			body: {
-				input: "1\n2"
+				input: '1\n2'
 			},
 			params: {}
 		}, res);
@@ -571,7 +571,7 @@ describe('Test Problem', () => {
 		await problemService.oracle({
 			body: {
 				inputOnly: true,
-				input: ""
+				input: ''
 			},
 			params: {}
 		}, res);
@@ -585,7 +585,7 @@ describe('Test Problem', () => {
 		await problemService.oracle({
 			body: {
 				inputOnly: false,
-				input: "1\n2"
+				input: '1\n2'
 			},
 			params: {}
 		}, res);
@@ -632,7 +632,7 @@ describe('Test Problem', () => {
 				userId
 			},
 			body: {
-				answer: "x = int(input())\ny = int(input())\nz = int(input())\nprint(x+y)"
+				answer: 'x = int(input())\ny = int(input())\nz = int(input())\nprint(x+y)'
 			}
 		}, res);
 	});

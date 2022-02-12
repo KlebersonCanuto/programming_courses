@@ -40,8 +40,8 @@ describe('Test test', () => {
 
 		const test = await Test.create({
 			ProblemId: problemId,
-			input: "1\n2",
-			output: "3"
+			input: '1\n2',
+			output: '3'
 		});
 		id = test.id;
 	});

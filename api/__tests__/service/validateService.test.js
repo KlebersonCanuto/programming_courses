@@ -19,19 +19,19 @@ describe('Test Validate', () => {
 	let moduleId;
 
 	beforeAll(async () => {-
-		await Course.destroy({ where: {} });
+	await Course.destroy({ where: {} });
 
-		const course = await Course.create({
-			name: "Course",
-			locked: false
-		});
-		courseUnlockedId = course.id;
+	const course = await Course.create({
+		name: 'Course',
+		locked: false
+	});
+	courseUnlockedId = course.id;
 		
-		const courseLocked = await Course.create({
-			name: "Course locked",
-			locked: true
-		});
-		courseLockedId = courseLocked.id;
+	const courseLocked = await Course.create({
+		name: 'Course locked',
+		locked: true
+	});
+	courseLockedId = courseLocked.id;
 	});
     
 	it('Should check course locked', async () => {
@@ -39,7 +39,7 @@ describe('Test Validate', () => {
 			params: {
 				id: courseLockedId,
 			},
-			originalUrl: "courses"
+			originalUrl: 'courses'
 		}, null, () => {});
 	});
 
@@ -52,7 +52,7 @@ describe('Test Validate', () => {
 			params: {
 				id: courseUnlockedId,
 			},
-			originalUrl: "courses"
+			originalUrl: 'courses'
 		}, res, () => {});
 	});
 
@@ -61,7 +61,7 @@ describe('Test Validate', () => {
 			params: {
 				id: courseUnlockedId,
 			},
-			originalUrl: "courses"
+			originalUrl: 'courses'
 		}, null, () => {});
 	});
 
@@ -74,14 +74,14 @@ describe('Test Validate', () => {
 			params: {
 				id: courseLockedId,
 			},
-			originalUrl: "courses"
+			originalUrl: 'courses'
 		}, res, () => {});
 	});
 
 	it('Should check course unlocked (module)', async () => {
 		const module = await Module.create({
 			CourseId: courseUnlockedId,
-			name: "Module"
+			name: 'Module'
 		});
 		moduleId = module.id;
 
@@ -89,7 +89,7 @@ describe('Test Validate', () => {
 			params: {
 				id: moduleId,
 			},
-			originalUrl: "modules"
+			originalUrl: 'modules'
 		}, null, () => {});
 	});
 
@@ -108,7 +108,7 @@ describe('Test Validate', () => {
 			params: {
 				id: materialId,
 			},
-			originalUrl: "materials"
+			originalUrl: 'materials'
 		}, null, () => {});
 	});
 
@@ -127,7 +127,7 @@ describe('Test Validate', () => {
 			params: {
 				id: quizId,
 			},
-			originalUrl: "quizzes"
+			originalUrl: 'quizzes'
 		}, null, () => {});
 	});
 
@@ -144,7 +144,7 @@ describe('Test Validate', () => {
 			params: {
 				id: problemId,
 			},
-			originalUrl: "problems"
+			originalUrl: 'problems'
 		}, null, () => {});
 	});
 
@@ -154,7 +154,7 @@ describe('Test Validate', () => {
 				CourseId: courseUnlockedId,
 			},
 			params: {},
-			originalUrl: "modules"
+			originalUrl: 'modules'
 		}, null, () => {});
 	});
 
@@ -164,7 +164,7 @@ describe('Test Validate', () => {
 			body: {
 				ModuleId: moduleId,
 			},
-			originalUrl: "materials"
+			originalUrl: 'materials'
 		}, null, () => {});
 	});
 
@@ -174,7 +174,7 @@ describe('Test Validate', () => {
 			body: {
 				ModuleId: moduleId,
 			},
-			originalUrl: "quizzes"
+			originalUrl: 'quizzes'
 		}, null, () => {});
 	});
 
@@ -184,7 +184,7 @@ describe('Test Validate', () => {
 			body: {
 				ModuleId: moduleId,
 			},
-			originalUrl: "problems"
+			originalUrl: 'problems'
 		}, null, () => {});
 	});
 
@@ -197,7 +197,7 @@ describe('Test Validate', () => {
 			params: {
 				id: courseLockedId*2,
 			},
-			originalUrl: "courses"
+			originalUrl: 'courses'
 		}, res, () => {});
 	});
 
@@ -210,7 +210,7 @@ describe('Test Validate', () => {
 			params: {
 				id: courseLockedId*2,
 			},
-			originalUrl: "courses"
+			originalUrl: 'courses'
 		}, res, () => {});
 	});
 });
