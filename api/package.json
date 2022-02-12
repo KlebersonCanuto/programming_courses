@@ -8,7 +8,8 @@
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
     "pretest": "NODE_ENV=test sequelize db:migrate",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",
