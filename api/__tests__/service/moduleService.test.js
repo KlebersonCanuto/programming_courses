@@ -184,7 +184,7 @@ describe('Test Module', () => {
 		spy.mockRestore();
 	});
 
-	it('Should failt to create module (invalid course)', async () => {
+	it('Should fail to create module (invalid course)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });

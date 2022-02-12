@@ -1,5 +1,5 @@
-const materialService = require('../../service/materialService');
-const { Course, Module, Material, User } = require('../../database/models');
+const quizService = require('../../service/quizService');
+const { Course, Module, Quiz, User } = require('../../database/models');
 
 generateResponse = (fn) => {
 	const response = {
@@ -13,7 +13,7 @@ generateResponse = (fn) => {
 	return response;
 };
 
-describe('Test Material', () => {  
+describe('Test Quiz', () => {  
 	let moduleId;
 	let userId;
 	let id;
@@ -34,21 +34,21 @@ describe('Test Material', () => {
 		moduleId = module.id; 
 	});
 
-	it('Should create material', async () => {
+	it('Should create quiz', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
-            expect(response.data.title).toEqual('Material');
-            expect(response.data.content).toEqual('Material');
+            expect(response.data.title).toEqual('Quiz');
+            expect(response.data.question).toEqual('123');
             id = response.data.id;
         });
 
-		await materialService.create({
+		await quizService.create({
             body: {
-                title: 'Material',
-                content: 'Material',
-                complementary: false,
-                video_link: '',
-                ModuleId: moduleId
+                title: 'Quiz',
+                question: '123', 
+                hint: '123', 
+                answers: ["123", "1", "2", "3"],
+                ModuleId: moduleId,
             }
 		}, res);
 	});
@@ -57,27 +57,27 @@ describe('Test Material', () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
             expect(response.data.id).toEqual(id);
-            expect(response.data.title).toEqual('Material');
+            expect(response.data.title).toEqual('Quiz');
         });
 
-		await materialService.get({
+		await quizService.get({
             params: {
                 id
             }
 		}, res);
 	});
 
-    it('Should update material', async () => {
+    it('Should update quiz', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
         });
 
-		await materialService.update({
+		await quizService.update({
             body: {
-                title: 'Material2',
-                content: 'Material2',
-                complementary: false,
-                video_link: '',
+                title: 'Quiz2',
+                question: '1234', 
+                hint: '1234', 
+                answers: ["1234", "1", "2", "3", "4"],
             },
             params: {
                 id
@@ -89,10 +89,10 @@ describe('Test Material', () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
             expect(response.data.id).toEqual(id);
-            expect(response.data.title).toEqual('Material2');
+            expect(response.data.title).toEqual('Quiz2');
         });
 
-		await materialService.getUser({
+		await quizService.getUser({
             params: {
                 id
             }
@@ -109,11 +109,11 @@ describe('Test Material', () => {
 
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
-            expect(response.data.title).toEqual('Material2');
+            expect(response.data.title).toEqual('Quiz2');
             expect(response.data.done).toEqual(0);
         });
 
-		await materialService.getUser({
+		await quizService.getUser({
             params: {
                 id,
                 userId
@@ -121,15 +121,32 @@ describe('Test Material', () => {
 		}, res);
 	});
 
-    it('Should done material', async () => {
+    it('Should get hint', async () => {
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(200);
+            expect(response.data).toEqual('1234');
+        });
+
+		await quizService.hint({
+            params: {
+                id,
+                userId
+            }
+		}, res);
+	});
+
+    it('Should submit quiz', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
         });
 
-		await materialService.done({
+		await quizService.submit({
             params: {
                 id,
                 userId
+            },
+            body: {
+                answer: '3'
             }
 		}, res);
 	});
@@ -137,11 +154,11 @@ describe('Test Material', () => {
     it('Should get by id with user progress done', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
-            expect(response.data.title).toEqual('Material2');
+            expect(response.data.title).toEqual('Quiz2');
             expect(response.data.done).toEqual(1);
         });
 
-		await materialService.getUser({
+		await quizService.getUser({
             params: {
                 id,
                 userId
@@ -149,13 +166,13 @@ describe('Test Material', () => {
 		}, res);
 	});
 
-    it('Should fail to get material', async () => {
-        const spy = jest.spyOn(Material, 'findByPk').mockImplementation(() => { throw new Error('error'); });
+    it('Should fail to get quiz', async () => {
+        const spy = jest.spyOn(Quiz, 'findByPk').mockImplementation(() => { throw new Error('error'); });
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.get({
+		await quizService.get({
             params: {
                 id
             }
@@ -163,13 +180,13 @@ describe('Test Material', () => {
 		spy.mockRestore();
 	});
 
-    it('Should fail to get material with user data', async () => {
-        const spy = jest.spyOn(Material, 'findByPk').mockImplementation(() => { throw new Error('error'); });
+    it('Should fail to get quiz with user data', async () => {
+        const spy = jest.spyOn(Quiz, 'findByPk').mockImplementation(() => { throw new Error('error'); });
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.getUser({
+		await quizService.getUser({
             params: {
                 id
             }
@@ -177,94 +194,80 @@ describe('Test Material', () => {
 		spy.mockRestore();
 	});
 
-	it('Should fail to create material (invalid title)', async () => {
+	it('Should fail to create quiz (invalid title)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.create({
+		await quizService.create({
             body: {
                 title: '',
-                content: 'Material',
-                complementary: false,
-                video_link: '',
-                ModuleId: moduleId
+                question: '123', 
+                hint: '123', 
+                answers: ["123", "1", "2", "3"],
+                ModuleId: moduleId,
             }
 		}, res);
 	});
     
-	it('Should fail to create material (invalid content)', async () => {
+	it('Should fail to create quiz (invalid question)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.create({
+		await quizService.create({
             body: {
-                title: 'Material',
-                content: '',
-                complementary: false,
-                video_link: '',
-                ModuleId: moduleId
+                title: 'Quiz',
+                question: '', 
+                hint: '123', 
+                answers: ["123", "1", "2", "3"],
+                ModuleId: moduleId,
             }
 		}, res);
 	});
 
-    it('Should fail to create material (invalid complementary)', async () => {
+    it('Should fail to create quiz (invalid answers)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.create({
+		await quizService.create({
             body: {
-                title: 'Material',
-                content: 'Material',
-                video_link: '',
-                ModuleId: moduleId
+                title: 'Quiz',
+                question: '123', 
+                hint: '123', 
+                answers: [],
+                ModuleId: moduleId,
             }
 		}, res);
 	});
 
-    it('Should fail to create material (invalid link)', async () => {
+    it('Should fail to create quiz (invalid moduleId)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.create({
+		await quizService.create({
             body: {
-                title: 'Material',
-                content: 'Material',
-                complementary: false,
-                ModuleId: moduleId
+                title: 'Quiz',
+                question: '123', 
+                hint: '123', 
+                answers: ["123", "1", "2", "3"],
             }
 		}, res);
 	});
 
-    it('Should fail to create material (invalid moduleId)', async () => {
+    it('Should fail to update quiz (invalid title)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.create({
-            body: {
-                title: 'Material',
-                content: 'Material',
-                complementary: false,
-                video_link: '',
-            }
-		}, res);
-	});
-
-    it('Should fail to update material (invalid title)', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
-
-		await materialService.update({
+		await quizService.update({
             body: {
                 title: '',
-                content: 'Material',
-                complementary: false,
-                video_link: '',
+                question: '123', 
+                hint: '123', 
+                answers: ["123", "1", "2", "3"],
             },
             params: {
                 id
@@ -273,17 +276,17 @@ describe('Test Material', () => {
 	});
 
     
-    it('Should fail to update material (invalid content)', async () => {
+    it('Should fail to update quiz (invalid question)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.update({
+		await quizService.update({
             body: {
-                title: 'Material',
-                content: '',
-                complementary: false,
-                video_link: '',
+                title: 'Quiz',
+                question: '', 
+                hint: '123', 
+                answers: ["123", "1", "2", "3"],
             },
             params: {
                 id
@@ -292,16 +295,17 @@ describe('Test Material', () => {
 	});
 
     
-    it('Should fail to update material (invalid complementary)', async () => {
+    it('Should fail to update quiz (invalid answers)', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.update({
+		await quizService.update({
             body: {
-                title: 'Material',
-                content: 'Material',
-                video_link: '',
+                title: 'Quiz',
+                question: '123', 
+                hint: '123', 
+                answers: [],
             },
             params: {
                 id
@@ -309,31 +313,13 @@ describe('Test Material', () => {
 		}, res);
 	});
 
-    
-    it('Should fail to update material (invalid link)', async () => {
+    it('Should fail to remove quiz', async () => {
+        const spy = jest.spyOn(Quiz, 'destroy').mockImplementation(() => { throw new Error('error'); });
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.update({
-            body: {
-                title: 'Material',
-                content: 'Material',
-                complementary: false,
-            },
-            params: {
-                id
-            }
-		}, res);
-	});
-
-    it('Should fail to remove material', async () => {
-        const spy = jest.spyOn(Material, 'destroy').mockImplementation(() => { throw new Error('error'); });
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
-
-		await materialService.remove({
+		await quizService.remove({
             params: {
                 id
             }
@@ -341,25 +327,68 @@ describe('Test Material', () => {
 		spy.mockRestore();
 	});
 
-    it('Should fail to done material', async () => {
+    it('Should fail to get hint', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(400);
         });
 
-		await materialService.done({
+		await quizService.hint({
+            params: {
+                id: id*2,
+                userId
+            }
+		}, res);
+	});
+
+
+    it('Should fail to submit quiz', async () => {
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(400);
+        });
+
+		await quizService.submit({
             params: {
                 id,
-                userId: userId*2
+                userId
+            },
+            body: {
+
             }
 		}, res);
 	});
 
-    it('Should remove material', async () => {
+    it('Should get no hint', async () => {
+        const quiz = await Quiz.create({
+            title: 'Quiz',
+            question: '123', 
+            answers: ["1", "2", "3"],
+            ModuleId: moduleId
+        });
+        const quizId = quiz.id;
+
+        const res = generateResponse((response) => {
+            expect(res.code).toEqual(200);
+            expect(response.data).toEqual('Não há dica disponível');
+        });
+
+		await quizService.hint({
+            params: {
+                id: quizId,
+                userId
+            }
+		}, res);
+
+        await Quiz.destroy(
+            { where: { id: quizId } }
+        )
+	});
+
+    it('Should remove quiz', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
         });
 
-		await materialService.remove({
+		await quizService.remove({
             params: {
                 id
             }
