@@ -14,23 +14,21 @@ generateResponse = (fn) => {
 };
 
 describe('Test Module', () => {  
-	let quizId;
-	let problemId;
-	let materialId;
 	let courseId;
 	let userId;
 	let id;
 
 	beforeAll(async () => {
 		await Course.destroy({ where: {} });
+		await User.destroy({ where: {} });
 		
 		const course = await Course.create({
 			name: 'Course',
 		});
-		courseId = course.id
+		courseId = course.id;
 	});
 
-	it('Should create course', async () => {
+	it('Should create module', async () => {
         const res = generateResponse((response) => {
             expect(res.code).toEqual(200);
             expect(response.data.name).toEqual('Module');
