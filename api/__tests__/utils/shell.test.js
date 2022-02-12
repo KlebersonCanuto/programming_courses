@@ -5,7 +5,7 @@ const code = 'x = input()\ny = input()\nprint(x + y)';
 describe('Test Shell', () => {  
 
 	it('Should exec shell', async () => {
-        const output = await shell.execShell(code, [{input: 'a\nb'}]);
+		const output = await shell.execShell(code, [{input: 'a\nb'}]);
 		expect(output[0].output).toEqual('ab');
 	});
 
@@ -14,12 +14,12 @@ describe('Test Shell', () => {
 	});
 
 	it('Should compare correct', async () => {
-        const correct = await shell.compare(code, [{input: 'a\nb', output: 'ab'}]);
+		const correct = await shell.compare(code, [{input: 'a\nb', output: 'ab'}]);
 		expect(correct).toEqual(true);
 	});
 
 	it('Should compare incorrect', async () => {
-        const correct = await shell.compare(code, [{input: '1\n2', output: '3'}]);
+		const correct = await shell.compare(code, [{input: '1\n2', output: '3'}]);
 		expect(correct).toEqual(false);
 	});
 
@@ -28,12 +28,12 @@ describe('Test Shell', () => {
 	});
 
 	it('Should compareIO correct', async () => {
-        const correct = await shell.compareIO(code, 'a\nb', 'ab');
+		const correct = await shell.compareIO(code, 'a\nb', 'ab');
 		expect(correct).toEqual(true);
 	});
 
 	it('Should compareIO incorrect', async () => {
-        const correct = await shell.compareIO(code, 'a\nb', 'ba');
+		const correct = await shell.compareIO(code, 'a\nb', 'ba');
 		expect(correct).toEqual(false);
 	});
 
@@ -42,7 +42,7 @@ describe('Test Shell', () => {
 	});
 
 	it('Should get output', async () => {
-        const output = await shell.getOutput(code, 'a\nb');
+		const output = await shell.getOutput(code, 'a\nb');
 		expect(output).toEqual('ab');
 	});
 

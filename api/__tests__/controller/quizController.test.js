@@ -30,7 +30,7 @@ describe('Test Quiz', () => {
 			title: 'Quiz',
 			question: '123', 
 			hint: '123', 
-			answers: ["123", "1", "2", "3"],
+			answers: ['123', '1', '2', '3'],
 			number: 0,
 			ModuleId: moduleId,
 		});
@@ -137,7 +137,7 @@ describe('Test Quiz', () => {
 			title: 'Quiz2',
 			question: '123', 
 			hint: '123', 
-			answers: ["123", "1", "2", "3"],
+			answers: ['123', '1', '2', '3'],
 			number: 0,
 			ModuleId: moduleId,
 		})).rejects.toThrow();
@@ -149,7 +149,7 @@ describe('Test Quiz', () => {
 			title: '',
 			question: '123', 
 			hint: '123', 
-			answers: ["123", "1", "2", "3"],
+			answers: ['123', '1', '2', '3'],
 			number: 0,
 			ModuleId: moduleId,
 		})).rejects.toThrow();
@@ -160,7 +160,7 @@ describe('Test Quiz', () => {
 			title: 'Quiz2',
 			question: '', 
 			hint: '123', 
-			answers: ["123", "1", "2", "3"],
+			answers: ['123', '1', '2', '3'],
 			number: 0,
 			ModuleId: moduleId,
 		})).rejects.toThrow();
@@ -182,7 +182,7 @@ describe('Test Quiz', () => {
 			title: 'Quiz2',
 			question: '123', 
 			hint: '', 
-			answers: ["123", "1", "2", "3"],
+			answers: ['123', '1', '2', '3'],
 			number: 0,
 		})).rejects.toThrow();
 	});

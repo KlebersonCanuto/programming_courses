@@ -7,12 +7,12 @@ describe('Test Drive', () => {
 	let content;
 
 	it('Should upload to drive', async () => {
-        content = fs.readFileSync(process.env.TEST_FILE, 'utf-8');
-        fileId = await drive.fileUpload('test.txt', {path: process.env.TEST_FILE}, false);
+		content = fs.readFileSync(process.env.TEST_FILE, 'utf-8');
+		fileId = await drive.fileUpload('test.txt', {path: process.env.TEST_FILE}, false);
 	});
 
 	it('Should get file', async () => {
-        const fileContent = await drive.getFile(fileId);
+		const fileContent = await drive.getFile(fileId);
 		expect(fileContent).toEqual(content);
 	});
 });

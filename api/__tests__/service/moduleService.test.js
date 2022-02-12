@@ -29,222 +29,222 @@ describe('Test Module', () => {
 	});
 
 	it('Should create module', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(200);
-            expect(response.data.name).toEqual('Module');
-            id = response.data.id;
-        });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.data.name).toEqual('Module');
+			id = response.data.id;
+		});
 
 		await moduleService.create({
-            body: {
-                name: 'Module',
-                CourseId: courseId
-            }
+			body: {
+				name: 'Module',
+				CourseId: courseId
+			}
 		}, res);
 	});
 
-    it('Should get by id', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(200);
-            expect(response.data.id).toEqual(id);
-            expect(response.data.name).toEqual('Module');
-        });
+	it('Should get by id', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.data.id).toEqual(id);
+			expect(response.data.name).toEqual('Module');
+		});
 
 		await moduleService.get({
-            params: {
-                id
-            }
+			params: {
+				id
+			}
 		}, res);
 	});
 
-    it('Should update module', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(200);
-        });
+	it('Should update module', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+		});
 
 		await moduleService.update({
-            body: {
-                name: 'Module2'
-            },
-            params: {
-                id
-            }
+			body: {
+				name: 'Module2'
+			},
+			params: {
+				id
+			}
 		}, res);
 	});
 
-    it('Should get by id without user data', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(200);
-            expect(response.data.id).toEqual(id);
-            expect(response.data.name).toEqual('Module2');
-        });
+	it('Should get by id without user data', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.data.id).toEqual(id);
+			expect(response.data.name).toEqual('Module2');
+		});
 
 		await moduleService.getUser({
-            params: {
-                id
-            }
+			params: {
+				id
+			}
 		}, res);
 	});
 
-    it('Should get by id with progress (nothing registered)', async () => {
-        const user = await User.create({
-            username: 'User',
-            password: "User",
-            email: 'email@email.com',
-        });
-        userId = user.id;
+	it('Should get by id with progress (nothing registered)', async () => {
+		const user = await User.create({
+			username: 'User',
+			password: 'User',
+			email: 'email@email.com',
+		});
+		userId = user.id;
 
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(200);
-            expect(response.data.name).toEqual('Module2');
-            expect(response.data.progressMaterials).toEqual(1);
-            expect(response.data.progressProblems).toEqual(1);
-            expect(response.data.progressQuizzes).toEqual(1);
-        });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.data.name).toEqual('Module2');
+			expect(response.data.progressMaterials).toEqual(1);
+			expect(response.data.progressProblems).toEqual(1);
+			expect(response.data.progressQuizzes).toEqual(1);
+		});
 
 		await moduleService.getUser({
-            params: {
-                id,
-                userId
-            }
+			params: {
+				id,
+				userId
+			}
 		}, res);
 	});
 
-    it('Should get by id with valid user data', async () => {
-        const material = await Material.create({
-            title: 'Material',
+	it('Should get by id with valid user data', async () => {
+		const material = await Material.create({
+			title: 'Material',
 			content: '123', 
 			complementary: false,
 			number: 0,
 			video_link: '',
 			ModuleId: id,
-        });
-        materialId = material.id;
+		});
+		materialId = material.id;
 
-        const problem = await Problem.create({
+		const problem = await Problem.create({
 			title: 'Problem',
 			description: '123', 
 			ModuleId: id,
-            file_id: '123'
-        });
-        problemId = problem.id;
+			file_id: '123'
+		});
+		problemId = problem.id;
 
-        const quiz = await Quiz.create({
+		const quiz = await Quiz.create({
 			title: 'Quiz',
 			question: '123', 
 			hint: '123', 
-			answers: ["123", "1", "2", "3"],
+			answers: ['123', '1', '2', '3'],
 			number: 0,
 			ModuleId: id,
-        });
-        quizId = quiz.id;
+		});
+		quizId = quiz.id;
        
 
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(200);
-            expect(response.data.name).toEqual('Module2');
-            expect(response.data.progressMaterials).toEqual(0);
-            expect(response.data.progressProblems).toEqual(0);
-            expect(response.data.progressQuizzes).toEqual(0);
-        });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+			expect(response.data.name).toEqual('Module2');
+			expect(response.data.progressMaterials).toEqual(0);
+			expect(response.data.progressProblems).toEqual(0);
+			expect(response.data.progressQuizzes).toEqual(0);
+		});
 
 		await moduleService.getUser({
-            params: {
-                id,
-                userId: userId
-            }
+			params: {
+				id,
+				userId: userId
+			}
 		}, res);
 	});
 
-    it('Should fail to get module', async () => {
-        const spy = jest.spyOn(Module, 'findByPk').mockImplementation(() => { throw new Error('error'); });
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
+	it('Should fail to get module', async () => {
+		const spy = jest.spyOn(Module, 'findByPk').mockImplementation(() => { throw new Error('error'); });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
 
 		await moduleService.get({
-            params: {
-                id
-            }
+			params: {
+				id
+			}
 		}, res);
 		spy.mockRestore();
 	});
 
-    it('Should fail to get module with user data', async () => {
-        const spy = jest.spyOn(Module, 'findByPk').mockImplementation(() => { throw new Error('error'); });
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
+	it('Should fail to get module with user data', async () => {
+		const spy = jest.spyOn(Module, 'findByPk').mockImplementation(() => { throw new Error('error'); });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
 
 		await moduleService.getUser({
-            params: {
-                id
-            }
+			params: {
+				id
+			}
 		}, res);
 		spy.mockRestore();
 	});
 
 	it('Should fail to create module (invalid course)', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
 
 		await moduleService.create({
-            body: {
-                name: 'Module'
-            }
+			body: {
+				name: 'Module'
+			}
 		}, res);
 	});
     
 	it('Should fail to create module (invalid name)', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
 
 		await moduleService.create({
-            body: {
-                CourseId: courseId
-            }
+			body: {
+				CourseId: courseId
+			}
 		}, res);
 	});
 
-    it('Should fail to update module (invalid name)', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
+	it('Should fail to update module (invalid name)', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
 
 		await moduleService.update({
-            body: {
-            },
-            params: {
-                id
-            }
+			body: {
+			},
+			params: {
+				id
+			}
 		}, res);
 	});
 
-    it('Should fail to remove module', async () => {
-        const spy = jest.spyOn(Module, 'destroy').mockImplementation(() => { throw new Error('error'); });
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(400);
-        });
+	it('Should fail to remove module', async () => {
+		const spy = jest.spyOn(Module, 'destroy').mockImplementation(() => { throw new Error('error'); });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
 
 		await moduleService.remove({
-            params: {
-                id
-            }
+			params: {
+				id
+			}
 		}, res);
 		spy.mockRestore();
 	});
 
-    it('Should remove module', async () => {
-        const res = generateResponse((response) => {
-            expect(res.code).toEqual(200);
-        });
+	it('Should remove module', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(200);
+		});
 
 		await moduleService.remove({
-            params: {
-                id
-            }
+			params: {
+				id
+			}
 		}, res);
 	});
 });
