@@ -28,7 +28,7 @@ describe('Test Material', () => {
 		const courseId = course.id;
 
 		const module = await Module.create({
-			name: 'Course',
+			name: 'Module',
 			CourseId: courseId
 		});
 		moduleId = module.id; 

@@ -128,7 +128,6 @@ const validateCreate = (body, files) => {
 	if (!files || !files.length) {
 		throw Errors.ProblemErrors.INVALID_FILES;
 	}
-  
 	if (!tests || tests === '[]') {
 		throw Errors.ProblemErrors.INVALID_TESTS;
 	}
@@ -183,7 +182,7 @@ const validateUpdate = (body) => {
 	if (!description) {
 		throw Errors.ProblemErrors.INVALID_DESCRIPTION;
 	}
-	if (!tests || !tests.length) {
+	if (!tests || tests === '[]') {
 		throw Errors.ProblemErrors.INVALID_TESTS;
 	}
 };
@@ -216,6 +215,11 @@ const update = async (req, res) => {
 		logger.debug('update', `problem id: ${id}`, `image link: ${image_link}`, `file_id: ${file_id}`);
 
 		parsedTests = parsedTests.filter(e => !e.output);
+		parsedTests = parsedTests.map(e => {
+			e.ProblemId = id;
+			return e;
+		});
+
 		const tests = await TestService.register(parsedTests, file_id);
 		const testsId = tests.map(e => e.id);
 		let problem;
