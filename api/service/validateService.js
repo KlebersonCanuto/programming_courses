@@ -9,21 +9,17 @@ const Errors = require('../utils/errors');
 const logger = new Logger('validateService');
 
 const courseLocked = async (url, params) => {
-	try{
-		const id = params.id;
-		if(url.includes('courses')) {
-			return Course.checkCourseLocked(id);
-		} else if (url.includes('modules')) {
-			return id ? Module.checkCourseLocked(id) : Course.checkCourseLocked(params.CourseId);
-		} else if (url.includes('materials')) {
-			return id ? Material.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
-		} else if (url.includes('quizzes')) {
-			return id ? Quiz.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
-		} else if (url.includes('problems')) {
-			return id ? Problem.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
-		}
-	} catch(err) {
-		throw err;
+	const id = params.id;
+	if(url.includes('courses')) {
+		return Course.checkCourseLocked(id);
+	} else if (url.includes('modules')) {
+		return id ? Module.checkCourseLocked(id) : Course.checkCourseLocked(params.CourseId);
+	} else if (url.includes('materials')) {
+		return id ? Material.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
+	} else if (url.includes('quizzes')) {
+		return id ? Quiz.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
+	} else if (url.includes('problems')) {
+		return id ? Problem.checkCourseLocked(id) : Module.checkCourseLocked(params.ModuleId); 
 	}
 };
 
