@@ -239,6 +239,24 @@ describe('Test Problem', () => {
 		}, res);
 	});
 
+	it('Should fail to exec oracle (require more input)', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		await problemService.oracle({
+			body: {
+				input: "1",
+				inputOnly: false,
+				output: "12"
+			},
+			params: {
+				id,
+				userId
+			}
+		}, res);
+	});
+
 	it('Should exec oracle inputOnly', async () => {
 		const res = generateResponse((response) => {
 			expect(res.code).toEqual(200);
@@ -248,6 +266,23 @@ describe('Test Problem', () => {
 		await problemService.oracle({
 			body: {
 				input: "1\n2",
+				inputOnly: true
+			},
+			params: {
+				id,
+				userId
+			}
+		}, res);
+	});
+
+	it('Should fail to exec oracle inputOnly (require more input)', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		await problemService.oracle({
+			body: {
+				input: "1",
 				inputOnly: true
 			},
 			params: {
@@ -445,6 +480,35 @@ describe('Test Problem', () => {
 		spy.mockRestore();
 	});
 
+	it('Should fail to update tests and delete tests', async () => {
+		const spy = jest.spyOn(Problem, 'update').mockImplementation(() => { throw new Error('error'); });
+		const spy2 = jest.spyOn(Test, 'destroy').mockImplementation(() => { throw new Error('error'); });
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		const test_file = `tmp/${process.env.TEST_FILE}`
+		const image_file = `tmp/${process.env.TEST_IMAGE_FILE}`
+
+		fs.copyFileSync(process.env.TEST_FILE, test_file);
+		fs.copyFileSync(process.env.TEST_IMAGE_FILE, image_file);
+
+		await problemService.update({
+			body: {
+				title: 'Problem2',
+				description: '12345', 
+				tests: JSON.stringify([{input: "1\n2", output: "3", problemId: id}]),
+			},
+			params: {
+				id
+			},
+			files: []
+		}, res);
+
+		spy.mockRestore();
+		spy2.mockRestore();
+	});
+
 	it('Should fail to create problem tests', async () => {
 		const spy = jest.spyOn(Test, 'bulkCreate').mockImplementation(() => { throw new Error('error'); });
 		const res = generateResponse((response) => {
@@ -553,6 +617,22 @@ describe('Test Problem', () => {
 			},
 			body: {
 
+			}
+		}, res);
+	});
+
+	it('Should fail to submit problem (invalid answer)', async () => {
+		const res = generateResponse((response) => {
+			expect(res.code).toEqual(400);
+		});
+
+		await problemService.submit({
+			params: {
+				id,
+				userId
+			},
+			body: {
+				answer: "x = int(input())\ny = int(input())\nz = int(input())\nprint(x+y)"
 			}
 		}, res);
 	});
