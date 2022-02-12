@@ -11,7 +11,7 @@ describe('Test Module', () => {
 		const course = await Course.create({
 			name: 'Course',
 		});
-		courseId = course.id;
+		courseId = course.id
 	});
 
 	it('Should get no module', async () => {
