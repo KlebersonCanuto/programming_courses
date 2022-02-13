@@ -33,7 +33,9 @@ const HomeAdmin = () => {
         <li>Ao marcar um material como concluído, você recebe 1 ponto</li>
         <li>Ao responder corretamente uma questão, você recebe de 3 a 5 pontos, de acordo com a quantidade de tentativas, pedir dica é equivalente a uma tentativa </li>
         <li>Ao resolver corretamente um problema, você recebe de 5 a 10 pontos, de acordo com a quantidade de tentativas</li>
-        <li>Ao testar <strong>Entrada e Saída</strong> um oráculo <strong>antes</strong> de resolver a questão, você recebe 2 pontos </li>
+        <li>Ao testar <strong>Entrada e Saída</strong> de um oráculo <strong>antes</strong> de resolver a questão, você recebe 2 pontos </li>
+        <li>Além disso, ao concluir todos os materiais de um módulo, você recebe 1 ponto, ao concluir todos quizzes mais 2 pontos, e 2 pontos ao concluir todos os problemas.
+          Concluir um módulo resultará em 3 pontos, e um curso em outros 10 pontos  </li>
       </p>
       <ListGroup className="pt3">
         <ListGroup.Item className="tc" active>Cursos</ListGroup.Item>
