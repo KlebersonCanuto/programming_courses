@@ -7,13 +7,45 @@ const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = 'token.json';
+const TOKEN_PATH = './token.json';
+const CREDENTIALS_PATH = './credentials.json';
 
-const callGDriveApi = () => {
+const createFile = async (file_path, key) => {
+	const aws = require('aws-sdk');
+	
+	aws.config.update({
+		region: 'us-east-1',
+		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+	});
+
+	const s3 = new aws.S3();
+
+	const file = await s3.getObject({
+		Bucket: process.env.AWS_CREDENTIALS_BUCKET,
+		Key: key,
+	}).promise();
+
+	fs.writeFileSync(file_path, file.Body.toString());
+};
+
+const checkCredentialsFiles = async () => {
+	// if not exists
+	if (!fs.existsSync(CREDENTIALS_PATH)) {
+		await createFile(CREDENTIALS_PATH, process.env.AWS_CREDENTIALS_FILE);
+	}
+
+	if (!fs.existsSync(TOKEN_PATH)) {
+		await createFile(TOKEN_PATH, process.env.AWS_TOKEN_FILE);
+	}
+};
+
+const callGDriveApi = async () => {
 	// Load client secrets from a local file.
+	await checkCredentialsFiles();
 	let content;
 	try {
-		content = fs.readFileSync('credentials.json');
+		content = fs.readFileSync(CREDENTIALS_PATH);
 	} catch (err) {
 		return console.log('Error loading client secret file:', err);
 	}
