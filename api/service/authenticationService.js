@@ -15,6 +15,7 @@ const checkAdmin = async (req, res, next) => {
 		logger.debug('checkAdmin', `user id: ${id}`);
 		const user = await User.getById(id);
 		if(!user.admin){
+			logger.debug('checkAdmin', 'user not admin');
 			res.status(400).send({message: Errors.AuthenticationErrors.USER_NOT_ADMIN.message});
 			return;
 		}
