@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: nodejs
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PORT=$PORT
+      - JWTTOKEN=$JWTTOKEN
+      - HASH=$HASH
+      - NODE_ENV=production
+      - DB_USERNAME=$DB_USERNAME
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_HOST=$DB_HOST
+      - DB_PORT=$DB_PORT
+      - DB_NAME=$DB_NAME
+      - FOLDER_ID=$FOLDER_ID
+      - IMAGE_FOLDER_ID=$IMAGE_FOLDER_ID
+    ports:
+      - "$PORT:8080"
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - programming-courses
+
+networks:
+  programming-courses:
+    driver: bridge
+
+volumes:
+  node_modules:  

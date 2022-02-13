@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+.env
+*credentials.json
+*token.json
+tmp
+__tests__
+coverage
+*log.txt
+.dockerignore
+Dockerfile
+example.png
+example.py
+.env.example
+.eslintrc.js
+jest.config.js
+README.md
