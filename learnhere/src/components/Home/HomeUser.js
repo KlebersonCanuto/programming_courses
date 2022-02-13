@@ -21,7 +21,7 @@ const HomeAdmin = () => {
     <Container>
       <p className="tc f3 b">Seja bem-vindo!</p>
       <p className="f4" align="justify">
-        Aproveite o LearnHere, aprenda e pratique programação com quizzes e juíz de 
+        Aproveite o Programming Courses, aprenda e pratique programação com quizzes e juíz de 
         software, que oferece um sistema de oráculo para validar se seu pensamento 
         está correto ou não e uma forma de debugar seu código com o Python Tutor para 
         entender melhor como  ele está sendo executado. No momento é possivel aprender 
