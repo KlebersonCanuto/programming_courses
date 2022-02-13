@@ -179,6 +179,75 @@ describe('Test Flows', () => {
 
 		await request.patch(`/courses/${courseId}`).set('authorization', token).expect(200);
 
-		// concluir com o usuário (O último "tipo" a terminar de cada modulo será o que tem 2 registros)
+		res = await request.post(`/problems/${problem1}`).send({
+			answer: "x = int(input())\ny = int(input())\nprint(x+y)"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.post(`/quizzes/${quiz1}`).send({
+			answer: "1"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.post(`/materials/${material1}`)
+		.set('authorization', token).expect(200);
+		expect(res.body.data).toEqual(material1.toString());
+
+		res = await request.post(`/materials/${materialComplementary}`)
+		.set('authorization', token).expect(200);
+		expect(res.body.data).toEqual(materialComplementary.toString());
+
+		res = await request.post(`/materials/${materialExtra}`)
+		.set('authorization', token).expect(200);
+		expect(res.body.data).toEqual(materialExtra.toString());
+
+		res = await request.post(`/materials/${material2}`)
+		.set('authorization', token).expect(200);
+		expect(res.body.data).toEqual(material2.toString());
+
+		res = await request.post(`/problems/${problem2}`).send({
+			answer: "x = int(input())\ny = int(input())\nprint(x+y)"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.post(`/quizzes/${quiz2}`).send({
+			answer: "2"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.post(`/quizzes/${quizExtra}`).send({
+			answer: "extra"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.post(`/quizzes/${quiz3}`).send({
+			answer: "3"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.post(`/materials/${material3}`)
+		.set('authorization', token).expect(200);
+		expect(res.body.data).toEqual(material3.toString());
+
+		res = await request.post(`/problems/${problem3}`).send({
+			answer: "x = int(input())\ny = int(input())\nprint(x+y)"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.post(`/problems/${problemExtra}`).send({
+			answer: "x = int(input())\ny = int(input())\nprint(x+y)"
+		})
+		.set('authorization', token).expect(200);
+		expect(res.body.correct).toEqual(true);
+
+		res = await request.get(`/users`).set('authorization', token).expect(200);
+		expect(res.body.points).toEqual(99);
 	});
 });
