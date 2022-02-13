@@ -21,42 +21,42 @@ describe('Test Authentication', () => {
 	let tokenAdmin;
 
 	beforeAll(async () => {-
-		await User.destroy({ where: {} });
+	await User.destroy({ where: {} });
 
-		await User.create({
-			username: 'User',
+	await User.create({
+		username: 'User',
+		email: 'user@email.com',
+		password: bcrypt.hashSync('password', Number(process.env.HASH)),
+	});
+
+	await User.create({
+		username: 'Admin',
+		email: 'admin@email.com',
+		password: bcrypt.hashSync('password', Number(process.env.HASH)),
+		admin: true
+	});
+
+	const resUser = generateResponse((response) => {
+		token = response.token;
+	});
+
+	await login.login({
+		body: {
 			email: 'user@email.com',
-			password: bcrypt.hashSync('password', Number(process.env.HASH)),
-		});
+			password: 'password'
+		}
+	}, resUser);
 
-		await User.create({
-			username: 'Admin',
+	const resAdmin = generateResponse((response) => {
+		tokenAdmin = response.token;
+	});
+
+	await login.login({
+		body: {
 			email: 'admin@email.com',
-			password: bcrypt.hashSync('password', Number(process.env.HASH)),
-			admin: true
-		});
-
-		const resUser = generateResponse((response) => {
-			token = response.token;
-		});
-
-		await login.login({
-			body: {
-				email: 'user@email.com',
-				password: 'password'
-			}
-		}, resUser);
-
-		const resAdmin = generateResponse((response) => {
-			tokenAdmin = response.token;
-		});
-
-		await login.login({
-			body: {
-				email: 'admin@email.com',
-				password: 'password'
-			}
-		}, resAdmin);
+			password: 'password'
+		}
+	}, resAdmin);
 	});
     
 	it('Should check admin', async () => {

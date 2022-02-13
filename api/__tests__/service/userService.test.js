@@ -17,7 +17,7 @@ describe('Test User', () => {
 	let id;
 
 	beforeAll(async () => {-
-		await User.destroy({ where: {} });
+	await User.destroy({ where: {} });
 	});
     
 	it('Should create user', async () => {
