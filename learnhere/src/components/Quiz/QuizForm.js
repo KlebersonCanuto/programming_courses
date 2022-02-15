@@ -19,6 +19,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
         setTitle(res.data.data.title);
         setQuestion(res.data.data.question);
         setAnswers(res.data.data.answers);
+        setHint(res.data.data.hint);
       }).catch(() => {
         toast.error('Falha ao carregar quiz');
         closeModal();
