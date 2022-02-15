@@ -7,7 +7,7 @@ const Errors = require('./errors');
 const logger = new Logger('drive');
 
 const fileUpload = async (fileName, filePath, isImage) => {
-	const auth = driveApi();
+	const auth = await driveApi();
 	const fileMetadata = {
 		name: fileName,
 		parents: [isImage ? process.env.IMAGE_FOLDER_ID : process.env.FOLDER_ID]
@@ -32,7 +32,7 @@ const fileUpload = async (fileName, filePath, isImage) => {
 };
 
 const getFile = async (id) => {
-	const auth = driveApi();
+	const auth = await driveApi();
 	const drive = google.drive({version: 'v3', auth});
 	try {
 		logger.debug('getFile', `file id: ${id}`);
