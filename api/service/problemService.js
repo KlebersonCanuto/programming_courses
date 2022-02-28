@@ -7,6 +7,7 @@ const Logger = require('../utils/logger');
 const Errors = require('../utils/errors');
 
 const logger = new Logger('problemService');
+const baseURL = `https://${process.env.AWS_IMAGE_BUCKET}.s3.amazonaws.com`;
 
 const get = async (req, res) => {
 	try {
@@ -147,7 +148,7 @@ const create = async (req, res) => {
 			const image = files[1];
 			logger.info('create', 'uploading image');
 			const image_id = await FileService.uploadFile(image, true);
-			image_link = `https://drive.google.com/uc?id=${image_id}`;
+			image_link = `${baseURL}/${image_id}`;
 		}
 
 		logger.debug('create', `file_id: ${file_id}`, `image link: ${image_link}`);
@@ -199,7 +200,7 @@ const update = async (req, res) => {
 			if (file.mimetype.includes('image')) {
 				logger.info('update', 'uploading image');
 				const image_id = await FileService.uploadFile(file, true);
-				image_link = `https://drive.google.com/uc?id=${image_id}`;
+				image_link = `${baseURL}/${image_id}`;
 			} else {
 				logger.info('update', 'uploading file');
 				file_id = await FileService.uploadFile(file, false);

@@ -190,7 +190,7 @@ describe('Test Problem', () => {
 	it('Should exec', async () => {
 		const res = generateResponse((response) => {
 			expect(res.code).toEqual(200);
-			expect(response.output).toEqual('3');
+			expect(response.output).toEqual('3\n');
 		});
 
 		await problemService.exec({
@@ -211,7 +211,7 @@ describe('Test Problem', () => {
 			body: {
 				input: '1\n2',
 				inputOnly: false,
-				output: '3'
+				output: '3\n'
 			},
 			params: {
 				id,
@@ -260,7 +260,7 @@ describe('Test Problem', () => {
 	it('Should exec oracle inputOnly', async () => {
 		const res = generateResponse((response) => {
 			expect(res.code).toEqual(200);
-			expect(response.output).toEqual('3');
+			expect(response.output).toEqual('3\n');
 		});
 
 		await problemService.oracle({
