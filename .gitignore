@@ -103,7 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-credentials.json
-token.json
 tmp/
 *log.txt
