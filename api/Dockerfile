@@ -5,7 +5,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN apk update && apk add bash
-RUN apk add --update python3
 RUN npm install --production
 
 COPY . .

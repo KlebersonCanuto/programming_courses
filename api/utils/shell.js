@@ -1,47 +1,43 @@
-const { PythonShell } = require('python-shell');
-const fs = require('fs');
 const Logger = require('./logger');
 const Errors = require('./errors');
+const AWS = require('aws-sdk');
+AWS.config.region = 'us-east-1';
 
+const FunctionName = 'execPythonCode';
 const logger = new Logger('shell');
 
-const deleteFile = (filePath) => {
-	try {
-		fs.unlinkSync(filePath);
-	} catch (err) {
-		logger.error('deleteFile', err);
-		return;
-	}
-};
-
 const execShell = (code, tests) => {
-	const randomInt = Math.floor(Math.random() * 10000000000);
-	const filePath = `./tmp/tmp-${randomInt}.py`;
-	logger.info('execShell', 'creating file');
-	fs.writeFileSync(filePath, code);
-
 	let finished = 0;
 	return new Promise((resolve, reject) => {
 		logger.info('execShell', 'starting tests');
 		tests.map(test => {
-			const ps = new PythonShell(filePath);
-			let output = [];
-			ps.on('message', (message) => {
-				output.push(message);
-			});
-			ps.send(test.input);
-			ps.end((err) => {
+			const params = {
+				FunctionName, 
+				InvocationType: 'RequestResponse',
+				LogType: 'Tail',
+				Payload: `{ "code": "${code.replace(/\n/g,'\\n').replace(/\t/g,'\\t')}", "input": "${test.input.replace(/\n/g,'\\n')}" }`
+			};
+			
+			const lambda = new AWS.Lambda();
+			lambda.invoke(params, function(err, data) {
 				if (err) {
 					logger.error('execShell', err);
-					deleteFile(filePath);
 					reject(Errors.ExecErrors.FAILED_TO_EXECUTE); 
 					return;     
+				} 
+
+				const response = JSON.parse(data.Payload);
+
+				if (response.statusCode !== 200) {
+					logger.error('execShell', response.message);
+					reject(Errors.ExecErrors.FAILED_TO_EXECUTE);
+					return;
 				}
-				test.output = output.join('\n');
+
+				test.output = response.body;
 				finished++;
 				if (finished === tests.length) {
 					logger.info('execShell', 'tests complete');
-					deleteFile(filePath);
 					resolve(tests);
 				}
 			});
@@ -50,39 +46,42 @@ const execShell = (code, tests) => {
 };
 
 const compare = (code, tests) => {
-	const randomInt = Math.floor(Math.random() * 10000000000);
-	const filePath = `./tmp/tmp-${randomInt}.py`;
-	logger.info('compare', 'creating file');
-	fs.writeFileSync(filePath, code);
-
 	let finished = 0;
 	let correct = 0;
 	return new Promise((resolve, reject) => {
 		tests.map(test => {
-			const ps = new PythonShell(filePath);
-			let output = [];
 			logger.info('compare', 'starting comparison');
-			ps.on('message', (message) => {
-				output.push(message);
-			});
-			ps.send(test.input);
-			ps.end((err) => {
+			const params = {
+				FunctionName, 
+				InvocationType: 'RequestResponse',
+				LogType: 'Tail',
+				Payload: `{ "code": "${code.replace(/\n/g,'\\n').replace(/\t/g,'\\t')}", "input": "${test.input.replace(/\n/g,'\\n')}" }`
+			};
+			
+			const lambda = new AWS.Lambda();
+			lambda.invoke(params, function(err, data) {
 				if (err) {
 					logger.error('compare', err);
-					deleteFile(filePath);
-					reject(Errors.ExecErrors.FAILED_TO_COMPARE); 
+					reject(Errors.ExecErrors.FAILED_TO_EXECUTE); 
 					return;     
+				} 
+
+				const response = JSON.parse(data.Payload);
+
+				if (response.statusCode !== 200) {
+					logger.error('compare', response.message);
+					reject(Errors.ExecErrors.FAILED_TO_COMPARE); 
+					return;
 				}
-				const outputStr = output.join('\n');
+
 				finished++;
-				if (outputStr === test.output) {
+				if (response.body === test.output) {
 					correct++;
 				}
+
 				if (finished === tests.length) {
 					logger.info('compare', 'comparison done');
-					deleteFile(filePath);
 					resolve(finished === correct);
-					return;
 				}
 			});
 		});  
@@ -90,56 +89,65 @@ const compare = (code, tests) => {
 };
 
 const compareIO = (code, input, answer) => {
-	const randomInt = Math.floor(Math.random() * 10000000000);
-	const filePath = `./tmp/tmp-${randomInt}.py`;
-	logger.info('compareIO', 'creating file');
-	fs.writeFileSync(filePath, code);
-
 	return new Promise((resolve, reject) => {
-		const ps = new PythonShell(filePath);
-		let output = [];
 		logger.info('compareIO', 'starting comparison');
-		ps.on('message', (message) => {
-			output.push(message);
-		});
-		ps.send(input);
-		ps.end((err) => {
-			deleteFile(filePath);
+		const params = {
+			FunctionName, 
+			InvocationType: 'RequestResponse',
+			LogType: 'Tail',
+			Payload: `{ "code": "${code.replace(/\n/g,'\\n').replace(/\t/g,'\\t')}", "input": "${input.replace(/\n/g,'\\n')}" }`
+		};
+		
+		const lambda = new AWS.Lambda();
+		lambda.invoke(params, function(err, data) {
 			if (err) {
 				logger.error('compareIO', err);
 				reject(Errors.ExecErrors.FAILED_TO_COMPARE_IO); 
 				return;     
+			} 
+
+			const response = JSON.parse(data.Payload);
+
+			if (response.statusCode !== 200) {
+				logger.error('compareIO', response.message);
+				reject(Errors.ExecErrors.FAILED_TO_COMPARE_IO); 
+				return;
 			}
-			const outputStr = output.join('\n');
+
 			logger.info('compareIO', 'comparison done');
-			resolve(outputStr === answer);
+			resolve(response.body === answer);
 		});
 	});
 };
 
 const getOutput = (code, input) => {
-	const randomInt = Math.floor(Math.random() * 10000000000);
-	const filePath = `./tmp/tmp-${randomInt}.py`;
-	logger.info('getOutput', 'creating file');
-	fs.writeFileSync(filePath, code);
-
 	return new Promise((resolve, reject) => {
-		const ps = new PythonShell(filePath);
-		let output = [];
 		logger.info('getOutput', 'starting get output');
-		ps.on('message', (message) => {
-			output.push(message);
-		});
-		ps.send(input);
-		ps.end((err) => {
-			deleteFile(filePath);
+		const params = {
+			FunctionName, 
+			InvocationType: 'RequestResponse',
+			LogType: 'Tail',
+			Payload: `{ "code": "${code.replace(/\n/g,'\\n').replace(/\t/g,'\\t')}", "input": "${input.replace(/\n/g,'\\n')}" }`
+		};
+		
+		const lambda = new AWS.Lambda();
+		lambda.invoke(params, function(err, data) {
 			if (err) {
 				logger.error('getOutput', err);
 				reject(Errors.ExecErrors.FAILED_TO_GET_OUTPUT); 
 				return;     
+			} 
+
+			const response = JSON.parse(data.Payload);
+
+			if (response.statusCode !== 200) {
+				logger.error('getOutput', response.message);
+				reject(Errors.ExecErrors.FAILED_TO_GET_OUTPUT); 
+				return;
 			}
+
 			logger.info('getOutput', 'finished get output');
-			resolve(output.join('\n'));
+			resolve(response.body);
 		});
 	});
 };
