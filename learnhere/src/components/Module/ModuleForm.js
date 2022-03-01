@@ -167,10 +167,10 @@ const ModuleForm = ({ closeModal, courseId, startId, locked }) => {
           </Modal>
 
           <div className="pt3">
-            <Button onClick={() => confirm("quiz")} disabled={locked}> Adicionar quiz </Button>
+            <Button onClick={() => confirm("quiz")} disabled={locked}> Adicionar questão </Button>
           </div>
           <ListGroup className="pt1">
-            <ListGroup.Item variant="dark">Quizzes</ListGroup.Item>
+            <ListGroup.Item variant="dark">Questões</ListGroup.Item>
             { 
               quizzes.map(e =>
                 <Quiz key={"quizkey"+e.id} quiz={e} changedItem={changedItem} editQuiz={edit} locked={locked}></Quiz>
@@ -178,7 +178,7 @@ const ModuleForm = ({ closeModal, courseId, startId, locked }) => {
             }
             {
               !quizzes.length ? 
-                <ListGroup.Item>Não há quizzes cadastrados neste módulo</ListGroup.Item>
+                <ListGroup.Item>Não há questões cadastradas neste módulo</ListGroup.Item>
               : null
             }
           </ListGroup>

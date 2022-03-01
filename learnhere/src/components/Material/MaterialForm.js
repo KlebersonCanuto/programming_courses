@@ -104,7 +104,7 @@ const MaterialForm = ({ closeModal, moduleId, id }) => {
               type="switch"
               checked={complementary}
               onChange={() => setComplementary(!complementary)}
-              label="Material complementar"
+              label="Material extra"
             />
           </Form.Group>
 

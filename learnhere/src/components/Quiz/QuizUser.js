@@ -46,7 +46,7 @@ const QuizUser = ({ match }) => {
 
   const askForHint = () => {
     api.get(`/quizzes/hint/${id}`).then((res) => {
-      setHint(res.data.data)
+      setHint(res.data.data);
     }).catch(() => {
       toast.error('Falha ao obter dica');
     })

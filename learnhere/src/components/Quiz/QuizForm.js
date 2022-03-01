@@ -21,7 +21,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
         setAnswers(res.data.data.answers);
         setHint(res.data.data.hint);
       }).catch(() => {
-        toast.error('Falha ao carregar quiz');
+        toast.error('Falha ao carregar questão');
         closeModal();
       });
     }
@@ -42,19 +42,19 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
     let request, op;
     if (id) {
       request = api.put(`/quizzes/${id}`, data);
-      op = 'editado';
+      op = 'editada';
     } else {
       request = api.post('/quizzes', data);
-      op = 'criado';
+      op = 'criada';
     }
 
     request.finally(() => {
       setLoading(false);
     }).then(() => {
-      toast.success(`Quiz ${op} com sucesso`);
+      toast.success(`Questão ${op} com sucesso`);
       closeModal();
     }).catch(() => {
-      toast.error('Falha ao salvar quiz');
+      toast.error('Falha ao salvar questão');
     });
   }
 
@@ -75,7 +75,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
       <Container>
         <Form onSubmit={submit}>
           <Modal.Header closeButton>
-            <span className="f4 b"> {id? "Editar" : "Adicionar"} quiz</span>
+            <span className="f4 b"> {id? "Editar" : "Adicionar"} questão</span>
           </Modal.Header>
 
           <Form.Group controlId="title" className="pt3">
@@ -84,7 +84,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
           </Form.Group>
 
           <Form.Group controlId="question" className="pt3">
-            <p className="tc b">Descrição</p>
+            <p className="tc b">Pergunta</p>
             <ReactQuill value={question} onChange={setQuestion} formats={quillFormats} modules={quillModules}/>
           </Form.Group>
 
@@ -93,7 +93,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
             <Form.Control type="text" value={hint} onChange={(e) => setHint(e.target.value)}/>
           </Form.Group>
 
-          <p className="tc pt3 b">Respostas</p>
+          <p className="tc pt3 b">Respostas aceitas</p>
           {
             answers.map(
               (e, i) => 

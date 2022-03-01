@@ -8,7 +8,7 @@ const Quiz = ({ quiz, changedItem, editQuiz, locked }) => {
     api.delete(`/quizzes/${id}`).then(() => {
       changedItem();
     }).catch(() => {
-      toast.error('Falha ao deletar quiz');
+      toast.error('Falha ao deletar questão');
     })
   }
 

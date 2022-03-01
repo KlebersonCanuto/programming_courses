@@ -131,17 +131,19 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
             }} accept="image/*" size="sm" />
           </Form.Group>
 
-          <p className="tc pt3 b">Respostas</p>
+          <p className="tc pt3 b">Entradas e saídas</p>
           {
             tests.map(
               (e, i) => 
               <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
                 <Col>
+                  <p className="tc pt3 b"> Entrada </p>
                   <Form.Control type="text" as="textarea" rows={3} value={e.input} disabled={e.output} onChange={(ev) => changeTest(i, ev)}/>
                 </Col>
                 {
                   e.output ? 
                     <Col>
+                      <p className="tc pt3 b"> Saída </p>
                       <Form.Control type="text" as="textarea" rows={3} disabled value={e.output}/>
                     </Col> 
                   : null
@@ -166,7 +168,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
           } 
           <div className="pt2 pb2">
             <Button  onClick={() => setTests([...tests, {input: '', example: false, ProblemId: id}])}>
-              Adicionar resposta
+              Adicionar entrada e saída
             </Button>
           </div>
 

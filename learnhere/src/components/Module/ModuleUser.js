@@ -29,7 +29,7 @@ const ModuleUser = ({ match }) => {
       </ListGroup>
       {
         !details.quizzes.length ? 
-          <ListGroup.Item className="tc">Não há quizzes cadastrados neste módulo</ListGroup.Item>
+          <ListGroup.Item className="tc">Não há questões cadastradas neste módulo</ListGroup.Item>
         : 
           <ProgressBar variant={details.progressQuizzes === 1 ? "success" : "info"} striped now={details.progressQuizzes*100} label={`${details.progressQuizzes*100}%`} />  
       }

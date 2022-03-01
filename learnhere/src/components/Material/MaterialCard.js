@@ -10,7 +10,7 @@ const MaterialCard = ({ material }) => {
         <Card className="dim">
           <Card.Body>
             <Card.Text className="f4 tc black">
-              {material.title} { material.complementary ?  <BsFillPatchPlusFill className="blue" title="Complementar"/> : null } { material.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null }
+              {material.title} { material.complementary ?  <BsFillPatchPlusFill className="blue" title="Extra"/> : null } { material.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null }
             </Card.Text>
           </Card.Body>
         </Card>
