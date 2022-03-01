@@ -33,7 +33,7 @@ const MaterialUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 tc"> <span className="b"> Título: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
+      <p className="f4 tc"> <span className="b"> Título: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : <span className="green f7"> +1 ponto </span> } </p>
       <div>
         {details.content ? Parser(details.content) : null}
       </div>

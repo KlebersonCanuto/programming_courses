@@ -21,11 +21,11 @@ const Home = () => {
     <Container>
       <p className="tc f3 b">Seja bem-vindo!</p>
       <p className="f4" align="justify">
-        Aproveite o Programming Courses, aprenda e pratique programação com quizzes e juíz de 
-        software, que oferece um sistema de oráculo para validar se seu pensamento 
-        está correto ou não e uma forma de debugar seu código entender melhor como ele 
-        está sendo executado, além de um sistema de pontuação. No momento é possivel 
-        aprender e praticar apenas a linguagem Python.
+      Aproveite o Programming Courses, aprenda e pratique programação com questões e juíz de 
+      software, que oferece um sistema de oráculo para validar se seu pensamento está correto 
+      ou não e uma forma de debugar seu código com o Python Tutor e entender melhor como ele 
+      está sendo executado, além de um sistema de pontuação com ranqueamento. No momento é possivel 
+      aprender e praticar apenas a linguagem Python.
       </p>
 
       <p className="f4">
