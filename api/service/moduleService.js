@@ -22,17 +22,20 @@ const generateResponseGet = (module, doneQuizzes, doneMaterials, doneProblems) =
 		};
 	});
 
-	const doneProblemsIs = doneProblems.map(e => e.ProblemId);
+	const doneProblemsId = doneProblems.map(e => e.ProblemId);
 	const problems = module.problems.map(problem => {
 		return {
 			...problem.dataValues,
-			done: doneProblemsIs.includes(problem.id)
+			done: doneProblemsId.includes(problem.id)
 		};
 	});
 
+	const mandatoryMaterials = materials.filter(e => !e.complementary);
+	const mandatoryMaterialsDone = mandatoryMaterials.filter(e => e.done).length;
+
 	return {
 		name: module.name,
-		progressMaterials: materials.length ? module.doneMaterials / materials.length : 1,
+		progressMaterials: mandatoryMaterials.length ? mandatoryMaterialsDone / mandatoryMaterials.length : 1,
 		progressProblems: problems.length ? module.doneProblems / problems.length : 1,
 		progressQuizzes: quizzes.length ? module.doneQuizzes / quizzes.length : 1,
 		materials,
