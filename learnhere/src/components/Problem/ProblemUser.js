@@ -7,6 +7,7 @@ import api from '../../services/api';
 import Oracle from './Oracle';
 import Parser from 'html-react-parser';
 import AceEditor from "react-ace";
+import './text.css';
 
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-solarized_dark";
@@ -19,6 +20,14 @@ const ProblemUser = ({ match }) => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
   const id = match.params.id;
+
+  const getDetails = async () => {
+    api.get(`/problems/${id}`).then((res) => {
+      setDetails(res.data.data);
+    }).catch(() => {
+      toast.error('Falha ao obter problema');
+    })
+  };
 
   useEffect(() => {
     api.get(`/problems/${id}`).then((res) => {
@@ -43,27 +52,22 @@ const ProblemUser = ({ match }) => {
         history.push(`/module/${details.ModuleId}`);
       } else {
         toast.error('Resposta errada');
+        getDetails();
       }
     }).catch(() => {
       toast.error('Falha ao enviar resposta');
+      getDetails();
     })
   }
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Problema: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
+      <p className="f4 pb2 tc"> <span className="b"> Problema: </span> {details.title} { 
+        details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> 
+        : details.attempts ? <span className="green f7"> +{Math.max(10-details.attempts, 5)} pontos </span> 
+        : <span className="green f7"> +10 pontos </span>
+      } </p>
       
-      <p className="f4 pb2 tc b">Descrição</p>
-      <div>
-        {details.description ? Parser(details.description) : null}
-      </div>
-
-      <p className="f4 pb2 tc b">Entrada</p>
-      <div>
-        {details.description ? Parser(details.description) : null}
-      </div>
-
-      <p className="f4 pb2 tc b">Saída</p>
       <div>
         {details.description ? Parser(details.description) : null}
       </div>
@@ -124,7 +128,7 @@ const ProblemUser = ({ match }) => {
         </Button>
       </Form>      
       { open ?
-        <Oracle closeModal={() => setOpen(false)} id={id}/> : null
+        <Oracle closeModal={() => setOpen(false)} attempts={details.attempts} id={id}/> : null
       }
     </Container>
   );

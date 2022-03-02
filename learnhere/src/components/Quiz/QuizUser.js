@@ -15,6 +15,14 @@ const QuizUser = ({ match }) => {
   const history = useHistory();
   const id = match.params.id;
 
+  const getDetails = async () => {
+    api.get(`/quizzes/${id}`).then((res) => {
+      setDetails(res.data.data);
+    }).catch(() => {
+      toast.error('Falha ao obter questão');
+    })
+  };
+
   useEffect(() => {
     api.get(`/quizzes/${id}`).then((res) => {
       setDetails(res.data.data);
@@ -38,8 +46,10 @@ const QuizUser = ({ match }) => {
         history.push(`/module/${details.ModuleId}`);
       } else {
         toast.error('Resposta errada');
+        getDetails();
       }
     }).catch(() => {
+      getDetails();
       toast.error('Falha ao enviar resposta');
     })
   }
@@ -54,7 +64,10 @@ const QuizUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Questão: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p> 
+      <p className="f4 pb2 tc"> <span className="b"> Questão: </span> {details.title} { 
+        details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> 
+        : details.attempts ? <span className="green f7"> +{Math.max(5-details.attempts, 3)} pontos </span> 
+        : <span className="green f7"> +5 pontos </span> } </p> 
       <div>
         {details.question ? Parser(details.question) : null}
       </div>

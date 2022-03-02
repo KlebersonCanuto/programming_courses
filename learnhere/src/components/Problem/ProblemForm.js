@@ -10,7 +10,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
   const [title, setTitle] = useState('');
   const [file, setFile] = useState();
   const [image, setImage] = useState();
-  const [description, setDescription] = useState('<h2 class="ql-align-center"><strong>Descrição</strong></h2><p>DESCRIÇÃO</p><p class="ql-align-center"><br></p><h2 class="ql-align-center"><strong>Entrada</strong></h2><p>ENTRADA</p><p class="ql-align-center"><br></p><h2 class="ql-align-center"><strong>Saída</strong></h2><p>SAÍDA</p>');
+  const [description, setDescription] = useState('<h3 class="ql-align-center"><strong>Descrição</strong></h3><p>DESCRIÇÃO</p><p class="ql-align-center"><br></p><h3 class="ql-align-center"><strong>Entrada</strong></h3><p>ENTRADA</p><p class="ql-align-center"><br></p><h3 class="ql-align-center"><strong>Saída</strong></h3><p>SAÍDA</p>');
   const [loading, setLoading] = useState(false);
   const [tests, setTests] = useState([]);
 

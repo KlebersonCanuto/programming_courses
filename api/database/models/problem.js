@@ -29,6 +29,9 @@ module.exports = (sequelize, Sequelize) => {
 		done: {
 			type: Sequelize.VIRTUAL
 		},
+		attempts: {
+			type: Sequelize.VIRTUAL
+		},
 		locked: {
 			type: Sequelize.VIRTUAL
 		},

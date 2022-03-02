@@ -3,10 +3,11 @@ import { Modal, Container, Form, Button, Spinner, Col, Row } from 'react-bootstr
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 
-const ProblemForm = ({ closeModal, id }) => {
+const ProblemForm = ({ closeModal, id, attempts }) => {
 
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
+  const [atmps, setAttempts] = useState(null);
   const [inputOnly, setInputOnly] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -20,6 +21,7 @@ const ProblemForm = ({ closeModal, id }) => {
     };
     api.post(`/problems/oracle/${id}`, data).finally(() => {
       setLoading(false);
+      setAttempts(0);
     }).then((res) => {
       if (inputOnly) {
         setOutput(res.data.output)
@@ -41,7 +43,10 @@ const ProblemForm = ({ closeModal, id }) => {
       <Container>
         <Form onSubmit={submit}>
           <Modal.Header closeButton>
-            <span className="f4 b"> Oráculo </span>
+            <span className="f4 b"> Oráculo {atmps} </span> { 
+              attempts === null && atmps === null && !inputOnly ? <span className="green f7"> +2 pontos </span> 
+              : <span className="gray f7"> +0 pontos </span> 
+            }
           </Modal.Header>
 
           <Form.Group controlId={"io"} as={Row} className="pt1 pb2">

@@ -46,7 +46,15 @@ const getUser = async (id, userId) => {
 							user_id = ${userId}
 							AND
 							done=true 
-					) AS done`)
+					) AS done`),
+					Sequelize.literal(`(
+						SELECT attempts
+						FROM ProblemUsers
+						WHERE
+							problem_id = ${id}
+							AND
+							user_id = ${userId}
+					) AS attempts`)
 				],
 				exclude: ['file_id', 'createdAt', 'updatedAt']
 			},

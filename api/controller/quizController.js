@@ -43,6 +43,14 @@ const getUser = async (id, userId) => {
 							AND
 							done = true 
 					) AS done`),
+					Sequelize.literal(`(
+						SELECT attempts
+						FROM QuizUsers
+						WHERE
+							quiz_id = ${id}
+							AND
+							user_id = ${userId}
+					) AS attempts`)
 				],
 				exclude: ['answers', 'hint', 'createdAt', 'updatedAt']
 			}
