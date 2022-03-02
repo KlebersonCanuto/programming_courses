@@ -3,7 +3,7 @@ const ProgressService = require('./progressService');
 const Logger = require('../utils/logger');
 const Errors = require('../utils/errors');
 
-const logger = new Logger('CourseService');
+const logger = new Logger('courseService');
 
 const getAll = async (req, res) => {
 	try{

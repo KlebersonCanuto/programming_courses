@@ -9,6 +9,7 @@ RUN npm install --production
 
 COPY . .
 RUN mkdir tmp
+RUN mkdir logs
 
 EXPOSE 8080
 CMD ["node", "server.js" ]
