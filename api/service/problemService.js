@@ -193,7 +193,6 @@ const update = async (req, res) => {
 		const id = req.params.id;
 		const { files, body } = req;
 		validateUpdate(body);
-		let parsedTests = JSON.parse(body.tests);
 		let file_id;
 		let image_link;
 		for (let file of files) {
@@ -204,10 +203,6 @@ const update = async (req, res) => {
 			} else {
 				logger.info('update', 'uploading file');
 				file_id = await FileService.uploadFile(file, false);
-				parsedTests = parsedTests.map(e => {
-					e.output = null;
-					return e;
-				});
 			}
 		}
 		if (!file_id) {
@@ -215,7 +210,7 @@ const update = async (req, res) => {
 		}
 		logger.debug('update', `problem id: ${id}`, `image link: ${image_link}`, `file_id: ${file_id}`);
 
-		parsedTests = parsedTests.filter(e => !e.output);
+		let parsedTests = JSON.parse(body.tests);
 		parsedTests = parsedTests.map(e => {
 			e.ProblemId = id;
 			return e;

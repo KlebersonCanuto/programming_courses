@@ -10,7 +10,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
   const [title, setTitle] = useState('');
   const [file, setFile] = useState();
   const [image, setImage] = useState();
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState('<h2 class="ql-align-center"><strong>Descrição</strong></h2><p>DESCRIÇÃO</p><p class="ql-align-center"><br></p><h2 class="ql-align-center"><strong>Entrada</strong></h2><p>ENTRADA</p><p class="ql-align-center"><br></p><h2 class="ql-align-center"><strong>Saída</strong></h2><p>SAÍDA</p>');
   const [loading, setLoading] = useState(false);
   const [tests, setTests] = useState([]);
 
@@ -66,9 +66,9 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
     });
   }
 
-  const changeTest = (index, event) => {
+  const changeTest = (index, attr, event) => {
     let values = [...tests];
-    values[index].input = event.target.value;
+    values[index][attr] = event.target.value;
     setTests(values);
   }
 
@@ -138,16 +138,12 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
               <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
                 <Col>
                   <p className="tc pt3 b"> Entrada </p>
-                  <Form.Control type="text" as="textarea" rows={3} value={e.input} disabled={e.output} onChange={(ev) => changeTest(i, ev)}/>
+                  <Form.Control type="text" as="textarea" rows={3} value={e.input} onChange={(ev) => changeTest(i, 'input', ev)}/>
                 </Col>
-                {
-                  e.output ? 
-                    <Col>
-                      <p className="tc pt3 b"> Saída </p>
-                      <Form.Control type="text" as="textarea" rows={3} disabled value={e.output}/>
-                    </Col> 
-                  : null
-                }
+                <Col>
+                  <p className="tc pt3 b"> Saída </p>
+                  <Form.Control type="text" as="textarea" rows={3} value={e.output} onChange={(ev) => changeTest(i, 'output',ev)}/>
+                </Col> 
                 <Col className="tl" md={2}>
                   <Button variant="danger" onClick={() => removeTest(i, e.id)}>
                     Remover
@@ -158,7 +154,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
                         type="switch"
                         onChange={() => changeTestPublic(i, !e.example)}
                         checked={e.example}
-                        label="Público"
+                        label="Visível"
                       />
                     </Form.Group>
                   </div>

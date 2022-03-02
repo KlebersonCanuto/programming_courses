@@ -57,7 +57,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem',
 				description: '123', 
-				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3\n', problemId: id}]),
 				ModuleId: moduleId,
 			},
 			files: [{
@@ -101,7 +101,7 @@ describe('Test Problem', () => {
 			body: {
 				title: 'Problem2',
 				description: '1234', 
-				tests: JSON.stringify([{input: '1\n2', output: '3', problemId: id}]),
+				tests: JSON.stringify([{input: '1\n2', output: '3\n', problemId: id}]),
 			},
 			params: {
 				id

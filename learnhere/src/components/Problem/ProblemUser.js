@@ -51,7 +51,19 @@ const ProblemUser = ({ match }) => {
 
   return (
     <Container>
-      <p className="f4 pb2 tc"> <span className="b"> Questão: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
+      <p className="f4 pb2 tc"> <span className="b"> Problema: </span> {details.title} { details.done ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
+      
+      <p className="f4 pb2 tc b">Descrição</p>
+      <div>
+        {details.description ? Parser(details.description) : null}
+      </div>
+
+      <p className="f4 pb2 tc b">Entrada</p>
+      <div>
+        {details.description ? Parser(details.description) : null}
+      </div>
+
+      <p className="f4 pb2 tc b">Saída</p>
       <div>
         {details.description ? Parser(details.description) : null}
       </div>
