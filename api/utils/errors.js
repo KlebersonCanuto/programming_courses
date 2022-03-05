@@ -99,6 +99,7 @@ const QuizErrors = {
 	INVALID_TITLE: new Error('Título inválido'),
 	INVALID_QUESTION: new Error('Pergunta inválida'),
 	INVALID_ANSWER: new Error('Resposta inválida'),
+	INVALID_OPTIONS: new Error('Opções inválidas'),
 	INVALID_MODULE_ID: new Error('Módulo inválido'),
 	FAILED_TO_GET_QUIZ: new Error('Falha ao obter quiz'),
 	FAILED_TO_CREATE_QUIZ: new Error('Falha ao criar quiz'),

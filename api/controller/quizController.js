@@ -7,7 +7,7 @@ const logger = new Logger('quizController');
 const getById = async (id) => {
 	try{
 		const quiz = await Quiz.findByPk(id, {
-			attributes: ['id', 'title', 'question', 'hint', 'number', 'answers', 'ModuleId'],
+			attributes: ['id', 'title', 'question', 'hint', 'number', 'answers', 'choice', 'options', 'ModuleId'],
 		});  
 		return quiz;
 	} catch(err){
@@ -65,7 +65,7 @@ const getUser = async (id, userId) => {
 const getWithoutAnswers = async (id) => {
 	try {
 		const quiz = await Quiz.findByPk(id, {
-			attributes: ['id', 'title', 'question', 'number', 'ModuleId'],
+			attributes: ['id', 'title', 'question', 'number', 'choice', 'options', 'ModuleId'],
 		});  
 		return quiz;
 	} catch (err) {
@@ -89,13 +89,15 @@ const getByModule = async (ModuleId) => {
 
 const create = async (args) => {
 	try{
-		const { title, question, hint, number, answers, ModuleId } = args;
+		const { title, question, hint, number, answers, ModuleId, choice, options } = args;
 		const quiz = await Quiz.create({
 			title, 
 			question, 
 			hint, 
 			number, 
 			answers,
+			choice,
+			options,
 			ModuleId
 		});  
 		return quiz;
@@ -107,7 +109,7 @@ const create = async (args) => {
 
 const update = async (id, args) => {
 	try{
-		const { title, question, hint, number, answers } = args;
+		const { title, question, hint, number, answers, choice, options } = args;
 		const quiz = await Quiz.update(
 			{       
 				title, 
@@ -115,6 +117,8 @@ const update = async (id, args) => {
 				hint, 
 				number, 
 				answers,
+				choice,
+				options,
 			},
 			{ where: { id } }
 		);  
@@ -140,10 +144,20 @@ const remove = async (id) => {
 const checkAnswer = async (id, answer) => {
 	try{
 		const quiz = await Quiz.findByPk(id, {
-			attributes: ['id', 'answers'],
+			attributes: ['id', 'answers', 'choice'],
 		});  
-		const correct = quiz.answers.includes(answer);
-		return correct;
+
+		if (!quiz.choice) {
+			return quiz.answers.includes(answer);
+		}
+
+		for (let i = 0; i < quiz.answers.length; i++) {
+			if (!answer.includes(quiz.answers[i])) {
+				return false;
+			}
+		}
+		
+		return true;
 	} catch(err){
 		throw Errors.QuizErrors.FAILED_TO_CHECK_ANSWER;
 	}

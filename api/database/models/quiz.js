@@ -32,6 +32,22 @@ module.exports = (sequelize, Sequelize) => {
 				this.setDataValue('answers',val.join('===='));
 			},
 		},
+		choice: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false,
+		},
+		options: {
+			type: Sequelize.STRING,
+			get() {
+				if (this.getDataValue('options')) {
+					return this.getDataValue('options').split('====');
+				}
+				return [];
+			},
+			set(val) {
+				this.setDataValue('options',val.join('===='));
+			},
+		},
 		ModuleId: {
 			type: Sequelize.INTEGER,
 			field: 'module_id',

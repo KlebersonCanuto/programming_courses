@@ -59,7 +59,7 @@ const submit = async (req, res) => {
 };
 
 const validateCreate = (body) => {
-	const { title, question, answers, ModuleId } = body;
+	const { title, question, answers, ModuleId, choice, options } = body;
 	if (!title) {
 		throw Errors.QuizErrors.INVALID_TITLE;
 	}
@@ -71,6 +71,9 @@ const validateCreate = (body) => {
 	}
 	if (!ModuleId) {
 		throw Errors.QuizErrors.INVALID_MODULE_ID;
+	}
+	if (choice && (!options || !options.length)) {
+		throw Errors.QuizErrors.INVALID_ANSWER;
 	}
 };
 
@@ -88,7 +91,7 @@ const create = async (req, res) => {
 };
 
 const validateUpdate = (body) => {
-	const { title, question, answers } = body;
+	const { title, question, answers, choice, options } = body;
 	if (!title) {
 		throw Errors.QuizErrors.INVALID_TITLE;
 	}
@@ -96,6 +99,9 @@ const validateUpdate = (body) => {
 		throw Errors.QuizErrors.INVALID_QUESTION;
 	}
 	if (!answers || !answers.length) {
+		throw Errors.QuizErrors.INVALID_ANSWER;
+	}
+	if (choice && (!options || !options.length)) {
 		throw Errors.QuizErrors.INVALID_ANSWER;
 	}
 };
