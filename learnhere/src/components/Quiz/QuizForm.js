@@ -22,6 +22,8 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
         setQuestion(res.data.data.question);
         setAnswers(res.data.data.answers);
         setHint(res.data.data.hint);
+        setOptions(res.data.data.options);
+        setChoice(res.data.data.choice);
       }).catch(() => {
         toast.error('Falha ao carregar questão');
         closeModal();
@@ -38,8 +40,12 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
       title,
       question,
       answers,
+      choice,
+      options,
       number: 0
     };
+
+    console.log(data);
 
     let request, op;
     if (id) {
