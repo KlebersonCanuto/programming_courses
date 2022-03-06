@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, Button, Container, Spinner } from 'react-bootstrap';
+import { Form, Button, Container, Spinner, Card } from 'react-bootstrap';
 import { BsFillPatchCheckFill } from 'react-icons/bs'
 import { toast } from 'react-toastify';
 import api from '../../services/api';
@@ -62,6 +62,19 @@ const QuizUser = ({ match }) => {
     })
   }
 
+  const getLetter = (i) => {
+    return String.fromCharCode(i+65);
+  }
+  
+  const changeAnswer = (i) => {
+    const letter = getLetter(i);
+    if (answer.includes(letter)) {
+      setAnswer(answer.replace(letter, ''));
+    } else {
+      setAnswer(answer + letter);
+    }
+  }
+
   return (
     <Container>
       <p className="f4 pb2 tc"> <span className="b"> Questão: </span> {details.title} { 
@@ -72,13 +85,38 @@ const QuizUser = ({ match }) => {
         {details.question ? Parser(details.question) : null}
       </div>
       {
-        hint ? <p>{hint}</p> : null
+        hint ? <p className="orange">DICA: {hint}</p> : null
       }
-      <p className="f4 pb2 tc b"> Sua resposta </p>
+      <p className="f4 pb2 tc b"> {details.choice ? "Escolha a(s) alternativa(s) correta(s)" : "Sua resposta"} </p>
       <Form className="tc pb2" onSubmit={submit}>
-        <Form.Group controlId={"answer"} className="pb3">
-          <Form.Control type="text" value={answer} onChange={(e) => setAnswer(e.target.value)}/>
-        </Form.Group>
+        {
+          !details.choice ? 
+            <Form.Group controlId={"answer"} className="pb3">
+              <Form.Control type="text" value={answer} onChange={(e) => setAnswer(e.target.value)}/>
+            </Form.Group>
+          : 
+          <>
+            {
+              details.options.map(
+                (e, i) => 
+                  <Form.Group controlId={"option"+i} className="pb1">
+                    <Card className="card-item" onClick={() => changeAnswer(i)}>
+                      <Card.Body>
+                        <Card.Text className="text-muted">
+                          <Form.Check 
+                            className='tl'
+                            checked={answer.includes(getLetter(i))}
+                            label={<p><b>{getLetter(i)}</b> -  {e}</p>}
+                          />
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Form.Group>
+              )
+            } 
+          </>
+        }
+        
         {
           sending ? (
             <Button variant="success" disabled>

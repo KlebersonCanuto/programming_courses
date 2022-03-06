@@ -151,6 +151,10 @@ const checkAnswer = async (id, answer) => {
 			return quiz.answers.includes(answer);
 		}
 
+		if (answer.length != quiz.answers.length) {
+			return false;
+		}
+		
 		for (let i = 0; i < quiz.answers.length; i++) {
 			if (!answer.includes(quiz.answers[i])) {
 				return false;
