@@ -97,7 +97,7 @@ const create = async (args) => {
 			number, 
 			answers,
 			choice,
-			options,
+			options: options ? options : [],
 			ModuleId
 		});  
 		return quiz;
@@ -118,7 +118,7 @@ const update = async (id, args) => {
 				number, 
 				answers,
 				choice,
-				options,
+				options: options ? options : [],
 			},
 			{ where: { id } }
 		);  
