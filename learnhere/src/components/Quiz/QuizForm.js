@@ -11,7 +11,9 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
   const [question, setQuestion] = useState('');
   const [hint, setHint] = useState('');
   const [answers, setAnswers] = useState([]);
+  const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [choice, setChoice] = useState(false);
 
   useEffect(() => {
     if(id) {
@@ -68,7 +70,47 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
     let values = [...answers];
     values.splice(index,1);
     setAnswers(values);
- }
+  }
+
+  const changeChoice = (value) => {
+    setAnswers([]);
+    setOptions([]);
+    setChoice(value);
+  }
+
+  const getLetter = (i) => {
+    return String.fromCharCode(i+65);
+  }
+  
+  const getIndex = (letter) => {
+    return letter.charCodeAt(0)-65;
+  }
+
+  const changeCorrect = (i) => {
+    const letter = getLetter(i);
+    if (answers.includes(letter)) {
+      let values = [...answers];
+      values.splice(i, 1);
+      setAnswers(values);
+    } else {
+      setAnswers([...answers, letter])
+    }
+  }
+
+  const changeOption = (index, event) => {
+    let values = [...options];
+    values[index] = event.target.value;
+    setOptions(values);
+  }
+
+  const removeOption = (index) => {
+    let values = [...options];
+    values.splice(index,1);
+    let valuesAnswer = [...answers];
+    valuesAnswer = valuesAnswer.filter(e => getIndex(e) > index).map(e => getLetter(getIndex(e)-1));
+    setOptions(values);
+    setAnswers(valuesAnswer);
+  }
 
   return (
     <Modal size="lg" show={true} onHide={() => closeModal()}>
@@ -93,27 +135,81 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
             <Form.Control type="text" value={hint} onChange={(e) => setHint(e.target.value)}/>
           </Form.Group>
 
-          <p className="tc pt3 b">Respostas aceitas</p>
+          <Form.Group controlId="choice" className="pt3">
+            <Form.Check 
+              type="switch"
+              checked={choice}
+              onChange={() => changeChoice(!choice)}
+              label="Questão de escolha"
+            />
+          </Form.Group>
+
           {
-            answers.map(
-              (e, i) => 
-              <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
-                <Col>
-                  <Form.Control type="text" value={e} onChange={(e) => changeAnswer(i, e)}/>
-                </Col>
-                <Col className="tl" md={3}>
-                  <Button variant="danger" onClick={() => removeAnswer(i)}>
-                    Remover
-                  </Button>
-                </Col>
-              </Form.Group>
-            )
-          } 
-          <div className="pt2 pb2">
-            <Button  onClick={() => setAnswers([...answers, ''])}>
-              Adicionar resposta
-            </Button>
-          </div>
+            !choice ? 
+            <>
+              <p className="tc pt3 b">Respostas aceitas</p>
+              {
+                answers.map(
+                  (e, i) => 
+                  <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
+                    <Col>
+                      <Form.Control type="text" value={e} onChange={(e) => changeAnswer(i, e)}/>
+                    </Col>
+                    <Col className="tl" md={3}>
+                      <Button variant="danger" onClick={() => removeAnswer(i)}>
+                        Remover
+                      </Button>
+                    </Col>
+                  </Form.Group>
+                )
+              } 
+              <div className="pt2 pb2">
+                <Button  onClick={() => setAnswers([...answers, ''])}>
+                  Adicionar resposta
+                </Button>
+              </div>
+            </> 
+            : <>
+              <p className="tc pt3 b">Opções</p>
+              {
+                options.map(
+                  (e, i) => 
+                  <Row className="pt1" key={"option"+i}>
+                    <Col md={10} sm={12}>
+                      <Form.Group controlId={"option"+i} as={Row} className="pt1">
+                        <Form.Label column md="1" sm="2" xs="2">
+                          {getLetter(i)} - 
+                        </Form.Label>
+                        <Col xs="10" sm="10" md="11">
+                          <Form.Control  as="textarea" rows="2" label="TESTE" type="text" value={e} onChange={(e) => changeOption(i, e)}/>
+                        </Col>
+                      </Form.Group>
+                    </Col>
+                    <Col className="tl" md={2} sm={4}>
+                      <Button variant="danger" onClick={() => removeOption(i)}>
+                        Remover
+                      </Button>
+                      <div className="pt1">
+                        <Form.Group controlId="correct" className="">
+                          <Form.Check 
+                            type="switch"
+                            checked={answers.includes(getLetter(i))}
+                            onChange={() => changeCorrect(i)}
+                            label="Correta"
+                          />
+                        </Form.Group>
+                      </div>
+                    </Col>
+                  </Row>
+                )
+              } 
+              <div className="pt2 pb2">
+                <Button  onClick={() => setOptions([...options, ''])}>
+                  Adicionar opção
+                </Button>
+              </div>
+            </>
+          }
 
           <Modal.Footer>
             <Button variant="danger" onClick={() => closeModal()}>
