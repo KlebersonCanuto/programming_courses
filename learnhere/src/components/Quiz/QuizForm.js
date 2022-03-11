@@ -95,8 +95,7 @@ const QuizForm = ({ closeModal, moduleId, id }) => {
   const changeCorrect = (i) => {
     const letter = getLetter(i);
     if (answers.includes(letter)) {
-      let values = [...answers];
-      values.splice(i, 1);
+      let values = answers.filter(e => e !== letter);
       setAnswers(values);
     } else {
       setAnswers([...answers, letter])
