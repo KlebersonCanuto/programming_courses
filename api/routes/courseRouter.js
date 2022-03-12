@@ -12,6 +12,7 @@ router.get('/:id', validate.checkCourseLocked, authentication.checkUser, service
 router.get('/details/:id', authentication.checkAdmin, service.get);
 router.post('/', authentication.checkAdmin, service.create);
 router.put('/:id', authentication.checkAdmin, service.update);
+router.patch('/unlock/:id', authentication.checkAdmin, service.unlock);
 router.patch('/:id', authentication.checkAdmin, service.lock);
 router.delete('/:id', authentication.checkAdmin, service.remove);
 

@@ -135,6 +135,18 @@ const lock = async (req, res) => {
 	}
 };
 
+const unlock = async (req, res) => {
+	try{
+		const id = req.params.id;
+		logger.debug('unlock', `course id: ${id}`);
+		await Course.unlock(id);
+		res.status(200).send();
+	} catch(err){
+		logger.error('unlock', err);
+		res.status(400).send({message: err.message});
+	}
+};
+
 module.exports = {
 	getAll,
 	getAllAdmin,
@@ -143,5 +155,6 @@ module.exports = {
 	create,
 	update,
 	remove,
-	lock
+	lock,
+	unlock
 };

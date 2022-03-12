@@ -5,6 +5,7 @@ const CourseErrors = {
 	FAILED_TO_REMOVE_COURSE: new Error('Falha ao remover curso'),
 	FAILED_TO_CHECK_COURSE_LOCKED: new Error('Falha ao verificar se o curso está bloqueado'),
 	FAILED_TO_LOCK_COURSE: new Error('Falha ao bloquear curso'),
+	FAILED_TO_UNLOCK_COURSE: new Error('Falha ao desbloquear curso'),
 	FAILED_TO_GET_COURSE: new Error('Falha ao obter curso'),
 	FAILED_TO_GET_COURSES: new Error('Falha ao obter cursos'),
 };

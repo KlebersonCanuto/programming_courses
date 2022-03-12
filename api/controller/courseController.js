@@ -153,6 +153,19 @@ const lock = async (id) => {
 	}
 };
 
+const unlock = async (id) => {
+	try{
+		const course = await Course.update(
+			{ locked: false },
+			{ where: { id } }
+		);  
+		return course;
+	} catch(err){
+		logger.error('unlock', err);
+		throw Errors.CourseErrors.FAILED_TO_UNLOCK_COURSE;
+	}
+};
+
 const checkCourseLocked = async (id) => {
 	try{
 		const course = await Course.findByPk(id, {
@@ -175,5 +188,6 @@ module.exports = {
 	update,
 	remove,
 	lock,
+	unlock,
 	checkCourseLocked
 };

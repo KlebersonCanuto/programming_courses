@@ -13,6 +13,7 @@ const CourseDetails = ({ course, updatedItem }) => {
   const [openCourseForm, setOpenCourseForm] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [confirmLocked, setConfirmLocked] = useState(false);
+  const [confirmUnlocked, setConfirmUnlocked] = useState(false);
   const [moduleFormId, setModuleFormId] = useState(null);
 
   const remove = (id) => {
@@ -56,6 +57,15 @@ const CourseDetails = ({ course, updatedItem }) => {
     })
   }
 
+  const unlockCourse = () => {
+    api.patch(`/courses/unlock/${course.id}`).then(() => {
+      setConfirmUnlocked(false);
+      updatedItem();
+    }).catch(() => {
+      toast.error('Falha ao finalizar curso');
+    })
+  }
+
   return (
     <Accordion.Item eventKey={"course"+course.id}>
       <Accordion.Header onClick={() => getDetails(course.id)}>{course.name} { course.locked ? <BsLockFill className="red" title="Finalizado"/> : null } </Accordion.Header>
@@ -67,7 +77,7 @@ const CourseDetails = ({ course, updatedItem }) => {
           {
             course.locked === false ? 
               <Button onClick={() => setConfirmLocked(true)}> Finalizar </Button>
-            : null
+            : <Button onClick={() => setConfirmUnlocked(true)}> Desbloquear </Button>
           } {}
           <Button onClick={() => setOpenCourseForm(true)}> Editar </Button> {}
           <Button variant="danger" onClick={() => remove(course.id)}>Excluir</Button>
@@ -86,6 +96,21 @@ const CourseDetails = ({ course, updatedItem }) => {
         <Modal.Footer>
           <Button variant="danger" onClick={() => setConfirmLocked(false)}>Fechar</Button>
           <Button variant="success" onClick={lockCourse}>Finalizar</Button>
+        </Modal.Footer>
+      </Modal>   
+
+      <Modal show={confirmUnlocked} onHide={() => setConfirmUnlocked(false)}>
+        <Modal.Header closeButton>
+          <strong>Desbloquear Curso</strong>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Ao desbloquear, a pontuação de usuários que já concluiram o curso ficará inconsistente. Deseja continuar?</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="danger" onClick={() => setConfirmUnlocked(false)}>Fechar</Button>
+          <Button variant="success" onClick={unlockCourse}>Desbloquear</Button>
         </Modal.Footer>
       </Modal>   
 
