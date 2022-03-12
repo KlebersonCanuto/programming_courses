@@ -473,7 +473,7 @@ const saveHint = async (QuizId, UserId, quizUser) => {
 const ranking = async () => {
 	try{
 		const users = await PointsUser.findAll({
-			include: { association: 'user' }
+			include: { association: 'user', where: { admin: false }},
 		});
 		return users;
 	} catch(err){
