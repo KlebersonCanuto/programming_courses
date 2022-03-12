@@ -59,7 +59,7 @@ const Ranking = () => {
           </tr>
           <tr>
             <td>Testar entrada e saída do oráculo*** </td>
-            <td>2</td>
+            <td>2 (bônus)</td>
           </tr>
           <tr>
             <td>Ver todos materiais obrigatórios de um módulo </td>
