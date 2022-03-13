@@ -124,7 +124,7 @@ const ProblemUser = ({ match }) => {
         }
         {' '}
         <Button onClick={()=> window.open(`https://pythontutor.com/visualize.html#mode=display&code=${encodeURIComponent(answer)}`, "_blank")} variant="dark">
-          Executar com Python tuthor
+          Executar com Python Tutor
         </Button>
       </Form>      
       { open ?
