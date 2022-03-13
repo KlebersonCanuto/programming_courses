@@ -1,5 +1,4 @@
 import subprocess
-import json
 
 def lambda_handler(event, context):
     path = "/tmp/myfile.pý"
