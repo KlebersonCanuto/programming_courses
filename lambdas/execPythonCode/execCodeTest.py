@@ -16,6 +16,22 @@ res = lambda_handler({
 assert(res['statusCode'] == 403)
 
 res = lambda_handler({
+    "code": "x = int(input())", 
+    "input": "n"
+}, None)
+
+assert("invalid literal" in res['message'])
+assert(res['statusCode'] == 400)
+
+res = lambda_handler({
+    "code": "x = int(input())", 
+    "input": ""
+}, None)
+
+assert("EOF when reading a line" in res['message'])
+assert(res['statusCode'] == 400)
+
+res = lambda_handler({
     "code": "x = int(input())\nprint(x + 1)", 
     "input": "5"
 }, None)
