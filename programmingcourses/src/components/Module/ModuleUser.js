@@ -25,23 +25,6 @@ const ModuleUser = ({ match }) => {
       <p className="f4 pb2 tc"> <span className="b"> Módulo: </span> {details.name} { details.progressMaterials === 1 && details.progressQuizzes === 1 && details.progressProblems === 1 ?  <BsFillPatchCheckFill className="green" title="Concluído"/> : null } </p>
 
       <ListGroup className="pt3">
-        <ListGroup.Item className="tc" active> Questões </ListGroup.Item>
-      </ListGroup>
-      {
-        !details.quizzes.length ? 
-          <ListGroup.Item className="tc">Não há questões cadastradas neste módulo</ListGroup.Item>
-        : 
-          <ProgressBar variant={details.progressQuizzes === 1 ? "success" : "info"} striped now={details.progressQuizzes*100} label={`${details.progressQuizzes*100}%`} />  
-      }
-      <Row>
-        {
-          details.quizzes.map(e =>
-            <QuizCard key={"quizkey"+e.id} quiz={e}/>
-          )
-        }
-      </Row>
-
-      <ListGroup className="pt3">
         <ListGroup.Item className="tc" active> Materiais </ListGroup.Item>
       </ListGroup>
       {
@@ -54,6 +37,23 @@ const ModuleUser = ({ match }) => {
         {
           details.materials.map(e =>
             <MaterialCard key={"materialkey"+e.id} material={e}/>
+          )
+        }
+      </Row>
+
+      <ListGroup className="pt3">
+        <ListGroup.Item className="tc" active> Questões </ListGroup.Item>
+      </ListGroup>
+      {
+        !details.quizzes.length ? 
+          <ListGroup.Item className="tc">Não há questões cadastradas neste módulo</ListGroup.Item>
+        : 
+          <ProgressBar variant={details.progressQuizzes === 1 ? "success" : "info"} striped now={details.progressQuizzes*100} label={`${details.progressQuizzes*100}%`} />  
+      }
+      <Row>
+        {
+          details.quizzes.map(e =>
+            <QuizCard key={"quizkey"+e.id} quiz={e}/>
           )
         }
       </Row>
