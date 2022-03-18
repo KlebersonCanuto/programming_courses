@@ -33,6 +33,13 @@ const Ranking = () => {
               </tr>
             )
           }
+          {
+            !users.length ? 
+              <tr>
+                <td colspan={3}>Nenhum usuário pontuou até o momento</td>
+              </tr>
+            : null
+          }
         </tbody>
       </Table>
 
