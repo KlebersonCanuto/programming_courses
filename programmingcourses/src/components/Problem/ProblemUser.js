@@ -90,9 +90,11 @@ const ProblemUser = ({ match }) => {
             (e, i) => 
             <Form.Group controlId={"answer"+i} as={Row} className="pt1" key={"answer"+i}>
               <Col>
+                <p className="tc pt3 b"> Entrada esperada </p>
                 <Form.Control type="text" as="textarea" rows={3} value={e.input} disabled/>
               </Col>
               <Col>
+                <p className="tc pt3 b"> Saída esperada </p>
                 <Form.Control type="text" as="textarea" rows={3} disabled value={e.output}/>
               </Col> 
             </Form.Group>

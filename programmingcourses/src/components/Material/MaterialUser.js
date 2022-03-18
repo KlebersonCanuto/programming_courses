@@ -38,12 +38,12 @@ const MaterialUser = ({ match }) => {
         {details.content ? Parser(details.content) : null}
       </div>
 
-      <div className="player-wrapper pb2 relative">
-        { details.video_link ? 
-          <ReactPlayer className="absolute center-player" controls={true} width="854px"  height="480px"  url={details.video_link}/> 
-          : null
-        }
-      </div>
+      { details.video_link ? 
+        <div className="player-wrapper pb2 relative">
+            <ReactPlayer className="absolute center-player" controls={true} width="854px"  height="480px"  url={details.video_link}/> 
+        </div>
+       : null
+      }
 
       <div className="tc">
         <Button onClick={()=> markAsRead()} variant="dark">

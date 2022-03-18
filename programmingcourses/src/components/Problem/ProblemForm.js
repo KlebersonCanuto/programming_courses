@@ -141,7 +141,7 @@ const ProblemForm = ({ closeModal, moduleId, id }) => {
                   <Form.Control type="text" as="textarea" rows={3} value={e.input} onChange={(ev) => changeTest(i, 'input', ev)}/>
                 </Col>
                 <Col>
-                  <p className="tc pt3 b"> Saída </p>
+                  <p className="tc pt3 b"> Saída esperada </p>
                   <Form.Control type="text" as="textarea" rows={3} value={e.output} onChange={(ev) => changeTest(i, 'output',ev)}/>
                 </Col> 
                 <Col className="tl" md={2}>
