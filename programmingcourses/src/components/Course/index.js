@@ -62,7 +62,7 @@ const CourseDetails = ({ course, updatedItem }) => {
       setConfirmUnlocked(false);
       updatedItem();
     }).catch(() => {
-      toast.error('Falha ao finalizar curso');
+      toast.error('Falha ao desbloquear curso');
     })
   }
 

@@ -59,11 +59,9 @@ const getUser = async (id, userId) => {
 				exclude: ['file_id', 'createdAt', 'updatedAt']
 			},
 			include: [
-				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example'] },
+				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example'], where: { example: true } },
 			]
 		});  
-		if (problem)
-			problem.tests = problem.tests.filter(test => test.example === true);
 		return problem;
 	} catch (err) {
 		logger.error('getUser', err);
@@ -76,11 +74,9 @@ const getWithoutTests = async (id) => {
 		const problem = await Problem.findByPk(id, {
 			attributes: ['id', 'title', 'description', 'image_link', 'ModuleId'],
 			include: [
-				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example']},
+				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example'], where: { example: true }},
 			]
 		});  
-		if (problem)
-			problem.tests = problem.tests.filter(test => test.example === true);
 		return problem;
 	} catch (err) {
 		logger.error('getWithoutTests', err);

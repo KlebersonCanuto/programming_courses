@@ -474,6 +474,7 @@ const ranking = async () => {
 	try{
 		const users = await PointsUser.findAll({
 			include: { association: 'user', where: { admin: false }},
+			order: [['points', 'DESC']]
 		});
 		return users;
 	} catch(err){
