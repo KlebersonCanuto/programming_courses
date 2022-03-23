@@ -5,13 +5,7 @@ const s3 = new AWS.S3();
 
 const logger = new Logger('s3');
 
-const fileUpload = async (Key, filePath, isImage) => {
-	const Bucket = isImage ? process.env.AWS_IMAGE_BUCKET : process.env.AWS_CODE_BUCKET;
-	const Body = fs.readFileSync(filePath.path);
-
-	logger.debug('fileUpload', `file key: ${Key}`);
-	logger.debug('fileUpload', `bucket: ${Bucket}`);
-
+const upload = async (Bucket, Key, Body) => {
 	await s3.upload({
 		Bucket,
 		Key,
@@ -19,6 +13,25 @@ const fileUpload = async (Key, filePath, isImage) => {
 	}).promise();
 
 	return Key;
+};
+
+const fileUpload = async (Key, filePath, isImage) => {
+	const Bucket = isImage ? process.env.AWS_IMAGE_BUCKET : process.env.AWS_CODE_BUCKET;
+	const Body = fs.readFileSync(filePath.path);
+
+	logger.debug('fileUpload', `file key: ${Key}`);
+	logger.debug('fileUpload', `bucket: ${Bucket}`);
+
+	return await upload(Bucket, Key, Body);
+};
+
+const codeUpload = async (Key, Body) => {
+	const Bucket = process.env.AWS_CODE_BUCKET;
+
+	logger.debug('codeUpload', `file key: ${Key}`);
+	logger.debug('codeUpload', `bucket: ${Bucket}`);
+
+	return await upload(Bucket, Key, Body);
 };
 
 const getFile = async (Key, isImage) => {
@@ -35,4 +48,4 @@ const getFile = async (Key, isImage) => {
 	return file.Body.toString();
 };
  
-module.exports = { fileUpload, getFile };
+module.exports = { fileUpload, codeUpload, getFile };

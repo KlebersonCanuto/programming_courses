@@ -56,7 +56,10 @@ const submit = async (req, res) => {
 		logger.info('submit', 'comparing tests');
 		const correct = await TestService.compare(tests, answer);
 		logger.info('submit', 'saving progress');
-		await ProgressService.saveProblem(id, userId, correct);
+		await Promise.all([
+			FileService.uploadCode(id, userId, answer),
+			ProgressService.saveProblem(id, userId, correct)
+		]);
 		res.status(200).send({correct});
 	} catch (err) {
 		logger.error('submit', err);
@@ -82,7 +85,7 @@ const validateOracle = (body) => {
 	if (inputOnly !== false && inputOnly !== true) {
 		throw Errors.ProblemErrors.INVALID_INPUT_ONLY;
 	}
-	if (!input) {
+	if (!input && input !== '') {
 		throw Errors.ProblemErrors.INVALID_INPUT;
 	}
 	if (!inputOnly && !output) {

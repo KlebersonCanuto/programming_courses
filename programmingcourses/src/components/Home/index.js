@@ -22,7 +22,9 @@ const Home = () => {
       <p className="tc f3 b">Seja bem-vindo!</p>
       <p className="f4" align="justify">
         Aproveite o Programming Courses para aprender e praticar programação Python! 
-        Use o nosso banco de questões e receba feedback do nosso juiz online.
+        Use o nosso banco de questões e receba feedback do nosso juiz online. Para
+        fazer um curso, é necessário estar logado, caso ainda não tenha uma conta,
+        cadastre-se no site.
       </p>
 
       <p className="f4">

@@ -59,7 +59,7 @@ const getUser = async (id, userId) => {
 				exclude: ['file_id', 'createdAt', 'updatedAt']
 			},
 			include: [
-				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example'], where: { example: true } },
+				{ model: Test, as: 'tests', required: false, attributes: ['input', 'output', 'example'], where: { example: true } },
 			]
 		});  
 		return problem;
@@ -74,7 +74,7 @@ const getWithoutTests = async (id) => {
 		const problem = await Problem.findByPk(id, {
 			attributes: ['id', 'title', 'description', 'image_link', 'ModuleId'],
 			include: [
-				{ model: Test, as: 'tests', attributes: ['input', 'output', 'example'], where: { example: true }},
+				{ model: Test, as: 'tests', required: false, attributes: ['input', 'output', 'example'], where: { example: true }},
 			]
 		});  
 		return problem;
