@@ -7,7 +7,7 @@ Primeiramente, instale as dependências utilizando o seguinte comando:
 
 `npm install`
 
-Para definir a URL da API, edite o campo baseURL no arquivo api.js dentro da pasta src/services:
+Para definir a URL da API, edite o campo baseURL no arquivo [src/services/api.js](src/services/api.js).
 
 ### Execução
 

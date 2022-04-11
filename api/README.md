@@ -60,6 +60,6 @@ TEST_IMAGE_FILE # Path do arquivo de imagem para testes
 DB_TEST_NAME # Nome de um banco de dados de teste
 ```
 
-Então basta executar o seguinte comando:
+Então execute o seguinte comando:
 
 `npm run test`
