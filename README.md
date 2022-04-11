@@ -6,6 +6,9 @@ Trabalho de Conclusão de Curso - UFCG de Kleberson Matheus Cunha Silva Canuto, 
 
 O Programming Courses é um site que oferece cursos para o aprendizado inicial de programação, mais especificamente na linguagem Python. 
 
+O site pode ser acessado a partir do link [http://programmingcourses.s3-website-us-east-1.amazonaws.com/](http://programmingcourses.s3-website-us-east-1.amazonaws.com/).
+
+Para executar localmente, veja os README da [API](api/) e do [Frontend](programmingcourses/) 
 ### Cadastro e Login
 
 É possível realizar o cadastro (Imagem 1) no site e fazer Login (Imagem 2), liberando assim algumas funcionalidades extras, caso o usuário seja administrador, é possível ter acesso à área de administração (Imagens 3 e 4).
